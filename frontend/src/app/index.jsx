@@ -18,6 +18,7 @@ import MyLessonsPage from './pages/my-lessons';
 import SearchLessonsPage from './pages/search-lessons';
 import CalendarPage from './pages/calendar';
 import LessonDetailsPage from './pages/lesson-details';
+import TeacherFormPage from './pages/teacher-form';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -72,6 +73,7 @@ const App = () => {
             <Route path="calendar" element={<CalendarPage />} />
             <Route path="profile" element={<ProfilePage auth={auth} />} />
             <Route path="lesson-details/:id" element={<LessonDetailsPage />} />
+            <Route path="teacher-form" element={<TeacherFormPage />} />
           </Route>
         </Route>
       </Routes>

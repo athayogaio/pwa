@@ -37,7 +37,7 @@ const Menu = ({ auth }) => {
           justifyContent: 'start',
           p: 2,
           backgroundColor: '#F5F5F5',
-          gap: '6px'
+          gap: '6px',
         }}
       >
         <button onClick={auth.logout}>Logout</button>
@@ -114,6 +114,20 @@ const Menu = ({ auth }) => {
                 variant="body2"
               >
                 Профиль
+              </Typography>
+                )}
+          />
+        </MenuItem>
+        <MenuItem component={NavLink} to="/teacher-form" sx={{ ...menuItemStyle }}>
+          <ListItemIcon>
+            <AccountCircleOutlinedIcon color="disabled" fontSize="medium" />
+          </ListItemIcon>
+          <ListItemText
+            primary={(
+              <Typography
+                variant="body2"
+              >
+                Стать преподавателем
               </Typography>
                 )}
           />
