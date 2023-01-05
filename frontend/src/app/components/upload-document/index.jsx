@@ -14,9 +14,9 @@ const UploadDocument = () => (
     <Box width="373px" display="flex" flexDirection="row" gap="12px">
       <img src={uploadDocument} alt="upload-document" />
       <Box display="flex" flexDirection="column" alignItems="center">
-        <Typography component="h4" variant="h4" fontSize="12px" fontWeight="400" color="primary" textAlign="center">
+        <Typography fontSize="12px" fontWeight="400" color="primary" textAlign="center">
           Нажмите, чтобы загрузить
-          <Typography variant="title" color="inherit" noWrap>
+          <Typography variant="title" color="inherit">
             &nbsp;
           </Typography>
           <Typography component="span" fontSize="12px" fontWeight="400" color="#ADB5BD">
