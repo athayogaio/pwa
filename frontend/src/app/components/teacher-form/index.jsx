@@ -156,14 +156,16 @@ const TeacherForm = () => {
         alignItems="flex-end"
         gap="30px"
       >
-        <Button
-          variant="contained"
-          disabled
-          size="large"
-          sx={{ width: '311px' }}
-        >
-          Отправить на проверку
-        </Button>
+        <Box sx={{ width: '311px' }}>
+          <Button
+            fullWidth
+            variant="contained"
+            disabled
+            size="large"
+          >
+            Отправить на проверку
+          </Button>
+        </Box>
         <Box display="flex" sx={{ width: '311px' }}>
           <Typography fontSize="12px" fontWeight="400" textAlign="center">
             Отправляя форму, вы соглашаетесь с
