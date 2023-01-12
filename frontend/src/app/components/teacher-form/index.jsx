@@ -1,15 +1,24 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
-  Grid, Box, Typography, TextField,
-  FormControl, RadioGroup, FormControlLabel, Radio, Button, Stack,
+  Grid,
+  Box,
+  Typography,
+  TextField,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Button,
+  Stack,
 } from '@mui/material';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TodayIcon from '@mui/icons-material/Today';
+import 'dayjs/locale/ru';
 import UploadDocument from '../upload-document';
 
 const TeacherForm = () => {
-  const [value, setValue] = React.useState(new Date());
+  const [value, setValue] = useState(new Date());
 
   const handleChange = newValue => {
     setValue(newValue);
@@ -43,7 +52,7 @@ const TeacherForm = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider adapterLocale="ru" dateAdapter={AdapterDayjs}>
             <Stack>
               <DesktopDatePicker
                 label="День рождения"
@@ -51,6 +60,9 @@ const TeacherForm = () => {
                 value={value}
                 onChange={handleChange}
                 renderInput={params => <TextField {...params} />}
+                components={{
+                  OpenPickerIcon: TodayIcon,
+                }}
               />
             </Stack>
           </LocalizationProvider>
@@ -72,8 +84,16 @@ const TeacherForm = () => {
         <Grid item>
           <FormControl>
             <RadioGroup row>
-              <FormControlLabel value="male" control={<Radio />} label="мужчина" />
-              <FormControlLabel value="female" control={<Radio />} label="женщина" />
+              <FormControlLabel
+                value="male"
+                control={<Radio />}
+                label="мужчина"
+              />
+              <FormControlLabel
+                value="female"
+                control={<Radio />}
+                label="женщина"
+              />
             </RadioGroup>
           </FormControl>
         </Grid>
@@ -116,17 +136,13 @@ const TeacherForm = () => {
           />
         </Grid>
         <Grid item>
-          <Typography fontWeight="600">
-            Фото пользователя
-          </Typography>
+          <Typography fontWeight="600">Фото пользователя</Typography>
         </Grid>
         <Grid item xs={12}>
           <UploadDocument />
         </Grid>
         <Grid item>
-          <Typography fontWeight="600">
-            Фото паспорта
-          </Typography>
+          <Typography fontWeight="600">Фото паспорта</Typography>
         </Grid>
         <Grid item xs={12}>
           <UploadDocument />
@@ -148,17 +164,40 @@ const TeacherForm = () => {
           <UploadDocument />
         </Grid>
       </Grid>
-      <Box display="flex" flexDirection="column" alignItems="flex-end" gap="30px">
-        <Button variant="contained" disabled size="large" sx={{ width: '311px' }}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="flex-end"
+        gap="30px"
+      >
+        <Button
+          variant="contained"
+          disabled
+          size="large"
+          sx={{ width: '311px' }}
+        >
           Отправить на проверку
         </Button>
         <Box display="flex" sx={{ width: '311px' }}>
           <Typography fontSize="12px" fontWeight="400" textAlign="center">
             Отправляя форму, вы соглашаетесь с
-            <Typography component="span" fontSize="12px" fontWeight="400" color="primary"> офертой</Typography>
+            <Typography
+              component="span"
+              fontSize="12px"
+              fontWeight="400"
+              color="primary"
+            >
+              {' '}
+              офертой
+            </Typography>
             {' '}
             и даёте согласие на
-            <Typography component="span" fontSize="12px" fontWeight="400" color="primary">
+            <Typography
+              component="span"
+              fontSize="12px"
+              fontWeight="400"
+              color="primary"
+            >
               {' '}
               обработку ваших персональных данных
             </Typography>
