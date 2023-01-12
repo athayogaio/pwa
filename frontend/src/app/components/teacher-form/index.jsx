@@ -66,20 +66,6 @@ const TeacherForm = () => {
               />
             </Stack>
           </LocalizationProvider>
-          {/* <TextField
-            fullWidth
-            required
-            id="birthday"
-            label="Дата рождения"
-            size="small"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <TodayIcon style={{ color: '#616161' }} />
-                </InputAdornment>
-              ),
-            }}
-          /> */}
         </Grid>
         <Grid item>
           <FormControl>

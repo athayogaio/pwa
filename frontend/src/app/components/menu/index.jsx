@@ -36,10 +36,6 @@ const Menu = ({ auth }) => {
           flexDirection: 'column',
           justifyContent: 'start',
           p: 2,
-<<<<<<< HEAD
-          backgroundColor: '#F5F5F5',
-=======
->>>>>>> 5d02bc5dcdc8ad5ddf4a31b9bb27acac50fd3a7f
           gap: '6px',
         }}
       >
@@ -121,24 +117,8 @@ const Menu = ({ auth }) => {
                 )}
           />
         </MenuItem>
-<<<<<<< HEAD
-        <MenuItem component={NavLink} to="/teacher-form" sx={{ ...menuItemStyle }}>
-          <ListItemIcon>
-            <AccountCircleOutlinedIcon color="disabled" fontSize="medium" />
-          </ListItemIcon>
-          <ListItemText
-            primary={(
-              <Typography
-                variant="body2"
-              >
-                Стать преподавателем
-              </Typography>
-                )}
-          />
-=======
         <MenuItem component={NavLink} to="/settings" sx={{ ...menuItemStyle }}>
           <SettingsIcon color="disabled" />
->>>>>>> 5d02bc5dcdc8ad5ddf4a31b9bb27acac50fd3a7f
         </MenuItem>
       </MenuList>
       <Typography
