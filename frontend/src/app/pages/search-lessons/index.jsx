@@ -84,6 +84,8 @@ const SearchLessonsPage = () => {
               id={lesson.id}
               title={lesson.name}
               description={lesson.description}
+              price={lesson.price}
+              level={lesson.level}
             />
           ))}
         </Box>

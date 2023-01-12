@@ -14,16 +14,21 @@ import AuthProvider from './utils/providers/auth';
 import BaseLayout from './layouts';
 import ProfileLayout from './layouts/profile';
 import useAuth from './utils/hooks/useAuth';
-import MyLessonsPage from './pages/my-lessons';
+import CreateLessonPage from './pages/create_lesson';
 import SearchLessonsPage from './pages/search-lessons';
 import CalendarPage from './pages/calendar';
+import SettingsPage from './pages/settings';
+import MyLessonsPage from './pages/my-lessons';
 import LessonDetailsPage from './pages/lesson-details';
+<<<<<<< HEAD
 import TeacherFormPage from './pages/teacher-form';
+=======
+
+>>>>>>> 5d02bc5dcdc8ad5ddf4a31b9bb27acac50fd3a7f
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
 import './theme/style.scss';
 
 const theme = createTheme({
@@ -50,6 +55,26 @@ const theme = createTheme({
       fontSize: '1.25rem',
       lineHeight: 1.2,
     },
+    iter_h1: {
+      fontFamily: 'Inter',
+      fontWeight: 600,
+      fontSize: '18px',
+      lineHeight: 1.2,
+    },
+    iter_h2: {
+      fontFamily: 'Inter',
+      fontWeight: 400,
+      fontSize: '14px',
+      lineHeight: 1.2,
+    },
+    modal: {
+      fontFamily: 'Roboto',
+      fontWeight: 400,
+      fontSize: '14px',
+      lineHeight: '120%',
+      fontStyle: 'normal',
+      color: '#616161',
+    },
   },
 });
 
@@ -69,9 +94,11 @@ const App = () => {
           <Route path="*" element={<ErrorPage />} />
           <Route element={auth.isLoggedIn ? <Outlet /> : <Navigate replace to="/" />}>
             <Route path="search-lessons" element={<SearchLessonsPage />} />
-            <Route path="my-lessons" element={<MyLessonsPage />} />
             <Route path="calendar" element={<CalendarPage />} />
             <Route path="profile" element={<ProfilePage auth={auth} />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="create-lesson" element={<CreateLessonPage />} />
+            <Route path="my-lessons" element={<MyLessonsPage />} />
             <Route path="lesson-details/:id" element={<LessonDetailsPage />} />
             <Route path="teacher-form" element={<TeacherFormPage />} />
           </Route>

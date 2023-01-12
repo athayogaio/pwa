@@ -58,6 +58,17 @@ const MyLessonsPage = () => (
         Найти занятие
       </Button>
     </Grid>
+    <Button
+      component={Link}
+      to="/create-lesson"
+      sx={{
+        width: 'max-content', borderRadius: '6px', fontSize: '16px', lineHeight: '26px',
+      }}
+      variant="outlined"
+      size="large"
+    >
+      Создать занятие
+    </Button>
   </Grid>
 );
 

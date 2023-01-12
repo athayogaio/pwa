@@ -2,58 +2,96 @@
 /* eslint-disable linebreak-style */
 import React from 'react';
 import { Typography, Box, Grid } from '@mui/material';
-import SchoolIcon from '@mui/icons-material/School';
-import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
-import { Link } from 'react-router-dom';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 
-const LessonCard = ({ title, description, id }) => {
-  const pathLesson = `/lesson-details/${id}`;
+const LessonCard = ({
+  title, description, price, level,
+}) => {
+  const levels = {
+    STARTING: 'Начинающий',
+    MEDIUM: 'Средний',
+    ADVANCED: 'Продвинутый',
+  };
+
   return (
+
     <Box
-      component={Link}
-      to={pathLesson}
-      width="calc(50% - 10px)"
-      sx={{ textDecoration: 'none', borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)' }}
+      width="100%"
+      sx={{ borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)' }}
     >
       <Grid container alignItems="flex-start" justifyContent="center" height="100%">
-        <Grid item>
-          <Typography>
-            <SchoolIcon color="primary" fontSize="large" sx={{ m: '16px' }} />
-          </Typography>
-        </Grid>
-        <Grid item xs container height="100%">
-          <Grid item xs container direction="column" sx={{ py: '16px' }}>
-            <Grid item>
-              <Typography color="text.primary" sx={{ fontSize: '18px', mb: '12px' }}>
-                {title}
-              </Typography>
-            </Grid>
-            <Grid item sx={{ flex: '1 0 auto' }}>
-              <Typography
-                color="text.secondary"
-                sx={{
-                  width: '252px', fontSize: '14px', mb: '8px', lineHeight: '120%',
-                }}
-              >
-                {description}
-              </Typography>
-            </Grid>
-            <Grid item display="flex">
-              <Typography color="text.secondary" mr="16px">
-                <DateRangeOutlinedIcon fontSize="20" color="primary" sx={{ mr: '6px', verticalAlign: '-2px' }} />
-                26.11
-              </Typography>
-              <Typography color="text.secondary">
-                <AccessTimeOutlinedIcon fontSize="20" color="primary" sx={{ mr: '6px', verticalAlign: '-2px' }} />
-                14:00 - 15:30
-              </Typography>
-            </Grid>
+        <Grid item xs container direction="column" sx={{ p: '24px' }}>
+          <Grid item xs container justifyContent="space-between" sx={{ mb: '8px' }}>
+            <Typography variant="h6">
+              {title}
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              <Chip color="success" size="small" label="Вы участник" />
+              <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} />
+            </Stack>
+          </Grid>
+          <Grid item sx={{ flex: '1 0 auto' }}>
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              sx={{ mb: '24px' }}
+            >
+              {levels[level]}
+            </Typography>
+          </Grid>
+          <Grid item xs container sx={{ mb: '24px' }}>
+            <Typography variant="h6" sx={{ mr: '17px' }}>
+              ₽
+              {' '}
+              {price}
+            </Typography>
+            <StarBorderIcon sx={{
+              color: '#FF9800', width: '16px', height: '16px', transform: 'translateY(2px)', mr: '4px',
+            }}
+            />
+            <Typography variant="body1" sx={{ fontWeight: '500', mr: '3px' }}>
+              4.8
+            </Typography>
+            <Typography variant="body1" color="text.disabled" sx={{ mr: '17px' }}>
+              (505 оценок)
+            </Typography>
+            <ModeCommentOutlinedIcon
+              color="text.secondary"
+              sx={{
+                width: '14px', height: '14px', transform: 'translateY(4px)', mr: '4px',
+              }}
+            />
+            <Typography variant="body1" sx={{ fontWeight: '500' }}>
+              505
+            </Typography>
+          </Grid>
+          <Grid item sx={{ flex: '1 0 auto' }}>
+            <Typography
+              variant="body1"
+              color="text.primary"
+              sx={{ mb: '27px' }}
+            >
+              {description}
+            </Typography>
+          </Grid>
+          <Grid item xs container gap="8px" sx={{ mb: '28px' }}>
+            <Chip size="small" label="Пн 14:30-15:30" />
+            <Chip size="small" label="Вт 14:30-15:30" />
+          </Grid>
+          <Grid item xs container gap="6px" alignItems="center">
+            <Avatar alt="name" src="avatar" />
+            <Typography variant="body1">
+              Виктор Васильев
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
     </Box>
   );
 };
-
 export default LessonCard;
