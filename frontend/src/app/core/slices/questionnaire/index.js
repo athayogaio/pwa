@@ -1,6 +1,6 @@
 /* eslint no-param-reassign: 0 */
-import { createSlice } from "@reduxjs/toolkit";
-import postQuestionnaireSlice from "./postQuestionnaire";
+import { createSlice } from '@reduxjs/toolkit';
+import postQuestionnaireSlice from './postQuestionnaire';
 
 const initialState = {
   questionnaire: [],
@@ -8,7 +8,18 @@ const initialState = {
 };
 
 const questionnaireSlice = createSlice({
-  name: "questionnaire",
+  name: 'questionnaire',
+  initialState,
+  extraReducers: {
+    [postQuestionnaireSlice.fulfilled]: (state, action) => {
+      state.questionnaire = action.payload;
+      state.errorMessage = null;
+    },
+    [postQuestionnaireSlice.rejected]: (state, action) => {
+      state.questionnaire = [];
+      state.errorMessage = action.payload;
+    },
+  },
 });
 
 export default questionnaireSlice.reducer;
