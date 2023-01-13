@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Grid,
-  Box,
-  Typography,
-  TextField,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Button,
-  Stack,
+  Grid, Box, Typography, TextField, FormControl, RadioGroup, FormControlLabel, Radio,
+  Button, Stack,
 } from '@mui/material';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TodayIcon from '@mui/icons-material/Today';
 import 'dayjs/locale/ru';
 import UploadDocument from '../upload-document';
+import postQuestionnaireSlice from '../../core/slices/questionnaire/postQuestionnaire';
 
 const TeacherForm = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());
 
   const handleChange = newValue => {
@@ -32,7 +27,7 @@ const TeacherForm = () => {
       <Typography color="text.secondary" mb="24px">
         * Поля, обязательные для заполнения
       </Typography>
-      <Grid container xs={12} spacing="24px" mb="60px">
+      <Grid container spacing="24px" mb="60px">
         <Grid item xs={6}>
           <TextField
             fullWidth
