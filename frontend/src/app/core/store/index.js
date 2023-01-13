@@ -3,6 +3,7 @@ import auth from '../slices/auth';
 import message from '../slices/message';
 import lessons from '../slices/lessons';
 import lesson from '../slices/lesson';
+import questionnaire from '../slices/questionnaire';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     message,
     lessons,
     lesson,
+    questionnaire,
   },
 });
 
