@@ -5,7 +5,7 @@ from dataclasses import asdict, is_dataclass
 from json import JSONEncoder, JSONDecoder
 from typing import Type, Any, Optional, Protocol, Dict, Union, List
 
-from dacite import from_dict, Config
+from dacite import from_dict, Config, MissingValueError
 from django.db import models
 from django.db.backends.postgresql.base import DatabaseWrapper
 from django.db.models.expressions import Col
@@ -30,18 +30,21 @@ class JSONParsedField(models.JSONField):
         super().__init__(verbose_name, name, encoder, decoder, **kwargs)
         self.parse_to = parse_to
 
-    def convert(self, data: dict) -> IsDataclass:
-        return from_dict(
-            data_class=self.parse_to,
-            data=data,
-            config=Config(
-                type_hooks={
-                    datetime.time: lambda x: datetime.datetime.strptime(
-                        x, "%H:%M:%S"
-                    ).time()
-                }
-            ),
-        )
+    def convert(self, data: dict) -> Optional[IsDataclass]:
+        try:
+            return from_dict(
+                data_class=self.parse_to,
+                data=data,
+                config=Config(
+                    type_hooks={
+                        datetime.time: lambda x: datetime.datetime.strptime(
+                            x, "%H:%M:%S"
+                        ).time()
+                    }
+                ),
+            )
+        except MissingValueError:
+            return None
 
     def from_db_value(
         self, value: str, expression: Col, connection: DatabaseWrapper
@@ -55,7 +58,7 @@ class JSONParsedField(models.JSONField):
         if not data:
             return data
         if isinstance(data, list):
-            return [self.convert(data=i) for i in data]
+            return [item for item in (self.convert(data=i) for i in data) if item]
         return self.convert(data=data)
 
     def get_prep_value(self, value: Any) -> Optional[str]:

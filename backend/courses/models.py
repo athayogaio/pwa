@@ -92,7 +92,7 @@ class Course(TimeStampedModel):
     payment = models.CharField(max_length=30, choices=CoursePaymentTypes.choices)
     price = models.FloatField(validators=(MinValueValidator(limit_value=0),))
     schedule: List[CourseSchedule] = JSONParsedField(
-        default=list, parse_to=CourseSchedule
+        default=list, parse_to=CourseSchedule, blank=True
     )
     status = models.CharField(
         max_length=40, choices=CourseStatuses.choices, default=CourseStatuses.MODERATION
