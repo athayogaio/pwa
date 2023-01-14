@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Grid, Box, Typography, TextField, FormControl, RadioGroup, FormControlLabel, Radio,
   Button, Stack,
@@ -12,11 +12,36 @@ import UploadDocument from '../upload-document';
 import postQuestionnaireSlice from '../../core/slices/questionnaire/postQuestionnaire';
 
 const TeacherForm = () => {
+  const [answers, setAnswers] = useState({
+    name: '',
+    surname: '',
+    date_of_birth: '',
+    gender: '',
+    about_me: '',
+    work_experience: '',
+    vk_link: '',
+    telegram_link: '',
+    certificate_photos: '',
+    passport_photo: '',
+    user_photo: '',
+    user_with_passport_photo: '',
+  });
+
+  const handleChangeAnswer = prop => event => {
+    setAnswers({ ...answers, [prop]: event.target.value });
+  };
+
   const dispatch = useDispatch();
+
+  const postAnswers = answersArr => {
+    dispatch(postQuestionnaireSlice(answersArr));
+  };
+
   const [value, setValue] = useState(new Date());
 
   const handleChange = newValue => {
     setValue(newValue);
+    setAnswers({...answers, date_of_birth: newValue});
   };
 
   return (
@@ -35,15 +60,17 @@ const TeacherForm = () => {
             id="first-name"
             label="Имя"
             size="small"
+            onChange={handleChangeAnswer('name')}
           />
         </Grid>
         <Grid item xs={6}>
           <TextField
             fullWidth
             required
-            id="last-name"
+            id="surname"
             label="Фамилия"
             size="small"
+            onChange={handleChangeAnswer('surname')}
           />
         </Grid>
         <Grid item xs={12}>
@@ -54,7 +81,7 @@ const TeacherForm = () => {
                 inputFormat="DD/MM/YYYY"
                 value={value}
                 onChange={handleChange}
-                renderInput={params => <TextField {...params} />}
+                renderInput={params => <TextField {...params} onChange={handleChangeAnswer('date_of_birth')} />}
                 components={{
                   OpenPickerIcon: TodayIcon,
                 }}
@@ -64,7 +91,7 @@ const TeacherForm = () => {
         </Grid>
         <Grid item>
           <FormControl>
-            <RadioGroup row>
+            <RadioGroup row onChange={handleChangeAnswer('gender')}>
               <FormControlLabel
                 value="male"
                 control={<Radio />}
@@ -87,6 +114,7 @@ const TeacherForm = () => {
             id="about-me"
             rows={8}
             helperText="Не более 3000 символов"
+            onChange={handleChangeAnswer('about_me')}
           />
         </Grid>
         <Grid item xs={12}>
@@ -98,6 +126,7 @@ const TeacherForm = () => {
             id="work-experience"
             rows={6}
             helperText="Не более 1000 символов"
+            onChange={handleChangeAnswer('work_experience')}
           />
         </Grid>
         <Grid item xs={6}>
@@ -106,6 +135,7 @@ const TeacherForm = () => {
             id="vk-link"
             label="Ссылка на страницу ВК"
             size="small"
+            onChange={handleChangeAnswer('vk_link')}
           />
         </Grid>
         <Grid item xs={6}>
@@ -114,6 +144,7 @@ const TeacherForm = () => {
             id="telegram-link"
             label="Ссылка на профиль в Telegram"
             size="small"
+            onChange={handleChangeAnswer('telegram_link')}
           />
         </Grid>
         <Grid item>
@@ -155,8 +186,9 @@ const TeacherForm = () => {
           <Button
             fullWidth
             variant="contained"
-            disabled
+            // disabled
             size="large"
+            onClick={() => postAnswers(answers)}
           >
             Отправить на проверку
           </Button>
