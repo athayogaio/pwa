@@ -21,6 +21,8 @@ import SettingsPage from './pages/settings';
 import MyLessonsPage from './pages/my-lessons';
 import LessonDetailsPage from './pages/lesson-details';
 import TeacherFormPage from './pages/teacher-form';
+import FavoritesPage from './pages/favorites';
+
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -97,6 +99,7 @@ const App = () => {
             <Route path="my-lessons" element={<MyLessonsPage />} />
             <Route path="lesson-details/:id" element={<LessonDetailsPage />} />
             <Route path="teacher-form" element={<TeacherFormPage />} />
+            <Route path="favorites" element={<FavoritesPage />} />
           </Route>
         </Route>
       </Routes>
