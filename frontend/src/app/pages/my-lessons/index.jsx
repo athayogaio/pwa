@@ -4,6 +4,7 @@ import {
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 import profileCalendar from '../../../assets/public/profile_calendar.png';
 
 const MyLessonsPage = () => (
@@ -58,17 +59,25 @@ const MyLessonsPage = () => (
         Найти занятие
       </Button>
     </Grid>
-    <Button
-      component={Link}
-      to="/create-lesson"
-      sx={{
-        width: 'max-content', borderRadius: '6px', fontSize: '16px', lineHeight: '26px',
-      }}
-      variant="outlined"
-      size="large"
-    >
-      Создать занятие
-    </Button>
+    <Box display="flex" justifyContent="flex-end" m="48px">
+      <Button
+        component={Link}
+        to="/create-lesson"
+        sx={{
+          width: 'max-content',
+          p: '12px 16px',
+          fontSize: '15px',
+          lineHeight: '26px',
+          boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',
+          borderRadius: '64px',
+          color: '#000',
+        }}
+        size="large"
+      >
+        <Typography sx={{ mr: '8px' }}>Создать занятие</Typography>
+        <AddIcon />
+      </Button>
+    </Box>
   </Grid>
 );
 

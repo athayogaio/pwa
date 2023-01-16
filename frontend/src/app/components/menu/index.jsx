@@ -117,20 +117,6 @@ const Menu = ({ auth }) => {
                 )}
           />
         </MenuItem>
-        <MenuItem component={NavLink} to="/teacher-form" sx={{ ...menuItemStyle }}>
-          <ListItemIcon>
-            <AccountCircleOutlinedIcon color="disabled" fontSize="medium" />
-          </ListItemIcon>
-          <ListItemText
-            primary={(
-              <Typography
-                variant="body2"
-              >
-                Стать преподавателем
-              </Typography>
-                )}
-          />
-        </MenuItem>
         <MenuItem component={NavLink} to="/settings" sx={{ ...menuItemStyle }}>
           <SettingsIcon color="disabled" />
         </MenuItem>

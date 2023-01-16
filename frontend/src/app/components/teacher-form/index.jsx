@@ -41,7 +41,7 @@ const TeacherForm = () => {
 
   const handleChange = newValue => {
     setValue(newValue);
-    setAnswers({...answers, date_of_birth: newValue});
+    setAnswers({ ...answers, date_of_birth: newValue });
   };
 
   return (
@@ -78,7 +78,7 @@ const TeacherForm = () => {
             <Stack>
               <DesktopDatePicker
                 label="День рождения"
-                inputFormat="DD/MM/YYYY"
+                inputFormat="DD.MM.YYYY"
                 value={value}
                 onChange={handleChange}
                 renderInput={params => <TextField {...params} onChange={handleChangeAnswer('date_of_birth')} />}

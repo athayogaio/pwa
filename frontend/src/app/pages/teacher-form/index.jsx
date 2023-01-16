@@ -27,7 +27,7 @@ const TeacherFormPage = () => (
         <AccountCircleIcon style={{ color: '#BDBDBD' }} />
       </Box>
     </Box>
-    <Box display="flex" justifyContent="center">
+    <Box display="flex" justifyContent="center" mb="116px">
       <TeacherForm />
     </Box>
   </Box>
