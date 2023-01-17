@@ -17,7 +17,7 @@ const UploadDocument = () => (
         <Typography fontSize="12px" fontWeight="400" color="primary" textAlign="center">
           Нажмите, чтобы загрузить
           <Typography variant="title" color="inherit">
-            &nbsp;
+          &nbsp;
           </Typography>
           <Typography component="span" fontSize="12px" fontWeight="400" color="#ADB5BD">
             или перетащите файл сюда jpg, pdf, png (макс. 3mb)

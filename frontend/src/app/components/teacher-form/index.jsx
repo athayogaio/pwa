@@ -8,7 +8,7 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TodayIcon from '@mui/icons-material/Today';
 import 'dayjs/locale/ru';
-import UploadDocument from '../upload-document';
+import UploadFiles from '../upload_files';
 import postQuestionnaireSlice from '../../core/slices/questionnaire/postQuestionnaire';
 
 const TeacherForm = () => {
@@ -151,13 +151,13 @@ const TeacherForm = () => {
           <Typography fontWeight="600">Фото пользователя</Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadDocument />
+          <UploadFiles />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">Фото паспорта</Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadDocument />
+          <UploadFiles />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">
@@ -165,7 +165,7 @@ const TeacherForm = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadDocument />
+          <UploadFiles />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">
@@ -173,7 +173,7 @@ const TeacherForm = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadDocument />
+          <UploadFiles />
         </Grid>
       </Grid>
       <Box
