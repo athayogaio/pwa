@@ -15,7 +15,7 @@ const TeacherForm = () => {
   const [answers, setAnswers] = useState({
     name: '',
     surname: '',
-    date_of_birth: '',
+    date_of_birth: null,
     gender: '',
     about_me: '',
     work_experience: '',
@@ -34,13 +34,14 @@ const TeacherForm = () => {
   const dispatch = useDispatch();
 
   const postAnswers = answersArr => {
-    dispatch(postQuestionnaireSlice(answersArr));
+    const dateOfBirth = answersArr.date_of_birth;
+    dispatch(postQuestionnaireSlice({
+      ...answersArr,
+      date_of_birth: dateOfBirth ? `${dateOfBirth.$D}-${dateOfBirth.$M + 1}-${dateOfBirth.$y}` : null,
+    }));
   };
 
-  const [value, setValue] = useState(new Date());
-
-  const handleChange = newValue => {
-    setValue(newValue);
+  const handleChangeDate = newValue => {
     setAnswers({ ...answers, date_of_birth: newValue });
   };
 
@@ -77,11 +78,11 @@ const TeacherForm = () => {
           <LocalizationProvider adapterLocale="ru" dateAdapter={AdapterDayjs}>
             <Stack>
               <DesktopDatePicker
-                label="День рождения"
+                label="День рождения *"
                 inputFormat="DD.MM.YYYY"
-                value={value}
-                onChange={handleChange}
-                renderInput={params => <TextField {...params} onChange={handleChangeAnswer('date_of_birth')} />}
+                value={answers.date_of_birth}
+                onChange={handleChangeDate}
+                renderInput={params => <TextField {...params} />}
                 components={{
                   OpenPickerIcon: TodayIcon,
                 }}
