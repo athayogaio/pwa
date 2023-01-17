@@ -45,6 +45,8 @@ const TeacherForm = () => {
     setAnswers({ ...answers, date_of_birth: newValue });
   };
 
+  const isEmpty = () => Object.values(answers).includes('') || Object.values(answers).includes(null);
+
   return (
     <Box sx={{ maxWidth: '732px' }}>
       <Typography fontWeight="600" fontSize="24px" mb="34px">
@@ -187,7 +189,7 @@ const TeacherForm = () => {
           <Button
             fullWidth
             variant="contained"
-            // disabled
+            disabled={isEmpty()}
             size="large"
             onClick={() => postAnswers(answers)}
           >
