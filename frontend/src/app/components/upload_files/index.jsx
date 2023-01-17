@@ -8,7 +8,7 @@ const DragDropFile = () => {
   const [dragActive, setDragActive] = useState(false);
   const [isAddFile, setIsAddFile] = useState(true);
   const [fileName, setFileName] = useState({});
-  console.log(fileName);
+
   const inputRef = useRef(null);
 
   const handleDrag = e => {
