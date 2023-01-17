@@ -39,7 +39,7 @@ const DragDropFile = () => {
 
   return (
     <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={e => e.preventDefault()}>
-      <input ref={inputRef} type="file" id="input-file-upload" multiple onChange={handleChange} />
+      <input ref={inputRef} type="file" id="input-file-upload" multiple onChange={handleChange} accept="image/jpeg, image/jpg, image/png" />
       <label id="label-file-upload" htmlFor="input-file-upload" className={dragActive ? 'drag-active' : ''}>
         <Box width="373px" display="flex" flexDirection="row" gap="12px">
           <img src={uploadDocument} alt="upload-document" />
