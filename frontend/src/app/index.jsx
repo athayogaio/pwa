@@ -94,7 +94,7 @@ const App = () => {
             <Route path="profile" element={<ProfilePage auth={auth} />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="create-lesson" element={<CreateLessonPage />} />
-            <Route path="my-lessons" element={<MyLessonsPage />} />
+            <Route path="my-lessons" element={<MyLessonsPage auth={auth} />} />
             <Route path="lesson-details/:id" element={<LessonDetailsPage />} />
           </Route>
         </Route>
