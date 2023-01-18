@@ -3,7 +3,7 @@ import LessonsService from '../../../services/lessons';
 
 const getTicketsSlice = createAsyncThunk(
   'courses/tickets',
-  async (query, thunkAPI) => {
+  async thunkAPI => {
     try {
       const result = await LessonsService.getTickets();
 

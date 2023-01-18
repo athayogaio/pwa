@@ -18,7 +18,7 @@ const MyLessonsPage = ({ auth: { user } }) => {
     dispatch(getTicketsSlice());
   }, []);
 
-  console.log(tickets, errorMessage);
+  // console.log(tickets, errorMessage);
 
   return (
     <Grid
