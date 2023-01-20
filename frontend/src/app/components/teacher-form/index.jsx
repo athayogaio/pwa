@@ -35,9 +35,11 @@ const TeacherForm = () => {
 
   const postAnswers = answersArr => {
     const dateOfBirth = answersArr.date_of_birth;
+    console.log(dateOfBirth.toISOString());
     dispatch(postQuestionnaireSlice({
       ...answersArr,
-      date_of_birth: dateOfBirth ? `${dateOfBirth.$D}-${dateOfBirth.$M + 1}-${dateOfBirth.$y}` : null,
+      date_of_birth: dateOfBirth.toISOString().split('T')[0],
+      // date_of_birth: dateOfBirth ? `${dateOfBirth.$y}-${dateOfBirth.$M + 1}-${dateOfBirth.$D}` : null,
     }));
   };
 
@@ -96,12 +98,12 @@ const TeacherForm = () => {
           <FormControl>
             <RadioGroup row onChange={handleChangeAnswer('gender')}>
               <FormControlLabel
-                value="male"
+                value="MALE"
                 control={<Radio />}
                 label="мужчина"
               />
               <FormControlLabel
-                value="female"
+                value="FEMALE"
                 control={<Radio />}
                 label="женщина"
               />
@@ -154,13 +156,13 @@ const TeacherForm = () => {
           <Typography fontWeight="600">Фото пользователя</Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles />
+          <UploadFiles loaderName="user_photo" />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">Фото паспорта</Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles />
+          <UploadFiles loaderName="passport_photo" />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">
@@ -168,7 +170,7 @@ const TeacherForm = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles />
+          <UploadFiles loaderName="user_with_passport_photo" />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">
@@ -176,7 +178,7 @@ const TeacherForm = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles />
+          <UploadFiles loaderName="certificate_photos" />
         </Grid>
       </Grid>
       <Box

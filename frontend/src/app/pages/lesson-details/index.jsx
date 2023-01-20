@@ -52,12 +52,13 @@ const LessonDetailsPage = () => {
           {errorMessage}
         </Typography>
         )}
+        {lesson && console.log(lesson.data.base_course.level)}
         {lesson && (
         <LessonDescription
           title={lesson.data.name}
           description={lesson.data.description}
           price={lesson.data.price}
-          level={(lesson.data.level).split().map(lvl => levels[lvl])} // убрать split
+          level={(lesson.data.base_course.level).split().map(lvl => levels[lvl])} // убрать split
         />
         )}
       </Box>

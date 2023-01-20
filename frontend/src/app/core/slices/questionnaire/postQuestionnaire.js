@@ -4,8 +4,18 @@ import QuestionnaireService from '../../../services/questionnaire';
 const postQuestionnaireSlice = createAsyncThunk(
   'core/questionnaireteacher',
   async ({
-    name, surname, dateOfBirth, gender, aboutMe, workExperience, vkLink,
-    telegramLink, certificatePhotos, passportPhoto, userPhoto, userWithPassportPhoto,
+    name,
+    surname,
+    date_of_birth: dateOfBirth,
+    gender,
+    about_me: aboutMe,
+    work_experience: workExperience,
+    vk_link: vkLink,
+    telegram_link: telegramLink,
+    certificate_photos: certificatePhotos,
+    passport_photo: passportPhoto,
+    user_photo: userPhoto,
+    user_with_passport_photo: userWithPassportPhoto,
   }, thunkAPI) => {
     try {
       return await QuestionnaireService.postQuestionnaire({
