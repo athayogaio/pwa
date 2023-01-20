@@ -5,6 +5,8 @@ import { Box, Typography } from '@mui/material';
 import './upload.css';
 import uploadDocument from '../../../assets/public/uploadDocument.png';
 
+let i = 0;
+
 const UploadFiles = ({ loaderName }) => {
   const [dragActive, setDragActive] = useState(false);
   const [isAddFile, setIsAddFile] = useState(true);
@@ -29,8 +31,8 @@ const UploadFiles = ({ loaderName }) => {
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setIsAddFile(false);
-      setFileName(e.target.files[0].name);
-      setFile(e.target.files);
+      setFileName(e.dataTransfer.files[0].name);
+      console.log(e.dataTransfer.files);
     }
   };
 
@@ -39,14 +41,17 @@ const UploadFiles = ({ loaderName }) => {
     if (e.target.files && e.target.files[0]) {
       setIsAddFile(false);
       setFileName(e.target.files[0].name);
-      setFile({ ...file, [loaderName]: e.target.files });
+      setFile(e.target.files[0]);
     }
   };
 
+  const styleDragActive = dragActive ? 'drag-active' : '';
+  const inputId = `input-file-${ }`;
+
   return (
-    <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={e => e.preventDefault()}>
-      <input ref={inputRef} type="file" id="input-file-upload" multiple onChange={handleChange} accept="image/jpeg, image/jpg, image/png" />
-      <label id="label-file-upload" htmlFor="input-file-upload" className={dragActive ? 'drag-active' : ''}>
+    <form className="form-file-upload" onDragEnter={handleDrag} onSubmit={e => e.preventDefault()}>
+      <input id={inputId} className="input-file-upload" ref={inputRef} type="file" multiple onChange={handleChange} accept="image/jpeg, image/jpg, image/png" />
+      <label className={`label-file-upload ${styleDragActive} `} htmlFor={inputId}>
         <Box width="373px" display="flex" flexDirection="row" gap="12px">
           <img src={uploadDocument} alt="upload-document" />
           {isAddFile
