@@ -1,14 +1,16 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useRef } from 'react';
 import { Box, Typography } from '@mui/material';
 import './upload.css';
 import uploadDocument from '../../../assets/public/uploadDocument.png';
 
-const DragDropFile = () => {
+const UploadFiles = ({ loaderName }) => {
   const [dragActive, setDragActive] = useState(false);
   const [isAddFile, setIsAddFile] = useState(true);
   const [fileName, setFileName] = useState({});
-
+  const [file, setFile] = useState({});
+  console.log(file);
   const inputRef = useRef(null);
 
   const handleDrag = e => {
@@ -28,6 +30,7 @@ const DragDropFile = () => {
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setIsAddFile(false);
       setFileName(e.target.files[0].name);
+      setFile(e.target.files);
     }
   };
 
@@ -36,6 +39,7 @@ const DragDropFile = () => {
     if (e.target.files && e.target.files[0]) {
       setIsAddFile(false);
       setFileName(e.target.files[0].name);
+      setFile({ ...file, [loaderName]: e.target.files });
     }
   };
 
@@ -69,4 +73,4 @@ const DragDropFile = () => {
   );
 };
 
-export default DragDropFile;
+export default UploadFiles;
