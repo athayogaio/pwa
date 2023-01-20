@@ -21,11 +21,19 @@ const TeacherForm = () => {
     work_experience: '',
     vk_link: '',
     telegram_link: '',
-    certificate_photos: '',
+    certificate_photos: [],
     passport_photo: '',
     user_photo: '',
     user_with_passport_photo: '',
   });
+
+  const [photo, setPhoto] = useState([]);
+  const updateCertificate = file => {
+    setPhoto([...photo, file]);
+  };
+  const updatePhoto = (file, nameLoader) => {
+    setAnswers({ ...answers, [nameLoader]: file });
+  };
 
   const handleChangeAnswer = prop => event => {
     setAnswers({ ...answers, [prop]: event.target.value });
@@ -35,11 +43,12 @@ const TeacherForm = () => {
 
   const postAnswers = answersArr => {
     const dateOfBirth = answersArr.date_of_birth;
-    console.log(dateOfBirth.toISOString());
+    photo.map(el => console.log(el));
+    console.log(photo);
     dispatch(postQuestionnaireSlice({
       ...answersArr,
+      certificate_photos: photo,
       date_of_birth: dateOfBirth.toISOString().split('T')[0],
-      // date_of_birth: dateOfBirth ? `${dateOfBirth.$y}-${dateOfBirth.$M + 1}-${dateOfBirth.$D}` : null,
     }));
   };
 
@@ -156,13 +165,13 @@ const TeacherForm = () => {
           <Typography fontWeight="600">Фото пользователя</Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles loaderName="user_photo" />
+          <UploadFiles updatePhoto={updatePhoto} loaderName="user_photo" />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">Фото паспорта</Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles loaderName="passport_photo" />
+          <UploadFiles updatePhoto={updatePhoto} loaderName="passport_photo" />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">
@@ -170,7 +179,7 @@ const TeacherForm = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles loaderName="user_with_passport_photo" />
+          <UploadFiles updatePhoto={updatePhoto} loaderName="user_with_passport_photo" />
         </Grid>
         <Grid item>
           <Typography fontWeight="600">
@@ -178,7 +187,7 @@ const TeacherForm = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <UploadFiles loaderName="certificate_photos" />
+          <UploadFiles updateCertificate={updateCertificate} loaderName="certificate_photos" />
         </Grid>
       </Grid>
       <Box

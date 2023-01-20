@@ -6,7 +6,7 @@ const getFavoritesSlice = createAsyncThunk(
   async thunkAPI => {
     try {
       const result = await FavoritesService.getFavorites();
-
+      console.log(result.data);
       return result.data;
     } catch (error) {
       const message = error.response.data;

@@ -5,14 +5,12 @@ import { Box, Typography } from '@mui/material';
 import './upload.css';
 import uploadDocument from '../../../assets/public/uploadDocument.png';
 
-let i = 0;
-
-const UploadFiles = ({ loaderName }) => {
+const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
   const [dragActive, setDragActive] = useState(false);
   const [isAddFile, setIsAddFile] = useState(true);
-  const [fileName, setFileName] = useState({});
-  const [file, setFile] = useState({});
-  console.log(file);
+  const [fileName, setFileName] = useState([]);
+  const [file, setFile] = useState([]);
+
   const inputRef = useRef(null);
 
   const handleDrag = e => {
@@ -41,17 +39,24 @@ const UploadFiles = ({ loaderName }) => {
     if (e.target.files && e.target.files[0]) {
       setIsAddFile(false);
       setFileName(e.target.files[0].name);
-      setFile(e.target.files[0]);
+      // setFile(e.target.files);
+      if (loaderName === 'certificate_photos') {
+        updateCertificate(e.target.files[0], loaderName);
+      } else {
+        updatePhoto(e.target.files[0], loaderName);
+      }
+      for (let i = 0; i < e.target.files.length; i++) {
+        setFile([...file, e.target.files[i]]);
+      }
     }
   };
 
   const styleDragActive = dragActive ? 'drag-active' : '';
-  const inputId = `input-file-${ }`;
 
   return (
     <form className="form-file-upload" onDragEnter={handleDrag} onSubmit={e => e.preventDefault()}>
-      <input id={inputId} className="input-file-upload" ref={inputRef} type="file" multiple onChange={handleChange} accept="image/jpeg, image/jpg, image/png" />
-      <label className={`label-file-upload ${styleDragActive} `} htmlFor={inputId}>
+      <input id={loaderName} className="input-file-upload" ref={inputRef} type="file" multiple onChange={handleChange} accept="image/jpeg, image/jpg, image/png" />
+      <label className={`label-file-upload ${styleDragActive} `} htmlFor={loaderName}>
         <Box width="373px" display="flex" flexDirection="row" gap="12px">
           <img src={uploadDocument} alt="upload-document" />
           {isAddFile
