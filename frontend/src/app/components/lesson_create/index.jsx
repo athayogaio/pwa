@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import 'dayjs/locale/ru';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,8 +22,11 @@ import {
   ListItemText,
   Box,
   Divider,
+  Stack,
+  Badge,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PaymentMethod from '../lesson_payment/index';
 import RepeatLessons from '../lesson_repeat/index';
@@ -86,12 +90,16 @@ const LessonCreate = () => {
             color: '#616161', width: '24px', height: '24px', cursor: 'pointer', marginRight: '14px',
           }}
           />
-          <Typography variant="modal" sx={{ fontWeigth: 500, fontSize: '24px', color: '#616161' }}>Создание занятия</Typography>
+          <Typography variant="modal" color="text.secondary" sx={{ fontWeight: 500, fontSize: '20px' }}>Создание занятия</Typography>
         </Box>
-        <SettingsIcon sx={{
-          color: '#BDBDBD', width: '24px', height: '24px', cursor: 'pointer',
-        }}
-        />
+        <Stack alignItems="center" direction="row" spacing={2}>
+          <Badge color="error" variant="dot">
+            <NotificationsNoneIcon fontSize="medium" color="disabled" />
+          </Badge>
+          <Link to="/settings">
+            <SettingsOutlinedIcon color="disabled" sx={{ transform: 'translateY(3px)' }} />
+          </Link>
+        </Stack>
       </Grid>
       <form onSubmit={e => {
         e.preventDefault();
@@ -245,16 +253,18 @@ const LessonCreate = () => {
             />
             <Grid item container sx={{ justifyContent: 'end', columnGap: '5%' }}>
               <Button
+                size="large"
                 variant="text"
               >
                 Сохранить черновик
               </Button>
 
               <Button
+                size="large"
                 variant="contained"
                 type="submit"
               >
-                Создать
+                Опубликовать
               </Button>
             </Grid>
 

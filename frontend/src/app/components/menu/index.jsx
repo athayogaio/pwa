@@ -117,9 +117,6 @@ const Menu = ({ auth }) => {
                 )}
           />
         </MenuItem>
-        <MenuItem component={NavLink} to="/settings" sx={{ ...menuItemStyle }}>
-          <SettingsIcon color="disabled" />
-        </MenuItem>
       </MenuList>
       <Typography
         component={Link}

@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, InputBase, Paper, Typography, Container,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
 import filterSlice from '../../core/slices/lessons/filter';
 import useDebounce from '../../utils/hooks/useDebounce';
 import LessonCard from '../../components/lesson-card';
+import Header from '../../components/header';
+import MyLesson from '../../components/my_lesson';
 
 const SearchLessonsPage = () => {
   const dispatch = useDispatch();
@@ -17,32 +18,16 @@ const SearchLessonsPage = () => {
   const searchQuery = useDebounce(query, 500);
 
   useEffect(() => {
-    dispatch(filterSlice());
-  }, []);
-
-  useEffect(() => {
     dispatch(filterSlice(query));
   }, [searchQuery]);
+
   function updateSearch(e) {
     setQuery(e.target.value);
   }
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{
-          width: '100%', height: '64px', px: '29px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-        }}
-      >
-        <Typography fontSize="24px" fontWeight="500" color="text.secondary">
-          Поиск
-        </Typography>
-        <SettingsIcon color="disabled" />
-      </Box>
+      <Header title="Поиск" />
       <Paper
         component="form"
         sx={{

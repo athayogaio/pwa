@@ -25,6 +25,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8080",
 ]
 
+READING_SPEED = 180  # words per min.
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,13 +39,26 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "core",
+    "courses",
+    "articles",
     "rest_framework",
     "drf_spectacular",
     "corsheaders",
     "django_extensions",
-    "core",
-    "courses",
     "django_elasticsearch_dsl",
+    "django_json_widget",
+    "djangocms_admin_style",
+    "django.contrib.sites",
+    "cms",
+    "menus",
+    "treebeard",
+    "sekizai",
+    "easy_thumbnails",
+    "djangocms_text_ckeditor",
+    "ckeditor",
+    "mptt",
+    "django_mptt_admin",
 ]
 
 MIDDLEWARE = [
@@ -55,6 +70,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "cms.middleware.user.CurrentUserMiddleware",
+    "cms.middleware.page.CurrentPageMiddleware",
+    "cms.middleware.toolbar.ToolbarMiddleware",
+    "cms.middleware.language.LanguageCookieMiddleware",
+    "cms.middleware.utils.ApphookReloadMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "server.urls"
@@ -62,7 +83,7 @@ ROOT_URLCONF = "server.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["journal/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -70,6 +91,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "sekizai.context_processors.sekizai",
+                "cms.context_processors.cms_settings",
+                "django.template.context_processors.i18n",
             ],
         },
     },
@@ -230,4 +254,25 @@ RATE_FINES_MAPPING = OrderedDict(
         0.1: timedelta(hours=6),
         0.15: timedelta(hours=1),
     }
+)
+
+SITE_ID = 1
+LANGUAGES = [
+    ("ru-ru", "Russian"),
+]
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+CMS_TEMPLATES = [
+    ("fullwidth.html", "Fullwidth"),
+    ("sidebar_left.html", "Sidebar Left"),
+    ("sidebar_right.html", "Sidebar Right"),
+]
+
+THUMBNAIL_HIGH_RESOLUTION = True
+
+THUMBNAIL_PROCESSORS = (
+    "easy_thumbnails.processors.colorspace",
+    "easy_thumbnails.processors.autocrop",
+    "filer.thumbnail_processors.scale_and_crop_with_subject_location",
+    "easy_thumbnails.processors.filters",
 )

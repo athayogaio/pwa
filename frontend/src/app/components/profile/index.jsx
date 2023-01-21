@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Avatar, Button } from '@mui/material';
+import {
+  Avatar, Button, Grid, Stack, Badge,
+} from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import background from '../../../assets/public/profile_background.jpg';
 import avatar from '../../../assets/public/profile_avatar.jpg';
+import Header from '../../components/header';
 
 import './index.scoped.scss';
 
@@ -14,15 +17,7 @@ const Profile = () => {
 
   return (
     <>
-      <Typography
-        component="h4"
-        variant="h6"
-        fontWeight="500"
-        color="primary"
-        sx={{ paddingBottom: '30px' }}
-      >
-        Профиль
-      </Typography>
+      <Header title="Профиль" />
       <Card sx={{ height: '90%' }}>
         <CardMedia
           component="img"
