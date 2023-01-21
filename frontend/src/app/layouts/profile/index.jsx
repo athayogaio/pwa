@@ -16,7 +16,6 @@ const ProfileLayout = ({ auth }) => (
       width: '100%',
       height: 'auto',
       overflow: 'auto',
-      paddingBottom: '32px',
     }}
     >
       <Outlet />

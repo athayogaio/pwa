@@ -12,6 +12,8 @@ __pycache__/
 backend/static/
 backend/media/
 db
+elasticsearch/
+rabbitmq/
 redis
 .mypy_cache
 frontend/node_modules

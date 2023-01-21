@@ -1,6 +1,6 @@
 /// <reference types = "cypress" />
-import { slowCypressDown } from 'cypress-slow-down';
-import { athaUsers } from '../../data/atha-users';
+import {slowCypressDown} from 'cypress-slow-down';
+import {athaUsers} from '../../data/atha-users';
 
 slowCypressDown(100);
 

@@ -2,15 +2,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import {
-  Grid,
-  Typography,
-  Switch,
-  TextField,
-  Radio,
-  FormControl,
-  FormControlLabel,
-  RadioGroup,
-  Divider,
+    Divider,
+    FormControl,
+    FormControlLabel,
+    Grid,
+    Radio,
+    RadioGroup,
+    Switch,
+    TextField,
+    Typography,
 } from '@mui/material';
 
 const PaymentMethod = ({

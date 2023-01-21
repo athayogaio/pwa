@@ -256,6 +256,20 @@ RATE_FINES_MAPPING = OrderedDict(
     }
 )
 
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "")
+CELERY_BROKER_TRANSPORT = os.environ.get("CELERY_BROKER_TRANSPORT", "amqp")
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    "visibility_timeout": 3600,
+    "polling_interval": 60,
+    "region": os.environ.get("CELERY_BROKER_TRANSPORT_REGION", "ru-central1"),
+    "queue_name_prefix": "atha-",
+}
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
+CELERY_TASK_DEFAULT_QUEUE = "default"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TASK_SERIALIZER = "json"
+
 SITE_ID = 1
 LANGUAGES = [
     ("ru-ru", "Russian"),

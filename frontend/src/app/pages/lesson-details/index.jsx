@@ -64,6 +64,7 @@ const LessonDetailsPage = () => {
           {errorMessage}
         </Typography>
         )}
+        {lesson && console.log(lesson.data.base_course.level)}
         {lesson && (
         <LessonDescription
           title={lesson.data.name}

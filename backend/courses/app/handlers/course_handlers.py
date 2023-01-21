@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema
 from rest_framework.decorators import permission_classes
-from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -25,11 +24,9 @@ from courses.app.http.requests.course_requests import (
 from courses.app.http.resources.context import BaseCourseResourceContext
 from courses.app.http.resources.course_resources import (
     CourseResource,
-    LessonResource,
     CourseCardResource,
 )
 from courses.app.repositories.course_repository import CourseRepository
-from courses.app.repositories.lesson_repository import LessonRepository
 from courses.app.repositories.transaction_repository import TicketTransactionRepository
 from courses.app.services.course_service import (
     BaseCourseUpdator,
@@ -215,25 +212,3 @@ class CourseTicketUseHandler(GenericAPIView):
         ).participate()
 
         return Response({"data": {"course_link": link}})
-
-
-class LessonRetrieveHandler(APIView):
-    @extend_schema(responses=OpenApiTypes.OBJECT)
-    def get(self, request: Request, pk: int, *args: Any, **kwargs: Any) -> Response:
-        lesson = LessonRepository().find_by_id(id_=pk)
-        if not lesson:
-            raise NotFound(f"Undefined lesson with pk {pk}")
-        return Response({"data": LessonResource(lesson).data})
-
-
-class LessonListHandler(APIView):
-    repository = LessonRepository()
-
-    @extend_schema(responses=OpenApiTypes.OBJECT)
-    def get(self, request: Request, pk: int, *args: Any, **kwargs: Any) -> Response:
-        lessons = self.repository.fetch_relations(
-            self.repository.find_by_course_id(course_id=pk)
-        )
-        return Response(
-            paginate(data=lessons, request=request, resource=LessonResource)
-        )

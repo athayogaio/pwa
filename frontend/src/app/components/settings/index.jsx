@@ -87,11 +87,14 @@ const Settings = () => {
           <KeyboardArrowRightIcon color="action" />
         </Paper>
         <Paper
+        component={Link}
+        to="/teacher-form"
           sx={{
             p: '17px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+          textDecoration: 'none',
           }}
         >
           <Stack direction="row" spacing={2}>

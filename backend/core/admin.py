@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.db import models
 from django.contrib import admin
+from django.db import models
 from django_json_widget.widgets import JSONEditorWidget
 
 from .models import Attachment, User, Transaction, QuestionnaireTeacher, Comment
@@ -49,7 +49,7 @@ class UserAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ("groups", "user_permissions")
     formfield_overrides = {
-        models.JSONField: {'widget': JSONEditorWidget},
+        models.JSONField: {"widget": JSONEditorWidget},
     }
 
 

@@ -1,6 +1,7 @@
 from django.db.models import QuerySet, Q
-from core.app.repositories.base_repository import BaseRepository
+
 from articles.models import Article, Tag, Category
+from core.app.repositories.base_repository import BaseRepository
 
 
 class ArticleRepository(BaseRepository):
