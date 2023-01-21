@@ -8,9 +8,10 @@ import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import { Link } from 'react-router-dom';
 
 const LessonCard = ({
-  title, description, price, level,
+  title, description, price, level, id,
 }) => {
   const levels = {
     STARTING: 'Начинающий',
@@ -19,10 +20,11 @@ const LessonCard = ({
   };
 
   return (
-
     <Box
+      component={Link}
+      to={`/lesson-details/${id}`}
       width="100%"
-      sx={{ borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)' }}
+      sx={{ borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%' }}
     >
       <Grid container alignItems="flex-start" justifyContent="center" height="100%">
         <Grid item xs container direction="column" sx={{ p: '24px' }}>
