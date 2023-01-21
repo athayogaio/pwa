@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.db import models
 from django.contrib import admin
+from django_json_widget.widgets import JSONEditorWidget
 
 from .models import (
     BaseCourse,
@@ -8,7 +10,6 @@ from .models import (
     Review,
     CourseReview,
     Lesson,
-    Comment,
     CourseComment,
     Ticket,
     TicketTransaction,
@@ -32,6 +33,9 @@ class BaseCourseAdmin(admin.ModelAdmin):
     raw_id_fields = ("favorites",)
     search_fields = ("name",)
     date_hierarchy = "created_at"
+    formfield_overrides = {
+        models.JSONField: {'widget': JSONEditorWidget},
+    }
 
 
 @admin.register(Course)
@@ -125,13 +129,6 @@ class LessonAdmin(admin.ModelAdmin):
     )
     list_filter = ("created_at", "updated_at", "start_at")
     raw_id_fields = ("participants",)
-    date_hierarchy = "created_at"
-
-
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ("id", "polymorphic_ctype", "text", "user", "created_at")
-    list_filter = ("created_at",)
     date_hierarchy = "created_at"
 
 

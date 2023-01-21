@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import auth from '../slices/auth';
 import message from '../slices/message';
 import lessons from '../slices/lessons';
+import tickets from '../slices/tickets';
 import lesson from '../slices/lesson';
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
     auth,
     message,
     lessons,
+    tickets,
     lesson,
   },
 });

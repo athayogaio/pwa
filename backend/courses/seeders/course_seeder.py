@@ -57,6 +57,7 @@ class CourseSeeder:
             link=self.faker.url(),
             link_info=self.faker.sentence()[:100],
             payment=random.choice([i[0] for i in CoursePaymentTypes.choices]),
+            status="PUBLISHED"
         )
 
 

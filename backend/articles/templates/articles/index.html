@@ -1,0 +1,55 @@
+{% extends "articles/layout.html" %}
+{% load mptt_tags %}
+{% load rest_framework %}
+
+{% block body %}
+    <form action="{% url 'search' %}" method="POST">
+        {% csrf_token %}
+        {% render_form search_form %}
+    </form>
+
+    <h1>Категории</h1>
+    <ul>
+        {% recursetree categories %}
+            <li>
+                <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+
+    <h1>Тэги</h1>
+    <p>
+        {% for tag in tags %}
+            {{ tag.name }},
+        {% endfor %}
+    </p>
+
+    <h1>Статьи</h1>
+    {% for article in articles %}
+        <p><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></p>
+    {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if articles.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ articles.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+            </span>
+
+            {% if articles.has_next %}
+                <a href="?page={{ articles.next_page_number }}">next</a>
+                <a href="?page={{ articles.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock %}

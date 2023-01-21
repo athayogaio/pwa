@@ -12,7 +12,7 @@ from polymorphic.models import PolymorphicModel
 from pytz import utc
 
 from core.app.utils.fields import JSONParsedField, IsDataclass
-from core.models import User, TimeStampedModel, Transaction
+from core.models import User, TimeStampedModel, Transaction, Comment
 
 
 class CourseTypes(models.TextChoices):
@@ -55,15 +55,23 @@ class CourseSchedule(IsDataclass):
 
 
 class BaseCourse(TimeStampedModel):
-    name = models.CharField(max_length=64)
-    description = models.TextField()
-    course_type = models.CharField(max_length=30, choices=CourseTypes.choices)
-    level = models.JSONField()
-    complexity = models.CharField(max_length=30, choices=CourseComplexities.choices)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
-    favorites = models.ManyToManyField(
-        User, related_name="favorite_courses", blank=True
+    name = models.CharField("Наименование", max_length=64)
+    description = models.TextField("Описание")
+    course_type = models.CharField("Тип", max_length=30, choices=CourseTypes.choices)
+    level = models.JSONField("Уровень")
+    complexity = models.CharField(
+        "Сложность", max_length=30, choices=CourseComplexities.choices
     )
+    teacher = models.ForeignKey(
+        User, verbose_name="Преподаватель", on_delete=models.CASCADE
+    )
+    favorites = models.ManyToManyField(
+        User, related_name="favorite_courses", verbose_name="Избранное", blank=True
+    )
+
+    class Meta:
+        verbose_name = "Базовый курс"
+        verbose_name_plural = "Базовые курсы"
 
 
 class CourseStatuses(models.TextChoices):
@@ -82,20 +90,28 @@ class CourseManager(models.Manager):
 
 class Course(TimeStampedModel):
     base_course = models.ForeignKey(
-        BaseCourse, on_delete=models.CASCADE, related_name="courses"
+        BaseCourse,
+        related_name="courses",
+        verbose_name="Базовый курс",
+        on_delete=models.CASCADE,
     )
-    duration = models.DurationField()
-    start_datetime = models.DateTimeField()
-    deadline_datetime = models.DateTimeField(null=True)
-    link = models.URLField()
-    link_info = models.CharField(max_length=100, blank=True)
-    payment = models.CharField(max_length=30, choices=CoursePaymentTypes.choices)
-    price = models.FloatField(validators=(MinValueValidator(limit_value=0),))
+    duration = models.DurationField("Продолжительность")
+    start_datetime = models.DateTimeField("Дата и время начала")
+    deadline_datetime = models.DateTimeField("Дата и время окончания")
+    link = models.URLField("Ссылка для подключения")
+    link_info = models.CharField("Информация о подключении", max_length=100, blank=True)
+    payment = models.CharField(
+        "Тип платежа", max_length=30, choices=CoursePaymentTypes.choices
+    )
+    price = models.FloatField("Цена", validators=(MinValueValidator(limit_value=0),))
     schedule: List[CourseSchedule] = JSONParsedField(
-        default=list, parse_to=CourseSchedule, blank=True
+        default=list, parse_to=CourseSchedule, verbose_name="Расписание", blank=True
     )
     status = models.CharField(
-        max_length=40, choices=CourseStatuses.choices, default=CourseStatuses.MODERATION
+        "Статус",
+        max_length=40,
+        choices=CourseStatuses.choices,
+        default=CourseStatuses.MODERATION,
     )
 
     @cached_property
@@ -123,24 +139,35 @@ class Course(TimeStampedModel):
         return result
 
     class Meta:
-        verbose_name = "Занятие"
-        verbose_name_plural = "Занятия"
+        verbose_name = "Курс"
+        verbose_name_plural = "Курсы"
 
 
 class CourseCycle(TimeStampedModel):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    start_at = models.DateTimeField()
-    end_at = models.DateTimeField()
-    canceled_lessons_amount = models.IntegerField(default=0)
-    transferred_lessons_amount = models.IntegerField(default=0)
+    course = models.ForeignKey(Course, verbose_name="Курс", on_delete=models.CASCADE)
+    start_at = models.DateTimeField("Дата и время начала")
+    end_at = models.DateTimeField("Дата и время окончания")
+    canceled_lessons_amount = models.IntegerField(
+        "Количество отмененных занятий", default=0
+    )
+    transferred_lessons_amount = models.IntegerField(
+        "Количество перенесенных занятий", default=0
+    )
+
+    class Meta:
+        verbose_name = "Цикл курса"
+        verbose_name_plural = "Циклы курсов"
 
 
 class Review(PolymorphicModel, TimeStampedModel):
-    text = models.TextField()
+    text = models.TextField("Текст")
     star_rating = models.IntegerField(
-        validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5))
+        "Рейтинг",
+        validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5)),
     )
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(
+        User, verbose_name="Автор", null=True, on_delete=models.SET_NULL
+    )
 
     class Meta:
         verbose_name = "Отзыв"
@@ -149,7 +176,10 @@ class Review(PolymorphicModel, TimeStampedModel):
 
 class CourseReview(Review):
     base_course = models.ForeignKey(
-        BaseCourse, related_name="reviews", on_delete=models.CASCADE
+        BaseCourse,
+        related_name="reviews",
+        verbose_name="Отзыв о курсе",
+        on_delete=models.CASCADE,
     )
 
     class Meta:
@@ -164,33 +194,32 @@ class LessonStatuses(models.TextChoices):
 
 class Lesson(TimeStampedModel):
     course = models.ForeignKey(
-        Course, related_name="lessons_set", on_delete=models.CASCADE
+        Course,
+        related_name="lessons_set",
+        verbose_name="Курс",
+        on_delete=models.CASCADE,
     )
-    start_at = models.DateTimeField()
-    participants = models.ManyToManyField(User)
+    start_at = models.DateTimeField("Дата и время начала")
+    participants = models.ManyToManyField(User, verbose_name="Участники")
     status = models.CharField(
-        max_length=30, choices=LessonStatuses.choices, default=LessonStatuses.ACTIVE
+        "Статус",
+        max_length=30,
+        choices=LessonStatuses.choices,
+        default=LessonStatuses.ACTIVE,
     )
 
     class Meta:
-        verbose_name = "Урок"
-        verbose_name_plural = "Уроки"
+        verbose_name = "Занятие"
+        verbose_name_plural = "Занятия"
         ordering = ("id",)
-
-
-class Comment(PolymorphicModel):
-    text = models.TextField(max_length=512)
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = "Комментарий"
-        verbose_name_plural = "Комментарии"
 
 
 class CourseComment(Comment):
     base_course = models.ForeignKey(
-        BaseCourse, related_name="comments", on_delete=models.CASCADE
+        BaseCourse,
+        related_name="comments",
+        verbose_name="Базовый курс",
+        on_delete=models.CASCADE,
     )
 
     class Meta:
@@ -199,9 +228,9 @@ class CourseComment(Comment):
 
 
 class Ticket(TimeStampedModel):
-    course = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    amount = models.IntegerField()
+    course = models.ForeignKey(Course, verbose_name="Курс", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, verbose_name="Владелец", on_delete=models.DO_NOTHING)
+    amount = models.IntegerField("Количество посещений")
 
     class Meta:
         verbose_name = "Билет"
@@ -209,5 +238,9 @@ class Ticket(TimeStampedModel):
 
 
 class TicketTransaction(Transaction):
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    ticket_amount = models.IntegerField()
+    ticket = models.ForeignKey(Ticket, verbose_name="Билет", on_delete=models.CASCADE)
+    ticket_amount = models.IntegerField("Количество посещений")
+
+    class Meta:
+        verbose_name = "Транзакция билета"
+        verbose_name_plural = "Транзакции билетов"
