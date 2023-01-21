@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Box, Paper, Typography, Stack, Badge,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
@@ -42,23 +41,7 @@ const Settings = () => {
         </Stack>
 
         <KeyboardArrowRightIcon color="action" />
-      </Paper>
-      
-      <Paper
-        component={Link}
-        to="/teacher-form"
-        sx={{
-          p: '17px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          textDecoration: 'none',
-        }}
-      >
-        <Stack direction="row" spacing={2}>
-          <SchoolOutlinedIcon color="action" />
-          <Typography>Стать преподавателем</Typography>
-
+  
         <Stack alignItems="center" direction="row" spacing={2}>
           <Badge color="error" variant="dot">
             <NotificationsNoneIcon fontSize="medium" color="disabled" />
