@@ -22,7 +22,7 @@ class CourseReviewListHandler(Handler):
         return Response(
             Pagination(
                 resource=CourseReviewResource, data=reviews, request=self.request
-            )
+            ).paginate()
         )
 
 

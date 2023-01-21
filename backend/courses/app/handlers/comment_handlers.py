@@ -25,7 +25,7 @@ class CourseCommentListHandler(Handler):
         return Response(
             Pagination(
                 resource=CourseCommentResource, data=comments, request=self.request
-            )
+            ).paginate()
         )
 
 

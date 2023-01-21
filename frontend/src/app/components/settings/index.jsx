@@ -1,56 +1,43 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
-  Box, Paper, Typography, Stack, Badge,
+  Box, Paper, Typography, Stack,
 } from '@mui/material';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import avatarIcon from '../../../assets/public/avatarIcon.svg';
+import Header from '../header';
 
 const Settings = () => {
   const navigate = useNavigate();
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const Wpapper = ({ children, link = '#', text = '' }) => (
+    <Paper
+      onClick={() => {
+        navigate(link);
+      }}
+      sx={{
+        p: '17px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Stack direction="row" spacing={2}>
+        {children}
+
+        <Typography>{text}</Typography>
+      </Stack>
+      <KeyboardArrowRightIcon color="action" />
+    </Paper>
+  );
+
   return (
     <Box sx={{ width: '100%' }}>
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{
-          width: '100%', height: '64px', px: '29px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-        }}
-      >
-        <Stack direction="row" alignItems="center" spacing={2} color="text.secondary">
-
-          <ArrowBackIcon
-            fontSize="medium"
-            sx={{ color: '#616161' }}
-            onClick={() => {
-              navigate(-1);
-            }}
-          />
-
-          <Typography fontSize="20px" fontWeight="500">
-            Назад
-          </Typography>
-        </Stack>
-
-        <KeyboardArrowRightIcon color="action" />
-  
-        <Stack alignItems="center" direction="row" spacing={2}>
-          <Badge color="error" variant="dot">
-            <NotificationsNoneIcon fontSize="medium" color="disabled" />
-          </Badge>
-          <Link to="/profile">
-            <img src={avatarIcon} alt="profile icon" />
-          </Link>
-        </Stack>
-      </Box>
+      <Header title="Настройки" withBackBtn />
       <Stack
         direction="column"
         spacing={2}
@@ -60,67 +47,22 @@ const Settings = () => {
           maxWidth: '800px',
         }}
       >
-        <Paper
-          sx={{
-            p: '17px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Stack direction="row" spacing={2}>
-            <PersonOutlineOutlinedIcon color="action" />
-            <Typography>Личные данные</Typography>
-          </Stack>
-          <KeyboardArrowRightIcon color="action" />
-        </Paper>
-        
-        <Paper
-          sx={{
-            p: '17px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Stack direction="row" spacing={2}>
-            <CreditCardIcon color="action" />
-            <Typography>Платежи и карты</Typography>
-          </Stack>
-          <KeyboardArrowRightIcon color="action" />
-        </Paper>
-        
-        <Paper
-        component={Link}
-        to="/teacher-form"
-          sx={{
-            p: '17px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          textDecoration: 'none',
-          }}
-        >
-          <Stack direction="row" spacing={2}>
-            <SchoolOutlinedIcon color="action" />
-            <Typography>Стать преподавателем</Typography>
-          </Stack>
-          <KeyboardArrowRightIcon color="action" />
-        </Paper>
-        <Paper
-          sx={{
-            p: '17px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Stack direction="row" spacing={2}>
-            <HelpOutlineOutlinedIcon color="action" />
-            <Typography>Помощь</Typography>
-          </Stack>
-          <KeyboardArrowRightIcon color="action" />
-        </Paper>
+        <Wpapper link text="Личные данные">
+          <PersonOutlineOutlinedIcon color="action" />
+        </Wpapper>
+
+        <Wpapper link text="Платежи и карты">
+          <CreditCardIcon color="action" />
+        </Wpapper>
+
+        <Wpapper link="/teacher-form" text="Стать преподавателем">
+          <SchoolOutlinedIcon color="action" />
+        </Wpapper>
+
+        <Wpapper link text="Помощь">
+          <HelpOutlineOutlinedIcon color="action" />
+        </Wpapper>
+
       </Stack>
     </Box>
   );

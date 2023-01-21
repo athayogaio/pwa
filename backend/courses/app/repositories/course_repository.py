@@ -11,6 +11,7 @@ from django.db.models import (
     Avg,
     Subquery,
 )
+from django.utils.timezone import now
 from elasticsearch_dsl import Q as EQ
 from rest_framework.exceptions import NotFound
 
@@ -42,7 +43,9 @@ class CourseRepository(BaseRepository):
         return course
 
     def find_user_favorite_courses(self, user: User) -> QuerySet[Course]:
-        return user.favorite_courses.all()
+        return self.model.objects.filter(
+            base_course_id__in=user.favorite_courses.values("id")
+        )
 
     def add_user_favorite_course(self, user: User, course: Course) -> None:
         course.base_course.favorites.add(user)
@@ -144,6 +147,9 @@ class CourseRepository(BaseRepository):
             )
 
         return queryset
+
+    def find_ended_courses(self) -> QuerySet[Course]:
+        return self.model.objects.filter(deadline_datetime__lte=now())
 
 
 class BaseCourseRepository(BaseRepository):

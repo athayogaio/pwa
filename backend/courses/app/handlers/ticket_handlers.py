@@ -23,5 +23,7 @@ class TicketListHandler(Handler):
         )
 
         return Response(
-            Pagination(resource=TicketResource, data=data, request=self.request)
+            Pagination(
+                resource=TicketResource, data=data, request=self.request
+            ).paginate()
         )

@@ -3,6 +3,7 @@ from collections import OrderedDict
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -266,6 +267,15 @@ CELERY_BROKER_TRANSPORT_OPTIONS = {
     "queue_name_prefix": "atha-",
 }
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
+CELERY_BEAT_SCHEDULE = {
+    "end-courses-task": {
+        "task": "courses.tasks.end_courses_task",
+        "schedule": crontab(
+            hour="*/6",
+            minute=0,
+        ),
+    },
+}
 CELERY_TASK_DEFAULT_QUEUE = "default"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_RESULT_SERIALIZER = "json"

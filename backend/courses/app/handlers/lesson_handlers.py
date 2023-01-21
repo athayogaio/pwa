@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from core.app.framework.handlers import GenericHandler, Handler
 from core.app.framework.pagination import Pagination
 from core.app.framework.permissions import IsTeacher
-from core.app.framework.queryset import OrderedQueryset
+from core.app.framework.queryset import OrderedQuerySet
 from courses.app.http.requests.lesson_requests import LessonRescheduleRequest
 from courses.app.http.resources.course_resources import LessonResource
 from courses.app.repositories.lesson_repository import LessonRepository
@@ -82,7 +82,7 @@ class UserLessonsParticipateHandler(Handler):
 
     @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
-        lessons = OrderedQueryset(
+        lessons = OrderedQuerySet(
             queryset=self.repository.fetch_relations(
                 self.repository.find_user_participant(
                     user_id=request.user.id, skip_past=True
