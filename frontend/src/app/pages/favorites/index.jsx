@@ -9,11 +9,12 @@ import getFavoritesSlice from '../../core/slices/favorites/getFavorites';
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
-  const { favoritesLessons, errorMessage } = useSelector(state => state.lessons);
+  const { favoritesLessons, errorMessage } = useSelector(state => state.favorites);
+  console.log(favoritesLessons);
 
   useEffect(() => {
     dispatch(getFavoritesSlice());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box sx={{ width: '100%' }}>

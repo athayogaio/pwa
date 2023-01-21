@@ -22,9 +22,9 @@ const TeacherForm = () => {
     vk_link: '',
     telegram_link: '',
     certificate_photos: [],
-    passport_photo: '',
-    user_photo: '',
-    user_with_passport_photo: '',
+    passport_photo: null,
+    user_photo: null,
+    user_with_passport_photo: null,
   });
 
   const [photo, setPhoto] = useState([]);
@@ -43,8 +43,6 @@ const TeacherForm = () => {
 
   const postAnswers = answersArr => {
     const dateOfBirth = answersArr.date_of_birth;
-    photo.map(el => console.log(el));
-    console.log(photo);
     dispatch(postQuestionnaireSlice({
       ...answersArr,
       certificate_photos: photo,
@@ -56,7 +54,7 @@ const TeacherForm = () => {
     setAnswers({ ...answers, date_of_birth: newValue });
   };
 
-  const isEmpty = () => Object.values(answers).includes('') || Object.values(answers).includes(null);
+  const isEmpty = () => Object.values(answers).includes('') || Object.values(answers).includes(null) || !photo.length;
 
   return (
     <Box sx={{ maxWidth: '732px' }}>

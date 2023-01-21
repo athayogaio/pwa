@@ -30,7 +30,14 @@ const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setIsAddFile(false);
       setFileName(e.dataTransfer.files[0].name);
-      console.log(e.dataTransfer.files);
+      if (loaderName === 'certificate_photos') {
+        updateCertificate(e.dataTransfer.files[0], loaderName);
+      } else {
+        updatePhoto(e.dataTransfer.files[0], loaderName);
+      }
+      for (let i = 0; i < e.dataTransfer.files.length; i++) {
+        setFile([...file, e.dataTransfer.files[i]]);
+      }
     }
   };
 
@@ -39,7 +46,6 @@ const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
     if (e.target.files && e.target.files[0]) {
       setIsAddFile(false);
       setFileName(e.target.files[0].name);
-      // setFile(e.target.files);
       if (loaderName === 'certificate_photos') {
         updateCertificate(e.target.files[0], loaderName);
       } else {

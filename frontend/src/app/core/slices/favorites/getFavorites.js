@@ -10,7 +10,7 @@ const getFavoritesSlice = createAsyncThunk(
       return result.data;
     } catch (error) {
       const message = error.response.data;
-
+      console.log(message);
       return thunkAPI.rejectWithValue(message);
     }
   },
