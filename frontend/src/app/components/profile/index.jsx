@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
-import {Avatar, Badge, Button, Grid, Stack,} from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Avatar, Button,
+} from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import {Link} from 'react-router-dom';
 import background from '../../../assets/public/profile_background.jpg';
 import avatar from '../../../assets/public/profile_avatar.jpg';
-import Header from '../../components/header';
+import Header from '../header';
 
 import './index.scoped.scss';
 
