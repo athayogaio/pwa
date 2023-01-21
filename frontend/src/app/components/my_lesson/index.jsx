@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Typography, Grid, Card, Divider,
-} from '@mui/material';
+import {Link} from 'react-router-dom';
+import {Card, Divider, Grid, Typography,} from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';

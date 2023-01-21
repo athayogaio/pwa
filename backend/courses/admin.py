@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.db import models
 from django.contrib import admin
+from django.db import models
 from django_json_widget.widgets import JSONEditorWidget
 
 from .models import (
@@ -34,7 +34,7 @@ class BaseCourseAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     date_hierarchy = "created_at"
     formfield_overrides = {
-        models.JSONField: {'widget': JSONEditorWidget},
+        models.JSONField: {"widget": JSONEditorWidget},
     }
 
 

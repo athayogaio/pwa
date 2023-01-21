@@ -7,7 +7,6 @@ from articles.app.handlers.article_handlers import (
     ArticleListBySearchQueryHandler,
 )
 
-
 urlpatterns = [
     path("", ArticleListHandler.as_view(), name="index"),
     path("article/<slug:article_slug>", ArticleDetailHandler.as_view(), name="article"),

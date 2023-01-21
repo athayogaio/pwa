@@ -15,13 +15,14 @@ from courses.app.handlers.course_handlers import (
     CourseTicketBuyHandler,
     CourseTicketUseHandler,
     CourseRetrieveHandler,
-    LessonRetrieveHandler,
-    LessonListHandler,
     SuccessTicketPaymentHandler,
 )
 from courses.app.handlers.lesson_handlers import (
     LessonRescheduleHandler,
     LessonCancelHandler,
+    LessonRetrieveHandler,
+    LessonListHandler,
+    UserLessonsParticipateHandler,
 )
 from courses.app.handlers.review_handlers import (
     CourseReviewListHandler,
@@ -35,8 +36,13 @@ urlpatterns = [
     path("<int:pk>/", CourseRetrieveHandler.as_view(), name="course_retrieve"),
     path("<int:pk>/update/", BaseCourseUpdateHandler.as_view(), name="course_update"),
     path("filter/", CourseFilterHandler.as_view(), name="courses_filter"),
-    path("lessons/<int:pk>/", LessonRetrieveHandler.as_view(), name="lesson_retrieve"),
-    path("<int:pk>/lessons/", LessonListHandler.as_view(), name="lesson_list"),
+    path(
+        "lessons/<int:lesson_id>/",
+        LessonRetrieveHandler.as_view(),
+        name="lesson_retrieve",
+    ),
+    path("<int:course_pk>/lessons/", LessonListHandler.as_view(), name="lesson_list"),
+    path("im/lessons/", UserLessonsParticipateHandler.as_view(), name="im_lesson_list"),
     path(
         "favorites/", FavoriteCourseListHandler.as_view(), name="favorite_course_list"
     ),

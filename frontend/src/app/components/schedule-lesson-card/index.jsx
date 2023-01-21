@@ -1,11 +1,9 @@
 /* eslint-disable linebreak-style */
 import React from 'react';
-import {
-  Typography, Box, Grid, Divider, Stack, Badge,
-} from '@mui/material';
+import {Badge, Box, Divider, Grid, Stack, Typography,} from '@mui/material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import Header from '../header';
