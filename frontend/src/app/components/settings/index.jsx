@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Box, Paper, Typography, Stack, Badge,
 } from '@mui/material';
@@ -12,68 +13,37 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import avatarIcon from '../../../assets/public/avatarIcon.svg';
 
-const Settings = () => (
+const Settings = () => {
+  const navigate = useNavigate();
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Box
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{
+          width: '100%', height: '64px', px: '29px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
+        }}
+      >
+        <Stack direction="row" alignItems="center" spacing={2} color="text.secondary">
 
-  <Box sx={{ width: '100%' }}>
-    <Box
-      display="flex"
-      flexDirection="row"
-      alignItems="center"
-      justifyContent="space-between"
-      sx={{
-        width: '100%', height: '64px', px: '29px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-      }}
-    >
-      <Stack direction="row" alignItems="center" spacing={2} color="text.secondary">
-        <ArrowBackIcon fontSize="medium" />
-        <Typography fontSize="24px" fontWeight="500">
-          Назад
-        </Typography>
-      </Stack>
-      <Stack alignItems="center" direction="row" spacing={2}>
-        <Badge color="error" variant="dot">
-          <NotificationsNoneIcon fontSize="medium" color="disabled" />
-        </Badge>
-        <img src={avatarIcon} alt="profile icon" />
-      </Stack>
-    </Box>
-    <Stack
-      direction="column"
-      spacing={2}
-      sx={{
-        margin: '32px auto',
-        width: '100%',
-        maxWidth: '800px',
-      }}
-    >
-      <Paper
-        sx={{
-          p: '17px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Stack direction="row" spacing={2}>
-          <PersonOutlineOutlinedIcon color="action" />
-          <Typography>Личные данные</Typography>
+          <ArrowBackIcon
+            fontSize="medium"
+            sx={{ color: '#616161' }}
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+
+          <Typography fontSize="20px" fontWeight="500">
+            Назад
+          </Typography>
         </Stack>
+
         <KeyboardArrowRightIcon color="action" />
       </Paper>
-      <Paper
-        sx={{
-          p: '17px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Stack direction="row" spacing={2}>
-          <CreditCardIcon color="action" />
-          <Typography>Платежи и карты</Typography>
-        </Stack>
-        <KeyboardArrowRightIcon color="action" />
-      </Paper>
+      
       <Paper
         component={Link}
         to="/teacher-form"
@@ -88,25 +58,89 @@ const Settings = () => (
         <Stack direction="row" spacing={2}>
           <SchoolOutlinedIcon color="action" />
           <Typography>Стать преподавателем</Typography>
+
+        <Stack alignItems="center" direction="row" spacing={2}>
+          <Badge color="error" variant="dot">
+            <NotificationsNoneIcon fontSize="medium" color="disabled" />
+          </Badge>
+          <Link to="/profile">
+            <img src={avatarIcon} alt="profile icon" />
+          </Link>
         </Stack>
-        <KeyboardArrowRightIcon color="action" />
-      </Paper>
-      <Paper
+      </Box>
+      <Stack
+        direction="column"
+        spacing={2}
         sx={{
-          p: '17px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          margin: '32px auto',
+          width: '100%',
+          maxWidth: '800px',
         }}
       >
-        <Stack direction="row" spacing={2}>
-          <HelpOutlineOutlinedIcon color="action" />
-          <Typography>Помощь</Typography>
-        </Stack>
-        <KeyboardArrowRightIcon color="action" />
-      </Paper>
-    </Stack>
-  </Box>
-);
+        <Paper
+          sx={{
+            p: '17px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Stack direction="row" spacing={2}>
+            <PersonOutlineOutlinedIcon color="action" />
+            <Typography>Личные данные</Typography>
+          </Stack>
+          <KeyboardArrowRightIcon color="action" />
+        </Paper>
+        
+        <Paper
+          sx={{
+            p: '17px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Stack direction="row" spacing={2}>
+            <CreditCardIcon color="action" />
+            <Typography>Платежи и карты</Typography>
+          </Stack>
+          <KeyboardArrowRightIcon color="action" />
+        </Paper>
+        
+        <Paper
+        component={Link}
+        to="/teacher-form"
+          sx={{
+            p: '17px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          textDecoration: 'none',
+          }}
+        >
+          <Stack direction="row" spacing={2}>
+            <SchoolOutlinedIcon color="action" />
+            <Typography>Стать преподавателем</Typography>
+          </Stack>
+          <KeyboardArrowRightIcon color="action" />
+        </Paper>
+        <Paper
+          sx={{
+            p: '17px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Stack direction="row" spacing={2}>
+            <HelpOutlineOutlinedIcon color="action" />
+            <Typography>Помощь</Typography>
+          </Stack>
+          <KeyboardArrowRightIcon color="action" />
+        </Paper>
+      </Stack>
+    </Box>
+  );
+};
 
 export default Settings;

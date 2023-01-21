@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import {TimePicker} from '@mui/x-date-pickers/TimePicker';
 import {
-  Grid,
-  Typography,
-  TextField,
-  MenuItem,
-  Select,
-  Radio,
-  Button,
-  InputLabel,
-  FormControl,
-  FormControlLabel,
-  RadioGroup,
-  Box,
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    Select,
+    TextField,
+    Typography,
 } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';

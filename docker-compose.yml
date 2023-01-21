@@ -20,6 +20,18 @@ services:
     ports:
       - "${FRONTEND_PORT}:8080"
 
+  cypress:
+    build: frontend/tests/
+    container_name: "cypress-${CONTAINER_SUFFIX}"
+    environment:
+      - "CYPRESS_baseUrl=http://frontend-${CONTAINER_SUFFIX}:8080"
+      - "BRANCH_NAME=${CONTAINER_SUFFIX}"
+    volumes:
+      - ./frontend/tests/cypress/reports/:/e2e/cypress/reports/
+      - ./frontend/tests/cypress/videos/:/e2e/cypress/videos/
+    depends_on:
+      - frontend
+
   db:
     image: postgres:14
     container_name: "db-${CONTAINER_SUFFIX}"
@@ -49,6 +61,7 @@ services:
       - "${ELASTIC_PORT}:9200"
     volumes:
       - .devops/build/hunspell:/usr/share/elasticsearch/config/hunspell
+      - ./elasticsearch:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
       - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
@@ -71,3 +84,31 @@ services:
       - "${REDIS_PORT}:6379"
     volumes:
       - ./redis:/data
+
+  rabbitmq:
+    image: rabbitmq:3.11.7-management
+    container_name: "rabbitmq-${CONTAINER_SUFFIX}"
+    env_file:
+      - "${ENV_FILE}"
+    ports:
+      - ${RABBITMQ_PORT}:5672
+      - ${RABBITMQ_MANAGEMENT_PORT}:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    volumes:
+      - ./rabbitmq/:/var/lib/rabbitmq
+
+  flower:
+    image: mher/flower:1.2
+    container_name: "flower-${CONTAINER_SUFFIX}"
+    command: "celery flower --broker_api=http://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@\
+              ${RABBITMQ_HOST}:${RABBITMQ_MANAGEMENT_PORT}/api/"
+    env_file:
+      - "${ENV_FILE}"
+    ports:
+      - "${FLOWER_PORT}:5555"
+    environment:
+      - "CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@\
+         rabbitmq-${CONTAINER_SUFFIX}:${RABBITMQ_PORT}//"
+      - "FLOWER_BASIC_AUTH=${FLOWER_BASIC_AUTH}"

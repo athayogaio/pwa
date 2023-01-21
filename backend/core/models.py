@@ -9,8 +9,12 @@ from polymorphic.models import PolymorphicModel
 
 class TimeStampedModel(models.Model):
     id = models.BigAutoField(primary_key=True)
-    created_at = models.DateTimeField(auto_now_add=True, db_index=False)
-    updated_at = models.DateTimeField(auto_now=True, db_index=False)
+    created_at = models.DateTimeField(
+        "Дата и время создания", auto_now_add=True, db_index=False
+    )
+    updated_at = models.DateTimeField(
+        "Дата и время изменения", auto_now=True, db_index=False
+    )
 
     class Meta(object):
         abstract = True
@@ -18,9 +22,17 @@ class TimeStampedModel(models.Model):
 
 
 class Attachment(PolymorphicModel):
-    image = models.ImageField()
-    created_at = models.DateTimeField(auto_now_add=True, db_index=False)
-    updated_at = models.DateTimeField(auto_now=True, db_index=False)
+    image = models.ImageField("Изображение")
+    created_at = models.DateTimeField(
+        "Дата и время создания", auto_now_add=True, db_index=False
+    )
+    updated_at = models.DateTimeField(
+        "Дата и время изменения", auto_now=True, db_index=False
+    )
+
+    class Meta:
+        verbose_name = "Вложение"
+        verbose_name_plural = "Вложения"
 
 
 class UserRoles(models.TextChoices):
@@ -75,12 +87,24 @@ class Transaction(PolymorphicModel):
     id = models.UUIDField(
         primary_key=True, unique=True, default=uuid.uuid4, editable=False
     )
-    amount = models.PositiveIntegerField()
-    payment_id = models.CharField(max_length=40, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=50, choices=TransactionStatuses.choices)
-    created_at = models.DateTimeField(auto_now_add=True, db_index=False)
-    updated_at = models.DateTimeField(auto_now=True, db_index=False)
+    amount = models.PositiveIntegerField("Количество")
+    payment_id = models.CharField("Идентификатор платежа", max_length=40, null=True)
+    user = models.ForeignKey(
+        User, verbose_name="Пользователь", on_delete=models.CASCADE
+    )
+    status = models.CharField(
+        "Статус", max_length=50, choices=TransactionStatuses.choices
+    )
+    created_at = models.DateTimeField(
+        "Дата и время создания", auto_now_add=True, db_index=False
+    )
+    updated_at = models.DateTimeField(
+        "Дата и время обновления", auto_now=True, db_index=False
+    )
+
+    class Meta:
+        verbose_name = "Транзакция"
+        verbose_name_plural = "Транзакции"
 
 
 class GenderTypes(models.TextChoices):
@@ -96,31 +120,47 @@ class QuestionnaireTeacherStatuses(models.TextChoices):
 
 class QuestionnaireTeacher(TimeStampedModel):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="teacher_profiles"
+        User,
+        related_name="teacher_profiles",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
     )
-    name = models.CharField(_("name"), max_length=30)
-    surname = models.CharField(_("surname"), max_length=50)
-    date_of_birth = models.DateField(_("date of birth"))
+    name = models.CharField("Имя", max_length=30)
+    surname = models.CharField("Фамилия", max_length=50)
+    date_of_birth = models.DateField("Дата рождения")
     gender = models.CharField(
-        _("gender"), max_length=10, choices=GenderTypes.choices, null=True
+        "Пол", max_length=10, choices=GenderTypes.choices, null=True
     )
-    about_me = models.CharField(_("about my self"), max_length=3000)
-    work_experience = models.CharField(_("work_experience"), max_length=1000)
-    vk_link = models.URLField(_("vk link"), max_length=200, blank=True)
-    telegram_link = models.URLField(_("telegram link"), max_length=200, blank=True)
+    about_me = models.CharField("О себе", max_length=3000)
+    work_experience = models.CharField("Опыт работы", max_length=1000)
+    vk_link = models.URLField("Ссылка на VK", max_length=200, blank=True)
+    telegram_link = models.URLField("Ссылка на TG", max_length=200, blank=True)
     status = models.CharField(
+        "Статус",
         max_length=30,
         choices=QuestionnaireTeacherStatuses.choices,
         default=QuestionnaireTeacherStatuses.MODERATION,
     )
-    certificate_photos = models.ManyToManyField(Attachment, blank=True)
-    user_photo = models.ImageField()
-    passport_photo = models.ImageField()
-    user_with_passport_photo = models.ImageField()
+    certificate_photos = models.ManyToManyField(
+        Attachment, verbose_name="Фото сертификатов", blank=True
+    )
+    user_photo = models.ImageField("Фото пользователя")
+    passport_photo = models.ImageField("Фото паспорта")
+    user_with_passport_photo = models.ImageField("Фото пользователя с паспортом")
 
     def setup_certificate_photos(self, photos: List[Attachment]) -> None:
         self.certificate_photos.set(photos)
 
     class Meta:
         verbose_name = "Анкета преподавателя"
-        verbose_name_plural = "Анкета преподавателя"
+        verbose_name_plural = "Анкеты преподавателей"
+
+
+class Comment(PolymorphicModel):
+    text = models.TextField(max_length=512)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"

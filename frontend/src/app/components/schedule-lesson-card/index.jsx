@@ -1,28 +1,22 @@
 /* eslint-disable linebreak-style */
 import React from 'react';
-import {
-  Typography, Box, Grid, Divider,
-} from '@mui/material';
+import {Badge, Box, Divider, Grid, Stack, Typography,} from '@mui/material';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import {Link} from 'react-router-dom';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import Header from '../header';
 
 const ScheduleLessonCard = () => (
   <Box
     sx={{
-      marginTop: 6,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     }}
   >
-    <Typography
-      color="primary"
-      sx={{
-        fontSize: '18px', fontWeight: '500', p: '16px',
-      }}
-    >
-      Мои занятия
-    </Typography>
+    <Header title="Календарь" />
     <Box width="800px" m="16px" sx={{ border: '1px solid #E0E0E0', borderRadius: '8px' }}>
       <Grid container alignItems="center" justifyContent="center">
         <Grid item>

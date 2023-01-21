@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.db import models
+from django_json_widget.widgets import JSONEditorWidget
 
-from .models import Attachment, User, Transaction, QuestionnaireTeacher
+from .models import Attachment, User, Transaction, QuestionnaireTeacher, Comment
 
 
 @admin.register(Attachment)
@@ -46,6 +48,9 @@ class UserAdmin(admin.ModelAdmin):
         "date_joined",
     )
     raw_id_fields = ("groups", "user_permissions")
+    formfield_overrides = {
+        models.JSONField: {"widget": JSONEditorWidget},
+    }
 
 
 @admin.register(Transaction)
@@ -87,4 +92,11 @@ class QuestionnaireTeacherAdmin(admin.ModelAdmin):
     list_filter = ("created_at", "updated_at", "date_of_birth")
     raw_id_fields = ("certificate_photos",)
     search_fields = ("name",)
+    date_hierarchy = "created_at"
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("id", "polymorphic_ctype", "text", "user", "created_at")
+    list_filter = ("created_at",)
     date_hierarchy = "created_at"

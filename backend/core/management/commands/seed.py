@@ -42,6 +42,7 @@ class Command(BaseCommand):
         user.username = user.email = "test@user.ru"
         user.set_password(settings.DEFAULT_SUPERUSER_PASSWORD)
         user.is_staff = user.is_superuser = True
+        user.roles = ["TEACHER"]
         user.save()
 
     def _seed_users(self, count: int = DEFAULT_USERS_COUNT) -> None:
