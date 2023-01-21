@@ -7,24 +7,27 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LessonCard = ({
-  title, description, price, level, id,
+  title, description, price, level, id, isFavorite, isParticipant, comments, rate, votes,
 }) => {
   const levels = {
     STARTING: 'Начинающий',
-    MEDIUM: 'Средний',
+    CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
   };
 
+  const navigate = useNavigate();
+
   return (
     <Box
-      component={Link}
-      to={`/lesson-details/${id}`}
-      width="100%"
-      sx={{ borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%' }}
+      onClick={() => navigate(`/lesson-details/${id}`)}
+      sx={{
+        borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%', cursor: 'pointer',
+      }}
     >
       <Grid container alignItems="flex-start" justifyContent="center" height="100%">
         <Grid item xs container direction="column" sx={{ p: '24px' }}>
@@ -33,8 +36,9 @@ const LessonCard = ({
               {title}
             </Typography>
             <Stack direction="row" spacing={2}>
-              <Chip color="success" size="small" label="Вы участник" />
-              <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} />
+              {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
+              {isFavorite ? <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} /> : <FavoriteBorderOutlinedIcon fontSize="medium" color="disabled" />}
+
             </Stack>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
@@ -57,10 +61,13 @@ const LessonCard = ({
             }}
             />
             <Typography variant="body1" sx={{ fontWeight: '500', mr: '3px' }}>
-              4.8
+              {rate}
             </Typography>
             <Typography variant="body1" color="text.disabled" sx={{ mr: '17px' }}>
-              (505 оценок)
+              (
+              {votes}
+              {' '}
+              оценок)
             </Typography>
             <ModeCommentOutlinedIcon
               color="text.secondary"
@@ -69,7 +76,7 @@ const LessonCard = ({
               }}
             />
             <Typography variant="body1" sx={{ fontWeight: '500' }}>
-              505
+              {comments}
             </Typography>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>

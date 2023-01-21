@@ -66,10 +66,16 @@ const SearchLessonsPage = () => {
             <LessonCard
               key={lesson.id}
               id={lesson.id}
-              title={lesson.name}
-              description={lesson.description}
+              title={lesson.base_course.name}
+              description={lesson.base_course.description}
               price={lesson.price}
-              level={lesson.level}
+              level={lesson.base_course.level}
+              isFavorite={lesson.favorite}
+              isParticipant={lesson.participant}
+              comments={lesson.comments_count}
+              rate={lesson.rate}
+              votes={lesson.votes_count}
+
             />
           ))}
         </Box>
