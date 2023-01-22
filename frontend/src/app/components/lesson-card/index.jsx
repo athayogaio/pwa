@@ -21,7 +21,7 @@ const LessonCard = ({
     MEDIUM: 'Средний',
     ADVANCED: 'Продвинутый',
   };
-  console.log(favorite);
+  console.log(id);
 
   const dispatch = useDispatch();
 
