@@ -18,7 +18,6 @@ from courses.app.http.requests.course_requests import (
     BaseCourseUpdateRequest,
     FavoriteCourseAddRemoveRequest,
     CourseTicketBuyRequest,
-    CourseTicketUseRequest,
 )
 from courses.app.http.resources.context import BaseCourseResourceContext
 from courses.app.http.resources.course_resources import (
@@ -29,7 +28,7 @@ from courses.app.repositories.course_repository import CourseRepository
 from courses.app.repositories.transaction_repository import TicketTransactionRepository
 from courses.app.services.course_service import (
     BaseCourseUpdator,
-    CourseParticipateService,
+    CourseEnroll,
 )
 from courses.app.services.course_service import (
     CourseCreator,
@@ -162,7 +161,10 @@ class FavoriteCourseRemoveHandler(GenericHandler):
 class FavoriteCourseListHandler(Handler):
     @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, *args: Any, **kwargs: Any) -> Response:
-        courses = CourseRepository().find_user_favorite_courses(user=self.request.user)
+        repository = CourseRepository(user=self.request.user)
+        courses = repository.fetch_relations(
+            queryset=repository.find_user_favorite_courses(user=self.request.user)
+        )
         return Response(
             Pagination(
                 data=courses,
@@ -200,15 +202,10 @@ class SuccessTicketPaymentHandler(Handler):
 
 
 @permission_classes([IsAuthenticated])
-class CourseTicketUseHandler(GenericHandler):
-    serializer_class = CourseTicketUseRequest
-
-    def put(self, request: Request, *args: Any, **kwargs: Any) -> Response:
-        data = self.serializer_class(data=request.data)
-        data.is_valid(raise_exception=True)
-
-        link = CourseParticipateService(
-            lesson_id=data.validated_data["lesson_id"], user=self.request.user
-        ).participate()
-
-        return Response({"data": {"course_link": link}})
+class CourseEnrollHandler(Handler):
+    def post(self, request: Request, pk: int, *args: Any, **kwargs: Any) -> Response:
+        CourseEnroll(
+            user=self.request.user,
+            course=CourseRepository().find_by_id(id_=pk, raise_exception=True),
+        ).enroll()
+        return Response({"data": "Success"})

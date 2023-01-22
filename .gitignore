@@ -23,5 +23,5 @@ frontend/tests/cypress/screenshots
 frontend/tests/cypress/videos
 frontend/tests/node_modules
 backend/core/logs/
-
+cache/
 */celerybeat*

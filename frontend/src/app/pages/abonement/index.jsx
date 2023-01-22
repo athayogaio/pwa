@@ -1,24 +1,17 @@
 import React, { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Typography, Stack, Badge,
+  Box, Button, Typography, Avatar, Chip, Divider, Stack, Badge,
 } from '@mui/material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link, useParams } from 'react-router-dom';
-import LessonDescription from '../../components/lesson-description';
+import Abonement from '../../components/abonement';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
 
-const LessonDetailsPage = () => {
-  const levels = {
-    STARTING: 'Начинающий',
-    CONTINUER: 'Средний',
-    ADVANCED: 'Продвинутый',
-  };
-
+const AbonementPage = () => {
   const { id } = useParams();
-
   const dispatch = useDispatch();
   const { lesson, errorMessage } = useSelector(state => state.lesson);
 
@@ -67,26 +60,31 @@ const LessonDetailsPage = () => {
         )}
         {lesson && console.log(lesson.data.base_course.level)}
         {lesson && (
-        <LessonDescription
+        <Abonement
           id={lesson.data.id}
           title={lesson.data.base_course.name}
-          description={lesson.data.base_course.description}
           price={lesson.data.price}
-          favorite={lesson.data.favorite}
-          comments={lesson.data.comments_count}
-          rate={lesson.data.rate}
-          votes={lesson.data.votes_count}
-          isVideo={lesson.data.base_course.course_type === 'VIDEO'}
-          isRegular={lesson.data.lessons.length > 1}
           startDate={lesson.data.lessons.start_datetime}
           duration={lesson.data.base_course.duration}
-          isPaid={lesson.data.payment === 'PAYMENT'}
-          level={(lesson.data.base_course.level).split().map(lvl => levels[lvl])} // убрать split
         />
         )}
+
+        <Box display="flex" justifyContent="flex-end">
+          <Button
+            component={Link}
+            to="/"
+            variant="contained"
+            sx={{
+              fontSize: '16px', fontWeight: '500', width: '227px', mb: '20px', mt: '56px',
+            }}
+          >
+            Оплатить
+          </Button>
+        </Box>
       </Box>
     </>
+
   );
 };
 
-export default LessonDetailsPage;
+export default AbonementPage;

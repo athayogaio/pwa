@@ -30,7 +30,14 @@ const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setIsAddFile(false);
       setFileName(e.dataTransfer.files[0].name);
-      console.log(e.dataTransfer.files);
+      if (loaderName === 'certificate_photos') {
+        updateCertificate(e.dataTransfer.files[0], loaderName);
+      } else {
+        updatePhoto(e.dataTransfer.files[0], loaderName);
+      }
+      for (let i = 0; i < e.dataTransfer.files.length; i++) {
+        setFile([...file, e.dataTransfer.files[i]]);
+      }
     }
   };
 
@@ -39,7 +46,6 @@ const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
     if (e.target.files && e.target.files[0]) {
       setIsAddFile(false);
       setFileName(e.target.files[0].name);
-      // setFile(e.target.files);
       if (loaderName === 'certificate_photos') {
         updateCertificate(e.target.files[0], loaderName);
       } else {
@@ -57,8 +63,8 @@ const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
     <form className="form-file-upload" onDragEnter={handleDrag} onSubmit={e => e.preventDefault()}>
       <input id={loaderName} className="input-file-upload" ref={inputRef} type="file" multiple onChange={handleChange} accept="image/jpeg, image/jpg, image/png" />
       <label className={`label-file-upload ${styleDragActive} `} htmlFor={loaderName}>
-        <Box width="373px" display="flex" flexDirection="row" gap="12px">
-          <img src={uploadDocument} alt="upload-document" />
+        <Box width="50%" display="flex" flexDirection="row" gap="12px" py="9px">
+          <img className="image-file-upload" src={uploadDocument} alt="upload-document" />
           {isAddFile
             ? (
               <Box display="flex" flexDirection="column" alignItems="center">

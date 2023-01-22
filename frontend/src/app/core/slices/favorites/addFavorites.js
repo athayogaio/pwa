@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import FavoritesService from '../../../services/favorites';
 
-const getFavoritesSlice = createAsyncThunk(
-  'courses/favorites',
-  async thunkAPI => {
+const addFavoritesSlice = createAsyncThunk(
+  'courses/favorites/add',
+  async (id, thunkAPI) => {
     try {
-      const result = await FavoritesService.getFavorites();
+      const result = await FavoritesService.addFavorites(id);
 
       return result.data;
     } catch (error) {
@@ -16,4 +16,4 @@ const getFavoritesSlice = createAsyncThunk(
   },
 );
 
-export default getFavoritesSlice;
+export default addFavoritesSlice;

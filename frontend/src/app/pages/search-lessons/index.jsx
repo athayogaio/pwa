@@ -8,7 +8,10 @@ import filterSlice from '../../core/slices/lessons/filter';
 import useDebounce from '../../utils/hooks/useDebounce';
 import LessonCard from '../../components/lesson-card';
 import Header from '../../components/header';
+<<<<<<< HEAD
 // import MyLesson from '../../components/my_lesson';
+=======
+>>>>>>> ca066a9fa7b45197cdd54f58e79585a1c0eea196
 
 const SearchLessonsPage = () => {
   const dispatch = useDispatch();
@@ -67,10 +70,15 @@ const SearchLessonsPage = () => {
             <LessonCard
               key={lesson.id}
               id={lesson.id}
-              title={lesson.name}
-              description={lesson.description}
+              title={lesson.base_course.name}
+              description={lesson.base_course.description}
               price={lesson.price}
-              level={lesson.level}
+              level={lesson.base_course.level}
+              favorite={lesson.favorite}
+              isParticipant={lesson.participant}
+              comments={lesson.comments_count}
+              rate={lesson.rate}
+              votes={lesson.votes_count}
             />
           ))}
         </Box>

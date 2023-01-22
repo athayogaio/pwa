@@ -5,6 +5,7 @@ import lessons from '../slices/lessons';
 import tickets from '../slices/tickets';
 import lesson from '../slices/lesson';
 import questionnaire from '../slices/questionnaire';
+import favorites from '../slices/favorites';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     tickets,
     lesson,
     questionnaire,
+    favorites,
   },
 });
 

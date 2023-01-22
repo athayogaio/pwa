@@ -3,7 +3,7 @@ import logging
 from core.app.framework.queryset import ChunkedQuerySet
 from courses.app.repositories.course_repository import CourseRepository
 from courses.app.services.course_service import CourseComplete, CourseCompletionError
-from server.celery import celery_app
+from server.celery_app import celery_app
 
 logger = logging.getLogger("default_log")
 

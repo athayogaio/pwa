@@ -201,6 +201,12 @@ class Lesson(TimeStampedModel):
     )
     start_at = models.DateTimeField("Дата и время начала")
     participants = models.ManyToManyField(User, verbose_name="Участники")
+    enrolled_users = models.ManyToManyField(
+        User,
+        related_name="enrolled_users_set",
+        verbose_name="Зарегистрированные пользователи",
+        through="LessonEnrolledUser",
+    )
     status = models.CharField(
         "Статус",
         max_length=30,
@@ -212,6 +218,17 @@ class Lesson(TimeStampedModel):
         verbose_name = "Занятие"
         verbose_name_plural = "Занятия"
         ordering = ("id",)
+
+
+class LessonEnrolledUser(TimeStampedModel):
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Расписание курса пользователя"
+        verbose_name_plural = "Расписания курсов пользователя"
+        unique_together = [("lesson", "user")]
 
 
 class CourseComment(Comment):
