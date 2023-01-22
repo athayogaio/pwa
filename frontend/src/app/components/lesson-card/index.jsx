@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, Box, Grid } from '@mui/material';
 import Chip from '@mui/material/Chip';
@@ -11,21 +11,29 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
+import getFavoritesSlice from '../../core/slices/favorites/getFavorites';
 import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
 
 const LessonCard = ({
   id, title, description, price, level, favorite,
 }) => {
+  const dispatch = useDispatch();
   const levels = {
     STARTING: 'Начинающий',
     MEDIUM: 'Средний',
     ADVANCED: 'Продвинутый',
   };
 
-  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getFavoritesSlice());
+  // }, [dispatch]);
 
   const setFavorite = () => {
-    dispatch(favorite ? removeFavoritesSlice(id) : addFavoritesSlice(id));
+    if (favorite) {
+      dispatch(removeFavoritesSlice(id));
+    } else {
+      dispatch(addFavoritesSlice(id));
+    }
   };
 
   return (
