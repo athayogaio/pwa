@@ -57,6 +57,7 @@ const LessonDetailsPage = () => {
         margin="0 auto"
         justifyContent="center"
         flexDirection="column"
+        maxWidth="982px"
       >
         {errorMessage && (
         <Typography color="error.main">

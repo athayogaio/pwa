@@ -25,38 +25,45 @@ const LessonDescription = ({
       {!isRegular && !isVideo && <Chip color="success" variant="outlined" size="small" label="Разовое занятие" />}
     </Box>
 
-    <Box display="flex" alignItems="start" gap="16px">
-      <Typography width="827px" variant="h4" fontSize="24px">
+    <Box display="flex" alignItems="center" justifyContent="space-between" mb="20px">
+      <Typography variant="h4" fontSize="24px">
         {title}
       </Typography>
-      {favorite ? <FavoriteIcon fontSize="medium" color="primary" /> : <FavoriteBorderOutlinedIcon fontSize="medium" color="disabled" />}
-      <ShareOutlinedIcon color="disabled" />
-      <MoreHorizOutlinedIcon color="disabled" />
+      <Stack spacing={2} direction="row">
+        {favorite ? <FavoriteIcon fontSize="medium" color="primary" /> : <FavoriteBorderOutlinedIcon fontSize="medium" color="disabled" />}
+        <ShareOutlinedIcon color="disabled" />
+        <MoreHorizOutlinedIcon color="disabled" />
+      </Stack>
     </Box>
-    <Typography display="flex" alignItems="center" fontSize="14px" color="text.secondary" mb="32px">
+    <Typography display="flex" alignItems="center" fontSize="16px" color="text.secondary" mb="32px">
       {level.join(' • ')}
     </Typography>
 
     <Box width="982px" maxHeight="176px" display="flex" flexDirection="column" mb="32px">
-      <Typography fontSize="16px" noWrap={false}>
+      <Typography fontSize="16px" noWrap="false">
         {description}
+        {' '}
+        {description.length > 600 && (
+
+          <Typography component={Link} fontSize="16px" color="primary" sx={{ textDecoration: 'none' }}>
+            Показать еще
+          </Typography>
+        )}
       </Typography>
-      <Typography component={Link} fontSize="16px" color="primary" sx={{ textDecoration: 'none' }}>
-        Показать еще
-      </Typography>
+
     </Box>
     <Divider flexItem />
-    <Box display="flex" flexDirection="column" gap="8px" mb="32px" mt="32px">
-      <Typography>
+    <Box display="flex" flexDirection="column" gap="12px" mb="32px" mt="32px">
+      <Typography fontSize="16px" fontWeight="500">
         Дата занятия
       </Typography>
-      <Stack direction="row" spacing={1}>
+      <Stack direction="row" spacing={1} alignItems="center">
         <AccessTimeIcon color="primary" />
-        <Typography>12.03.23</Typography>
+        <Typography fontSize="18px" fontWeight="600">12.03.23</Typography>
       </Stack>
     </Box>
-    <Box display="flex" flexDirection="column" gap="8px" mb="32px">
-      <Typography>
+    <Box display="flex" flexDirection="column" gap="15px" mb="32px">
+      <Typography fontSize="16px" fontWeight="500">
         Расписание занятия
       </Typography>
       <Box display="flex" flexDirection="row" gap="8px">
@@ -100,20 +107,22 @@ const LessonDescription = ({
     </Box>
     <Divider flexItem />
     <Box display="flex" alignItems="center" flexWrap="wrap" gap="3px" mb="32px" mt="32px">
-      <Typography variant="h4" fontSize="24px" mr="16px">
+      <Typography fontWeight="600" fontSize="24px" mr="16px">
         ₽
         {' '}
         {price}
       </Typography>
       <StarOutlineIcon sx={{ color: '#FF9800' }} />
-      <Typography variant="h4" fontSize="16px">{rate}</Typography>
+      <Typography variant="h4" fontSize="16px" fontWeight="600">{rate}</Typography>
       <Typography variant="h4" fontSize="16px" color="#BDBDBD" mr="16px">
         (
         {votes}
-        ) оценок
+        {' '}
+        оценок
+        )
       </Typography>
       <ModeCommentOutlinedIcon sx={{ color: '#616161' }} />
-      <Typography>{comments}</Typography>
+      <Typography fontSize="16px" fontWeight="600">{comments}</Typography>
     </Box>
     <Box display="flex" alignItems="center" flexWrap="wrap" gap="6px" mb="56px">
       <Avatar
