@@ -1,26 +1,22 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, Box, Grid } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import { useNavigate } from 'react-router-dom';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
 import getFavoritesSlice from '../../core/slices/favorites/getFavorites';
 import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
 
-
-import { useNavigate } from 'react-router-dom';
-
 const LessonCard = ({
   title, description, price, level, id, favorite, isParticipant, comments, rate, votes,
-
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,7 +37,7 @@ const LessonCard = ({
 
   return (
     <Box
-      onClick={() => navigate(`/lesson-details/${id}`)}
+      // onClick={() => navigate(`/lesson-details/${id}`)}
       sx={{
         borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%', cursor: 'pointer',
       }}
@@ -54,9 +50,13 @@ const LessonCard = ({
             </Typography>
             <Stack direction="row" spacing={2}>
               {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
-              {favorite
-                ? <FavoriteIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
-                : <FavoriteBorderIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
+              <FavoriteIcon
+                onClick={setFavorite}
+                fontSize="medium"
+                sx={favorite
+                  ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
+                  : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
+              />
             </Stack>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>

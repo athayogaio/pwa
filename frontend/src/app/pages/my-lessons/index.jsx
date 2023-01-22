@@ -13,7 +13,7 @@ import MyLessonSearch from '../../components/my_lesson_search';
 
 const MyLessonsPage = () => {
   const dispatch = useDispatch();
-  const tickets = useSelector(state => state.tickets.tickets.data);
+  const tickets = useSelector(state => state.tickets.tickets?.data);
 
   useEffect(() => {
     dispatch(getTicketsSlice());
