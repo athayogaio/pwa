@@ -1,26 +1,25 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
 import React, { useState } from 'react';
-import { Typography, Box, Grid, Typography} from '@mui/material';
+import { Typography, Box, Grid } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LessonCard = ({
-  title, description, price, level, id, isFavorite, isParticipant, comments, rate, votes,
+  title, description, price, level, id, favorite, isParticipant, comments, rate, votes,
 }) => {
   const levels = {
     STARTING: 'Начинающий',
     CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
   };
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,14 +37,10 @@ const LessonCard = ({
               {title}
             </Typography>
             <Stack direction="row" spacing={2}>
-<<<<<<< HEAD
-              {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
-              {isFavorite ? <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} /> : <FavoriteBorderOutlinedIcon fontSize="medium" color="disabled" />}
 
-=======
-              <Chip color="success" size="small" label="Вы участник" />
-              {isFavorite ? <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} /> : <FavoriteBorderIcon fontSize="medium" sx={{ color: '#E91E63' }} />}
->>>>>>> develop
+              {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
+              {favorite ? <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} /> : <FavoriteBorderOutlinedIcon fontSize="medium" color="disabled" />}
+
             </Stack>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>

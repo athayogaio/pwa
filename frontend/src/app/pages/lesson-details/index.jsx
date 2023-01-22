@@ -13,7 +13,7 @@ import getLessonSlice from '../../core/slices/lesson/getLesson';
 const LessonDetailsPage = () => {
   const levels = {
     STARTING: 'Начинающий',
-    MEDIUM: 'Средний',
+    CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
   };
 
@@ -67,9 +67,17 @@ const LessonDetailsPage = () => {
         {lesson && console.log(lesson.data.base_course.level)}
         {lesson && (
         <LessonDescription
-          title={lesson.data.name}
-          description={lesson.data.description}
+          title={lesson.data.base_course.name}
+          description={lesson.data.base_course.description}
           price={lesson.data.price}
+          favorite={lesson.data.favorite}
+          comments={lesson.data.comments_count}
+          rate={lesson.data.rate}
+          votes={lesson.data.votes_count}
+          isVideo={lesson.data.base_course.course_type === 'VIDEO'}
+          isRegular={lesson.data.lessons.length > 1}
+          startDate={lesson.data.lessons.start_datetime}
+          duration={lesson.data.base_course.duration}
           level={(lesson.data.base_course.level).split().map(lvl => levels[lvl])} // убрать split
         />
         )}

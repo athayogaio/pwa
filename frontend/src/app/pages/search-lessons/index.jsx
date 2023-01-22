@@ -70,7 +70,7 @@ const SearchLessonsPage = () => {
               description={lesson.base_course.description}
               price={lesson.price}
               level={lesson.base_course.level}
-              isFavorite={lesson.favorite}
+              favorite={lesson.favorite}
               isParticipant={lesson.participant}
               comments={lesson.comments_count}
               rate={lesson.rate}
