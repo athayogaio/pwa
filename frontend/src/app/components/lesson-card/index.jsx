@@ -24,16 +24,13 @@ const LessonCard = ({
     ADVANCED: 'Продвинутый',
   };
 
-  // useEffect(() => {
-  //   dispatch(getFavoritesSlice());
-  // }, [dispatch]);
-
   const setFavorite = () => {
     if (favorite) {
       dispatch(removeFavoritesSlice(id));
     } else {
       dispatch(addFavoritesSlice(id));
     }
+    dispatch(getFavoritesSlice());
   };
 
   return (
