@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Typography, Button, Grid, Stack,
 } from '@mui/material';
@@ -8,19 +8,16 @@ import AddIcon from '@mui/icons-material/Add';
 import Header from '../../components/header';
 import profileCalendar from '../../../assets/public/profile_calendar.png';
 import getTicketsSlice from '../../core/slices/tickets/getTickets';
-import { tickets } from './mockData';
 import MyLesson from '../../components/my_lesson';
 import MyLessonSearch from '../../components/my_lesson_search';
 
 const MyLessonsPage = () => {
   const dispatch = useDispatch();
-  // const tickets = useSelector(state => state.tickets);
+  const tickets = useSelector(state => state.tickets.tickets.data);
 
   useEffect(() => {
     dispatch(getTicketsSlice());
   }, [dispatch]);
-
-  console.log(tickets);
 
   return (
     <Grid
@@ -28,7 +25,7 @@ const MyLessonsPage = () => {
       flexDirection="column"
     >
       <Header title="Мои занятия" />
-      {tickets[0] && (
+      {tickets?.length ? (
         <Stack
           direction="row"
           sx={{
@@ -42,15 +39,11 @@ const MyLessonsPage = () => {
           {tickets.map(ticket => (
             <MyLesson
               key={ticket.course.id}
-              ticketId={ticket.course.id}
               title={ticket.course.base_course.name}
             />
           ))}
-          <MyLessonSearch />
         </Stack>
-      )}
-
-      {!tickets[0] && (
+      ) : (
         <Grid
           item
           display="flex"
