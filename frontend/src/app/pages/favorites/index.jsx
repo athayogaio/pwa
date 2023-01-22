@@ -11,7 +11,6 @@ import Header from '../../components/header';
 const FavoritesPage = () => {
   const dispatch = useDispatch();
   const { favoritesLessons, errorMessage } = useSelector(state => state.favorites);
-  console.log(favoritesLessons);
 
   useEffect(() => {
     dispatch(getFavoritesSlice());
