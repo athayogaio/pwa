@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Box, Typography, Button, Grid,
+  Box, Typography, Button, Grid, Stack,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import Header from '../../components/header';
 import profileCalendar from '../../../assets/public/profile_calendar.png';
 import getTicketsSlice from '../../core/slices/tickets/getTickets';
-// import { tickets } from './mockData';
+import { tickets } from './mockData';
+import MyLesson from '../../components/my_lesson';
+import MyLessonSearch from '../../components/my_lesson_search';
 
 const MyLessonsPage = () => {
   const dispatch = useDispatch();
@@ -18,49 +20,78 @@ const MyLessonsPage = () => {
     dispatch(getTicketsSlice());
   }, [dispatch]);
 
+  console.log(tickets);
+
   return (
     <Grid
       container
       flexDirection="column"
     >
       <Header title="Мои занятия" />
-      <Grid
-        item
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{
-          height: 'calc(100vh - 50px - 10vh)', maxHeight: '500px', justifyContent: 'space-between',
-        }}
-      >
-        <Box
+      {tickets[0] && (
+        <Stack
+          direction="row"
           sx={{
-            background: `center / contain no-repeat url(${profileCalendar})`, width: '100%', height: 'calc(100vh - 150px)', minHeight: '100px',
+            margin: '32px auto',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
           }}
-          mt="5vh"
-          mb="7vh"
-        />
-        <Box>
-          <Typography textAlign="center" fontSize="18px" color="text.secondary" mb="24px">
-            Список занятий пока пуст
-            {' '}
-            <br />
-            Запишитесь на свое первое занятие
-          </Typography>
-          <Button
-            component={Link}
-            to="/search-lessons"
+        >
+          {tickets.map(ticket => (
+            <MyLesson
+              key={ticket.course.id}
+              ticketId={ticket.course.id}
+              title={ticket.course.base_course.name}
+            />
+          ))}
+          <MyLessonSearch />
+        </Stack>
+      )}
+
+      {!tickets[0] && (
+        <Grid
+          item
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            height: 'calc(100vh - 50px - 10vh)', maxHeight: '500px', justifyContent: 'space-between',
+          }}
+        >
+
+          <Box
             sx={{
-              minWidth: 382, borderRadius: '6px', fontSize: '16px', lineHeight: '26px',
+              background: `center / contain no-repeat url(${profileCalendar})`, width: '100%', height: 'calc(100vh - 150px)', minHeight: '100px',
             }}
-            variant="contained"
-            size="large"
-          >
-            Найти занятие
-          </Button>
-        </Box>
-      </Grid>
+            mt="5vh"
+            mb="7vh"
+          />
+
+          <Box>
+            <Typography textAlign="center" fontSize="18px" color="text.secondary" mb="24px">
+              Список занятий пока пуст
+              {' '}
+              <br />
+              Запишитесь на свое первое занятие
+            </Typography>
+            <Button
+              component={Link}
+              to="/search-lessons"
+              sx={{
+                minWidth: 382, borderRadius: '6px', fontSize: '16px', lineHeight: '26px',
+              }}
+              variant="contained"
+              size="large"
+            >
+              Найти занятие
+            </Button>
+          </Box>
+
+        </Grid>
+      )}
 
       <Box display="flex" justifyContent="flex-end" m="48px">
         <Button
@@ -82,7 +113,6 @@ const MyLessonsPage = () => {
         </Button>
       </Box>
     </Grid>
-
   );
 };
 
