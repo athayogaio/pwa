@@ -277,6 +277,15 @@ class CourseParticipateService:
             raise NotFound(f"Undefined lesson with id {self._lesson_id}")
         return lesson
 
+    def reduce_tickets(self) -> None:
+        ticket = self.repository.ticket_for_course_to_update(
+            course_id=self.lesson.course.id, user=self._user
+        )
+        if not ticket or ticket.amount < 1:
+            raise NotFound("You dont have ticket for this course")
+        ticket.amount = int(ticket.amount) - 1
+        self.repository.store(ticket=ticket)
+
     def participate(self) -> str:
         participant = self.lesson_repository.is_participant(
             lesson=self.lesson, user=self._user
@@ -285,17 +294,12 @@ class CourseParticipateService:
             return self.lesson.course.link
 
         with transaction.atomic():
-            ticket = self.repository.ticket_for_course_to_update(
-                course_id=self.lesson.course.id, user=self._user
-            )
-            if not ticket or ticket.amount < 1:
-                raise NotFound("You dont have ticket for this course")
-            ticket.amount = int(ticket.amount) - 1
+            if self.lesson.course.payment == CoursePaymentTypes.PAYMENT:
+                self.reduce_tickets()
 
             self.lesson_repository.add_participant(lesson=self.lesson, user=self._user)
 
-            self.repository.store(ticket=ticket)
-        return ticket.course.link
+        return self.lesson.course.link
 
 
 class CourseCompletionError(Exception):

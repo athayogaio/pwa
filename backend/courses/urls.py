@@ -13,7 +13,7 @@ from courses.app.handlers.course_handlers import (
     FavoriteCourseRemoveHandler,
     FavoriteCourseListHandler,
     CourseTicketBuyHandler,
-    CourseTicketUseHandler,
+    CourseParticipateHandler,
     CourseRetrieveHandler,
     SuccessTicketPaymentHandler,
 )
@@ -55,7 +55,7 @@ urlpatterns = [
         name="favorite_course_remove",
     ),
     path("ticket/buy/", CourseTicketBuyHandler.as_view()),
-    path("ticket/use/", CourseTicketUseHandler.as_view()),
+    path("participate/", CourseParticipateHandler.as_view()),
     path("<int:pk>/comments/", CourseCommentListHandler.as_view(), name="comment_list"),
     path(
         "<int:pk>/comments/create/",
