@@ -1,12 +1,12 @@
 from typing import Any
 
 from rest_framework.decorators import permission_classes
-from rest_framework.generics import GenericAPIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from core.app.framework.handlers import GenericHandler
 from core.app.http.requests.teachers_questionnaire_requests import (
     QuestionnaireTeacherRequest,
 )
@@ -19,7 +19,7 @@ from core.app.services.teachers_questionnaire_services import (
 
 
 @permission_classes([IsAuthenticated])
-class QuestionnaireTeacherHandler(GenericAPIView):
+class QuestionnaireTeacherHandler(GenericHandler):
     serializer_class = QuestionnaireTeacherRequest
     parser_classes = [MultiPartParser]
 

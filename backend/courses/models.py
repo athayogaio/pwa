@@ -11,7 +11,7 @@ from django.utils.timezone import now
 from polymorphic.models import PolymorphicModel
 from pytz import utc
 
-from core.app.utils.fields import JSONParsedField, IsDataclass
+from core.app.framework.fields import JSONParsedField, IsDataclass
 from core.models import User, TimeStampedModel, Transaction, Comment
 
 
@@ -228,7 +228,9 @@ class CourseComment(Comment):
 
 
 class Ticket(TimeStampedModel):
-    course = models.ForeignKey(Course, verbose_name="Курс", on_delete=models.DO_NOTHING)
+    course = models.ForeignKey(
+        Course, verbose_name="Курс", on_delete=models.DO_NOTHING, related_name="tickets"
+    )
     user = models.ForeignKey(User, verbose_name="Владелец", on_delete=models.DO_NOTHING)
     amount = models.IntegerField("Количество посещений")
 

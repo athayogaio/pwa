@@ -1,7 +1,6 @@
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from articles.app.http.requests.article_requests import ArticleSearchRequest
 from articles.app.repositories.article_repositories import (
@@ -9,10 +8,11 @@ from articles.app.repositories.article_repositories import (
     ArticleCategoryRepository,
     ArticleTagRepository,
 )
-from articles.app.utils.pagination import paginate
+from articles.app.utils.pagination import TMPLPagination
+from core.app.framework.handlers import Handler
 
 
-class ArticleListHandler(APIView):
+class ArticleListHandler(Handler):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "articles/index.html"
 
@@ -22,7 +22,9 @@ class ArticleListHandler(APIView):
         tags = ArticleTagRepository().find_all_tags()
         return Response(
             {
-                "articles": paginate(request, articles),
+                "articles": TMPLPagination(
+                    request=request, queryset=articles
+                ).paginate(),
                 "categories": categories,
                 "tags": tags,
                 "search_form": ArticleSearchRequest(),
@@ -30,7 +32,7 @@ class ArticleListHandler(APIView):
         )
 
 
-class ArticleListBySearchQueryHandler(APIView):
+class ArticleListBySearchQueryHandler(Handler):
     serializer_class = ArticleSearchRequest
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "articles/index.html"
@@ -45,7 +47,9 @@ class ArticleListBySearchQueryHandler(APIView):
         tags = ArticleTagRepository().find_all_tags()
         return Response(
             {
-                "articles": paginate(request, articles),
+                "articles": TMPLPagination(
+                    request=request, queryset=articles
+                ).paginate(),
                 "categories": categories,
                 "tags": tags,
                 "search_form": search_form,
@@ -53,7 +57,7 @@ class ArticleListBySearchQueryHandler(APIView):
         )
 
 
-class ArticleListByCategoryHandler(APIView):
+class ArticleListByCategoryHandler(Handler):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "articles/index.html"
 
@@ -66,7 +70,9 @@ class ArticleListByCategoryHandler(APIView):
         tags = ArticleTagRepository().find_all_tags()
         return Response(
             {
-                "articles": paginate(request, articles),
+                "articles": TMPLPagination(
+                    request=request, queryset=articles
+                ).paginate(),
                 "categories": categories,
                 "tags": tags,
                 "search_form": ArticleSearchRequest(),
@@ -74,7 +80,7 @@ class ArticleListByCategoryHandler(APIView):
         )
 
 
-class ArticleDetailHandler(APIView):
+class ArticleDetailHandler(Handler):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "articles/article.html"
 

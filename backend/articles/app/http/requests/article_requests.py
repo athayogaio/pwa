@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.app.utils.serializers import UnimplementedSerializer
+from core.app.framework.serializers import UnimplementedSerializer
 
 
 class ArticleSearchRequest(UnimplementedSerializer):

@@ -5,7 +5,7 @@ from django.utils.timezone import now
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from core.app.utils.serializers import UnimplementedSerializer
+from core.app.framework.serializers import UnimplementedSerializer
 from courses.models import (
     CourseComplexities,
     CourseTypes,

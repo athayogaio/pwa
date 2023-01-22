@@ -82,6 +82,7 @@ const MyLessonsPage = () => {
         </Button>
       </Box>
     </Grid>
+
   );
 };
 

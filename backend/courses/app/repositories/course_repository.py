@@ -1,6 +1,17 @@
 from typing import Optional
 
-from django.db.models import QuerySet, Q, F, Prefetch, Count, Exists, OuterRef, Avg
+from django.db.models import (
+    QuerySet,
+    Q,
+    F,
+    Prefetch,
+    Count,
+    Exists,
+    OuterRef,
+    Avg,
+    Subquery,
+)
+from django.utils.timezone import now
 from elasticsearch_dsl import Q as EQ
 from rest_framework.exceptions import NotFound
 
@@ -8,7 +19,7 @@ from core.app.repositories.base_repository import BaseRepository
 from core.models import User, QuestionnaireTeacher, QuestionnaireTeacherStatuses
 from courses.app.repositories.types import CourseFilterData
 from courses.documents import BaseCourseDocument
-from courses.models import Course, Lesson, BaseCourse, CourseStatuses
+from courses.models import Course, Lesson, BaseCourse, CourseStatuses, Ticket
 
 
 class CourseRepository(BaseRepository):
@@ -32,7 +43,9 @@ class CourseRepository(BaseRepository):
         return course
 
     def find_user_favorite_courses(self, user: User) -> QuerySet[Course]:
-        return user.favorite_courses.all()
+        return self.model.objects.filter(
+            base_course_id__in=user.favorite_courses.values("id")
+        )
 
     def add_user_favorite_course(self, user: User, course: Course) -> None:
         course.base_course.favorites.add(user)
@@ -121,6 +134,11 @@ class CourseRepository(BaseRepository):
                         course_id=OuterRef("id"), participants__id=self.user.id
                     )
                 ),
+                tickets_amount=Subquery(
+                    Ticket.objects.filter(
+                        course_id=OuterRef("id"), user_id=self.user.id
+                    ).values("amount")[:1]
+                ),
                 favorite=Exists(
                     Course.objects.filter(
                         pk=OuterRef("id"), base_course__favorites__id=self.user.id
@@ -129,6 +147,9 @@ class CourseRepository(BaseRepository):
             )
 
         return queryset
+
+    def find_ended_courses(self) -> QuerySet[Course]:
+        return self.model.objects.filter(deadline_datetime__lte=now())
 
 
 class BaseCourseRepository(BaseRepository):

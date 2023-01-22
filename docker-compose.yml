@@ -61,7 +61,6 @@ services:
       - "${ELASTIC_PORT}:9200"
     volumes:
       - .devops/build/hunspell:/usr/share/elasticsearch/config/hunspell
-      - ./elasticsearch:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
       - ELASTIC_PASSWORD=$ELASTIC_PASSWORD

@@ -3,6 +3,7 @@ from functools import cached_property
 
 from django.conf import settings
 from django.db import transaction
+from django.utils.timezone import now
 from furl import furl
 from rest_framework.exceptions import NotFound, ValidationError, PermissionDenied
 
@@ -295,3 +296,24 @@ class CourseParticipateService:
 
             self.repository.store(ticket=ticket)
         return ticket.course.link
+
+
+class CourseCompletionError(Exception):
+    pass
+
+
+class CourseComplete:
+    def __init__(self, course: Course):
+        self.course = course
+
+    def complete(self) -> None:
+        if self.course.deadline_datetime.date() > now().date():
+            raise CourseCompletionError(
+                f"Course can complete after {self.course.deadline_datetime.date()}"
+            )
+        if self.course.status != CourseStatuses.PUBLISHED:
+            raise CourseCompletionError(
+                f"Course `{self.course.id}` must be with `{CourseStatuses.PUBLISHED}` status for completion"
+            )
+        self.course.status = CourseStatuses.COMPLETED
+        CourseRepository().store(course=self.course)

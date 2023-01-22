@@ -4,12 +4,11 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema
 from rest_framework.decorators import permission_classes
 from rest_framework.exceptions import NotFound
-from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
+from core.app.framework.handlers import Handler, GenericHandler
 from core.app.http.requests.user_requests import (
     UserRegisterRequest,
     UserConfirmRegisterRequest,
@@ -31,7 +30,7 @@ from core.app.services.user_services import (
 )
 
 
-class UserRegisterHandler(GenericAPIView):
+class UserRegisterHandler(GenericHandler):
     serializer_class = UserRegisterRequest
 
     def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
@@ -42,7 +41,7 @@ class UserRegisterHandler(GenericAPIView):
         return Response("Success")
 
 
-class UserRegisterConfirmHandler(GenericAPIView):
+class UserRegisterConfirmHandler(GenericHandler):
     serializer_class = UserConfirmRegisterRequest
 
     def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
@@ -55,7 +54,7 @@ class UserRegisterConfirmHandler(GenericAPIView):
         )
 
 
-class UserLoginHandler(GenericAPIView):
+class UserLoginHandler(GenericHandler):
     serializer_class = UserLoginRequest
 
     def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
@@ -68,7 +67,7 @@ class UserLoginHandler(GenericAPIView):
         )
 
 
-class UserChangePassHandler(GenericAPIView):
+class UserChangePassHandler(GenericHandler):
     serializer_class = UserChangePassRequest
 
     def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
@@ -81,7 +80,7 @@ class UserChangePassHandler(GenericAPIView):
         )
 
 
-class UserSendPwdResetMailHandler(GenericAPIView):
+class UserSendPwdResetMailHandler(GenericHandler):
     serializer_class = UserSendPwdResetMailRequest
 
     def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
@@ -92,7 +91,7 @@ class UserSendPwdResetMailHandler(GenericAPIView):
         return Response("Success")
 
 
-class UserResetPassHandler(GenericAPIView):
+class UserResetPassHandler(GenericHandler):
     serializer_class = UserResetPassRequest
 
     def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
@@ -110,7 +109,7 @@ class UserResetPassHandler(GenericAPIView):
 
 
 @permission_classes([IsAuthenticated])
-class LoggedUserProfileHandler(APIView):
+class LoggedUserProfileHandler(Handler):
     repository = UserRepository()
 
     @extend_schema(responses=OpenApiTypes.OBJECT)
@@ -119,7 +118,7 @@ class LoggedUserProfileHandler(APIView):
         return Response({"data": UserResource(user).data})
 
 
-class UserProfileHandler(APIView):
+class UserProfileHandler(Handler):
     repository = UserRepository()
 
     @extend_schema(responses=OpenApiTypes.OBJECT)
@@ -132,7 +131,7 @@ class UserProfileHandler(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class UserProfileUpdateHandler(GenericAPIView):
+class UserProfileUpdateHandler(GenericHandler):
     serializer_class = UserProfileUpdateRequest
 
     @extend_schema(responses=OpenApiTypes.OBJECT)

@@ -4,15 +4,14 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema
 from rest_framework.decorators import permission_classes
 from rest_framework.exceptions import NotFound
-from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
-from core.app.utils.pagination import paginate
-from core.app.utils.permissions import IsTeacher
-from core.app.utils.queryset import OrderedQueryset
+from core.app.framework.handlers import GenericHandler, Handler
+from core.app.framework.pagination import Pagination
+from core.app.framework.permissions import IsTeacher
+from core.app.framework.queryset import OrderedQuerySet
 from courses.app.http.requests.lesson_requests import LessonRescheduleRequest
 from courses.app.http.resources.course_resources import LessonResource
 from courses.app.repositories.lesson_repository import LessonRepository
@@ -20,7 +19,7 @@ from courses.app.services.lessons_service import LessonReschedule, LessonCancel
 
 
 @permission_classes([IsTeacher])
-class LessonRescheduleHandler(GenericAPIView):
+class LessonRescheduleHandler(GenericHandler):
     serializer_class = LessonRescheduleRequest
 
     def post(
@@ -39,7 +38,7 @@ class LessonRescheduleHandler(GenericAPIView):
 
 
 @permission_classes([IsTeacher])
-class LessonCancelHandler(APIView):
+class LessonCancelHandler(Handler):
     @extend_schema(responses=OpenApiTypes.OBJECT)
     def post(
         self, request: Request, lesson_id: int, *args: Any, **kwargs: Any
@@ -49,7 +48,7 @@ class LessonCancelHandler(APIView):
         return Response({"data": "Success canceled"})
 
 
-class LessonRetrieveHandler(APIView):
+class LessonRetrieveHandler(Handler):
     @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(
         self, request: Request, lesson_id: int, *args: Any, **kwargs: Any
@@ -60,7 +59,7 @@ class LessonRetrieveHandler(APIView):
         return Response({"data": LessonResource(lesson).data})
 
 
-class LessonListHandler(APIView):
+class LessonListHandler(Handler):
     repository = LessonRepository()
 
     @extend_schema(responses=OpenApiTypes.OBJECT)
@@ -71,17 +70,19 @@ class LessonListHandler(APIView):
             self.repository.find_by_course_id(course_id=course_pk)
         )
         return Response(
-            paginate(data=lessons, request=request, resource=LessonResource)
+            Pagination(
+                data=lessons, request=request, resource=LessonResource
+            ).paginate()
         )
 
 
 @permission_classes([IsAuthenticated])
-class UserLessonsParticipateHandler(APIView):
+class UserLessonsParticipateHandler(Handler):
     repository = LessonRepository()
 
     @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
-        lessons = OrderedQueryset(
+        lessons = OrderedQuerySet(
             queryset=self.repository.fetch_relations(
                 self.repository.find_user_participant(
                     user_id=request.user.id, skip_past=True
@@ -89,5 +90,7 @@ class UserLessonsParticipateHandler(APIView):
             )
         ).order_by(columns=["start_at"])
         return Response(
-            paginate(data=lessons, request=request, resource=LessonResource)
+            Pagination(
+                data=lessons, request=request, resource=LessonResource
+            ).paginate()
         )

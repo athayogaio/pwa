@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography, Box, Grid } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';

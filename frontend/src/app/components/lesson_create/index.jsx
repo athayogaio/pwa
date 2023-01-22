@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import 'dayjs/locale/ru';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {
   Badge,
   Box,
@@ -25,9 +25,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Header from '../../components/header';
 import PaymentMethod from '../lesson_payment/index';
 import RepeatLessons from '../lesson_repeat/index';
 
@@ -79,28 +77,7 @@ const LessonCreate = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
-      <Grid
-        container
-        sx={{
-          justifyContent: 'space-between', padding: '20px 24px', marginBottom: '20px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <ArrowBackIcon sx={{
-            color: '#616161', width: '24px', height: '24px', cursor: 'pointer', marginRight: '14px',
-          }}
-          />
-          <Typography variant="modal" color="text.secondary" sx={{ fontWeight: 500, fontSize: '20px' }}>Создание занятия</Typography>
-        </Box>
-        <Stack alignItems="center" direction="row" spacing={2}>
-          <Badge color="error" variant="dot">
-            <NotificationsNoneIcon fontSize="medium" color="disabled" />
-          </Badge>
-          <Link to="/settings">
-            <SettingsOutlinedIcon color="disabled" sx={{ transform: 'translateY(3px)' }} />
-          </Link>
-        </Stack>
-      </Grid>
+      <Header title="Создание занятия" withBackBtn />
       <form onSubmit={e => {
         e.preventDefault();
       }}

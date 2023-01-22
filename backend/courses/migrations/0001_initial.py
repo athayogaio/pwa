@@ -5,7 +5,7 @@ import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
 
-import core.app.utils.fields
+import core.app.framework.fields
 
 
 class Migration(migrations.Migration):
@@ -138,7 +138,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "schedule",
-                    core.app.utils.fields.JSONParsedField(
+                    core.app.framework.fields.JSONParsedField(
                         blank=True, default=list, verbose_name="Расписание"
                     ),
                 ),
