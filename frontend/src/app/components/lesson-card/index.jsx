@@ -7,22 +7,29 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
 import getFavoritesSlice from '../../core/slices/favorites/getFavorites';
 import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
 
+
+import { useNavigate } from 'react-router-dom';
+
 const LessonCard = ({
-  id, title, description, price, level, favorite,
+  title, description, price, level, id, favorite, isParticipant, comments, rate, votes,
+
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const levels = {
     STARTING: 'Начинающий',
-    MEDIUM: 'Средний',
+    CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
   };
+
   const setFavorite = () => {
     if (favorite) {
       dispatch(removeFavoritesSlice(id));
@@ -34,8 +41,10 @@ const LessonCard = ({
 
   return (
     <Box
-      width="100%"
-      sx={{ borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)' }}
+      onClick={() => navigate(`/lesson-details/${id}`)}
+      sx={{
+        borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%', cursor: 'pointer',
+      }}
     >
       <Grid container alignItems="flex-start" justifyContent="center" height="100%">
         <Grid item xs container direction="column" sx={{ p: '24px' }}>
@@ -44,7 +53,7 @@ const LessonCard = ({
               {title}
             </Typography>
             <Stack direction="row" spacing={2}>
-              <Chip color="success" size="small" label="Вы участник" />
+              {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
               {favorite
                 ? <FavoriteIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
                 : <FavoriteBorderIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
@@ -70,10 +79,13 @@ const LessonCard = ({
             }}
             />
             <Typography variant="body1" sx={{ fontWeight: '500', mr: '3px' }}>
-              4.8
+              {rate}
             </Typography>
             <Typography variant="body1" color="text.disabled" sx={{ mr: '17px' }}>
-              (505 оценок)
+              (
+              {votes}
+              {' '}
+              оценок)
             </Typography>
             <ModeCommentOutlinedIcon
               color="text.secondary"
@@ -82,7 +94,7 @@ const LessonCard = ({
               }}
             />
             <Typography variant="body1" sx={{ fontWeight: '500' }}>
-              505
+              {comments}
             </Typography>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>

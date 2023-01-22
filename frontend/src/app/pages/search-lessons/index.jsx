@@ -8,7 +8,6 @@ import filterSlice from '../../core/slices/lessons/filter';
 import useDebounce from '../../utils/hooks/useDebounce';
 import LessonCard from '../../components/lesson-card';
 import Header from '../../components/header';
-import MyLesson from '../../components/my_lesson';
 
 const SearchLessonsPage = () => {
   const dispatch = useDispatch();
@@ -66,12 +65,16 @@ const SearchLessonsPage = () => {
           {lessons && lessons.data?.map(lesson => (
             <LessonCard
               key={lesson.id}
-              id={lesson.base_course.id}
+              id={lesson.id}
               title={lesson.base_course.name}
               description={lesson.base_course.description}
               price={lesson.price}
               level={lesson.base_course.level}
               favorite={lesson.favorite}
+              isParticipant={lesson.participant}
+              comments={lesson.comments_count}
+              rate={lesson.rate}
+              votes={lesson.votes_count}
             />
           ))}
         </Box>

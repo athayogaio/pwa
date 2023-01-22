@@ -12,10 +12,15 @@ from core.app.framework.handlers import GenericHandler, Handler
 from core.app.framework.pagination import Pagination
 from core.app.framework.permissions import IsTeacher
 from core.app.framework.queryset import OrderedQuerySet
+from courses.app.http.requests.course_requests import CourseTicketUseRequest
 from courses.app.http.requests.lesson_requests import LessonRescheduleRequest
 from courses.app.http.resources.course_resources import LessonResource
 from courses.app.repositories.lesson_repository import LessonRepository
-from courses.app.services.lessons_service import LessonReschedule, LessonCancel
+from courses.app.services.lessons_service import (
+    LessonReschedule,
+    LessonCancel,
+    LessonParticipation,
+)
 
 
 @permission_classes([IsTeacher])
@@ -94,3 +99,18 @@ class UserLessonsParticipateHandler(Handler):
                 data=lessons, request=request, resource=LessonResource
             ).paginate()
         )
+
+
+@permission_classes([IsAuthenticated])
+class LessonParticipateHandler(GenericHandler):
+    serializer_class = CourseTicketUseRequest
+
+    def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        data = self.serializer_class(data=request.data)
+        data.is_valid(raise_exception=True)
+
+        link = LessonParticipation(
+            lesson_id=data.validated_data["lesson_id"], user=self.request.user
+        ).participate()
+
+        return Response({"data": {"course_link": link}})

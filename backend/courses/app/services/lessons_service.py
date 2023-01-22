@@ -1,8 +1,8 @@
 import datetime
-import math
 from abc import ABC
 from functools import cached_property
 
+import math
 from django.conf import settings
 from django.db import transaction
 from django.utils.timezone import now
@@ -14,8 +14,19 @@ from core.app.services.types import TextMailData
 from core.models import User
 from courses.app.repositories.course_cycle_repository import CourseCycleRepository
 from courses.app.repositories.course_repository import CourseRepository
+from courses.app.repositories.lesson_enrolled_user_repository import (
+    LessonEnrolledUserRepository,
+)
 from courses.app.repositories.lesson_repository import LessonRepository
-from courses.models import Lesson, LessonStatuses, CourseCycle, Course
+from courses.app.repositories.ticket_repository import TicketRepository
+from courses.models import (
+    Lesson,
+    LessonStatuses,
+    CourseCycle,
+    Course,
+    CoursePaymentTypes,
+    LessonEnrolledUser,
+)
 
 
 class LessonRescheduleCancel(ABC):
@@ -127,3 +138,54 @@ class LessonReschedule(LessonRescheduleCancel):
         with transaction.atomic():
             self._reduce_user_coef()
             self._send_reschedule_message()
+
+
+class LessonParticipation:
+    repository = TicketRepository()
+    lesson_repository = LessonRepository()
+
+    def __init__(self, lesson_id: int, user: User):
+        self._lesson_id = lesson_id
+        self._user = user
+
+    @cached_property
+    def lesson(self) -> Lesson:
+        lesson = self.lesson_repository.find_by_id(id_=self._lesson_id)
+        if not lesson:
+            raise NotFound(f"Undefined lesson with id {self._lesson_id}")
+        return lesson
+
+    def reduce_tickets(self) -> None:
+        ticket = self.repository.ticket_for_course_to_update(
+            course_id=self.lesson.course.id, user=self._user
+        )
+        if not ticket or ticket.amount < 1:
+            raise NotFound("You dont have ticket for this course")
+        ticket.amount = int(ticket.amount) - 1
+        self.repository.store(ticket=ticket)
+
+    def participate(self) -> str:
+        participant = self.lesson_repository.is_participant(
+            lesson=self.lesson, user=self._user
+        )
+        if participant:
+            return self.lesson.course.link
+
+        with transaction.atomic():
+            if self.lesson.course.payment == CoursePaymentTypes.PAYMENT:
+                self.reduce_tickets()
+
+            self.lesson_repository.add_participant(lesson=self.lesson, user=self._user)
+
+        return self.lesson.course.link
+
+
+class LessonEnrolledUserWork:
+    repository = LessonEnrolledUserRepository()
+
+    def __init__(self, enrolled_user: LessonEnrolledUser) -> None:
+        self._enrolled_user = enrolled_user
+
+    def activation(self, active: bool) -> None:
+        self._enrolled_user.active = active
+        self.repository.store(enrolled_user=self._enrolled_user)

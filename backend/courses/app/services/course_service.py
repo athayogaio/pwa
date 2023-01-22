@@ -7,6 +7,7 @@ from django.utils.timezone import now
 from furl import furl
 from rest_framework.exceptions import NotFound, ValidationError, PermissionDenied
 
+from core.app.framework.queryset import ChunkedQuerySet
 from core.app.services.payment_service import TinkoffPaymentService
 from core.app.services.types import PaymentStatuses
 from core.app.utils.util import setup_resource_attributes
@@ -16,6 +17,9 @@ from courses.app.repositories.course_cycle_repository import CourseCycleReposito
 from courses.app.repositories.course_repository import (
     CourseRepository,
     BaseCourseRepository,
+)
+from courses.app.repositories.lesson_enrolled_user_repository import (
+    LessonEnrolledUserRepository,
 )
 from courses.app.repositories.lesson_repository import LessonRepository
 from courses.app.repositories.ticket_repository import TicketRepository
@@ -34,6 +38,7 @@ from courses.models import (
     CourseSchedule,
     BaseCourse,
     CourseStatuses,
+    LessonEnrolledUser,
 )
 
 
@@ -262,46 +267,6 @@ class TicketBuy:
             return furl(settings.SITE_URL).join("success-payment").url
 
 
-class CourseParticipateService:
-    repository = TicketRepository()
-    lesson_repository = LessonRepository()
-
-    def __init__(self, lesson_id: int, user: User):
-        self._lesson_id = lesson_id
-        self._user = user
-
-    @cached_property
-    def lesson(self) -> Lesson:
-        lesson = self.lesson_repository.find_by_id(id_=self._lesson_id)
-        if not lesson:
-            raise NotFound(f"Undefined lesson with id {self._lesson_id}")
-        return lesson
-
-    def reduce_tickets(self) -> None:
-        ticket = self.repository.ticket_for_course_to_update(
-            course_id=self.lesson.course.id, user=self._user
-        )
-        if not ticket or ticket.amount < 1:
-            raise NotFound("You dont have ticket for this course")
-        ticket.amount = int(ticket.amount) - 1
-        self.repository.store(ticket=ticket)
-
-    def participate(self) -> str:
-        participant = self.lesson_repository.is_participant(
-            lesson=self.lesson, user=self._user
-        )
-        if participant:
-            return self.lesson.course.link
-
-        with transaction.atomic():
-            if self.lesson.course.payment == CoursePaymentTypes.PAYMENT:
-                self.reduce_tickets()
-
-            self.lesson_repository.add_participant(lesson=self.lesson, user=self._user)
-
-        return self.lesson.course.link
-
-
 class CourseCompletionError(Exception):
     pass
 
@@ -321,3 +286,44 @@ class CourseComplete:
             )
         self.course.status = CourseStatuses.COMPLETED
         CourseRepository().store(course=self.course)
+
+
+class CourseEnroll:
+    SCHEDULE_LESSON_CHUNK_SIZE = 50
+
+    lesson_repository = LessonRepository()
+    course_repository = CourseRepository()
+    user_course_schedule_repository = LessonEnrolledUserRepository()
+
+    def __init__(self, user: User, course: Course):
+        self._user = user
+        self._course = course
+
+    def _register_user_course_schedule(self) -> None:
+        lessons_iter = ChunkedQuerySet(
+            queryset=LessonRepository().find_by_course_id(course_id=self._course.id)
+        ).iter(chunk_size=self.SCHEDULE_LESSON_CHUNK_SIZE)
+        enrolled_users_to_create = []
+        for lesson in lessons_iter:
+            enrolled_user = LessonEnrolledUser()
+            enrolled_user.user = self._user
+            enrolled_user.lesson = lesson
+            enrolled_users_to_create.append(enrolled_user)
+            if len(enrolled_users_to_create) == self.SCHEDULE_LESSON_CHUNK_SIZE:
+                self.user_course_schedule_repository.bulk_create(
+                    objs=enrolled_users_to_create
+                )
+                enrolled_users_to_create = []
+        else:
+            if enrolled_users_to_create:
+                self.user_course_schedule_repository.bulk_create(
+                    objs=enrolled_users_to_create
+                )
+
+    def enroll(self) -> None:
+        if self.course_repository.already_enrolled(
+            user=self._user, course=self._course
+        ):
+            raise ValidationError("User already enrolled")
+        with transaction.atomic():
+            self._register_user_course_schedule()

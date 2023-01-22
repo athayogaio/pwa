@@ -13,9 +13,12 @@ from courses.app.handlers.course_handlers import (
     FavoriteCourseRemoveHandler,
     FavoriteCourseListHandler,
     CourseTicketBuyHandler,
-    CourseParticipateHandler,
     CourseRetrieveHandler,
     SuccessTicketPaymentHandler,
+    CourseEnrollHandler,
+)
+from courses.app.handlers.lesson_enrolled_users_handlers import (
+    ActivationLessonEnrolledUser,
 )
 from courses.app.handlers.lesson_handlers import (
     LessonRescheduleHandler,
@@ -23,6 +26,7 @@ from courses.app.handlers.lesson_handlers import (
     LessonRetrieveHandler,
     LessonListHandler,
     UserLessonsParticipateHandler,
+    LessonParticipateHandler,
 )
 from courses.app.handlers.review_handlers import (
     CourseReviewListHandler,
@@ -55,7 +59,12 @@ urlpatterns = [
         name="favorite_course_remove",
     ),
     path("ticket/buy/", CourseTicketBuyHandler.as_view()),
-    path("participate/", CourseParticipateHandler.as_view()),
+    path("enroll/", CourseEnrollHandler.as_view()),
+    path(
+        "lesson-enrolled-user/activation/<int:lesson_id>/<int:active>/",
+        ActivationLessonEnrolledUser.as_view(),
+    ),
+    path("lessons/participate/", LessonParticipateHandler.as_view()),
     path("<int:pk>/comments/", CourseCommentListHandler.as_view(), name="comment_list"),
     path(
         "<int:pk>/comments/create/",

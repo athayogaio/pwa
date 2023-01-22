@@ -151,6 +151,11 @@ class CourseRepository(BaseRepository):
     def find_ended_courses(self) -> QuerySet[Course]:
         return self.model.objects.filter(deadline_datetime__lte=now())
 
+    def already_enrolled(self, user: User, course: Course) -> bool:
+        return self.model.objects.filter(
+            pk=course.id, lessons_set__enrolled_users_set__id=user.id
+        ).exists()
+
 
 class BaseCourseRepository(BaseRepository):
     model = BaseCourse
