@@ -1,8 +1,6 @@
 .form-file-upload {
-  height: 64px;
-  width: 732px;
+  width: 100%;
   position: relative;
-  padding: '9px 0 9px 0',
 }
 
 .input-file-upload {
@@ -23,6 +21,10 @@
 
 .label-file-upload.drag-active {
   background-color: #f8fafc;
+}
+
+.image-file-upload {
+  height: 100%;
 }
 
 #drag-file-element {

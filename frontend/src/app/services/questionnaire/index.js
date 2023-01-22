@@ -25,6 +25,10 @@ const postQuestionnaire = ({
   formData.append('work_experience', workExperience);
   formData.append('vk_link', vkLink);
   formData.append('telegram_link', telegramLink);
+  // for (const photo of certificatePhotos) {
+  //   formData.append('certificate_photos', JSON.stringify(photo));
+  // }
+  console.log(certificatePhotos);
   formData.append('certificate_photos', certificatePhotos);
   formData.append('passport_photo', passportPhoto);
   formData.append('user_photo', userPhoto);

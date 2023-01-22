@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Typography, Box, Grid } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -9,19 +10,30 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
+import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
 
 const LessonCard = ({
-  title, description, price, level,
+  id, title, description, price, level, favorite,
 }) => {
   const levels = {
     STARTING: 'Начинающий',
     MEDIUM: 'Средний',
     ADVANCED: 'Продвинутый',
   };
-  const [isFavorite, setIsFavorite] = useState(false);
+  console.log(favorite);
+
+  const dispatch = useDispatch();
+
+  const [isFavorite, setIsFavorite] = useState(favorite);
+
+  dispatch(isFavorite ? removeFavoritesSlice(id) : addFavoritesSlice(id));
+
+  const setFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
 
   return (
-
     <Box
       width="100%"
       sx={{ borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)' }}
@@ -34,7 +46,9 @@ const LessonCard = ({
             </Typography>
             <Stack direction="row" spacing={2}>
               <Chip color="success" size="small" label="Вы участник" />
-              {isFavorite ? <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} /> : <FavoriteBorderIcon fontSize="medium" sx={{ color: '#E91E63' }} />}
+              {isFavorite
+                ? <FavoriteIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
+                : <FavoriteBorderIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
             </Stack>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>

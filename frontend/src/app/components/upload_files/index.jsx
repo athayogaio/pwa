@@ -63,8 +63,8 @@ const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
     <form className="form-file-upload" onDragEnter={handleDrag} onSubmit={e => e.preventDefault()}>
       <input id={loaderName} className="input-file-upload" ref={inputRef} type="file" multiple onChange={handleChange} accept="image/jpeg, image/jpg, image/png" />
       <label className={`label-file-upload ${styleDragActive} `} htmlFor={loaderName}>
-        <Box width="373px" display="flex" flexDirection="row" gap="12px">
-          <img src={uploadDocument} alt="upload-document" />
+        <Box width="50%" display="flex" flexDirection="row" gap="12px" py="9px">
+          <img className="image-file-upload" src={uploadDocument} alt="upload-document" />
           {isAddFile
             ? (
               <Box display="flex" flexDirection="column" alignItems="center">

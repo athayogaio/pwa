@@ -27,9 +27,9 @@ const TeacherForm = () => {
     user_with_passport_photo: null,
   });
 
-  const [photo, setPhoto] = useState([]);
+  const [photos, setPhoto] = useState([]);
   const updateCertificate = file => {
-    setPhoto([...photo, file]);
+    setPhoto([...photos, file]);
   };
   const updatePhoto = (file, nameLoader) => {
     setAnswers({ ...answers, [nameLoader]: file });
@@ -45,7 +45,7 @@ const TeacherForm = () => {
     const dateOfBirth = answersArr.date_of_birth;
     dispatch(postQuestionnaireSlice({
       ...answersArr,
-      certificate_photos: photo,
+      certificate_photos: photos,
       date_of_birth: dateOfBirth.toISOString().split('T')[0],
     }));
   };
@@ -54,10 +54,10 @@ const TeacherForm = () => {
     setAnswers({ ...answers, date_of_birth: newValue });
   };
 
-  const isEmpty = () => Object.values(answers).includes('') || Object.values(answers).includes(null) || !photo.length;
+  const isEmpty = () => Object.values(answers).includes('') || Object.values(answers).includes(null) || !photos.length;
 
   return (
-    <Box sx={{ maxWidth: '732px' }}>
+    <Box sx={{ maxWidth: '50%' }}>
       <Typography fontWeight="600" fontSize="24px" mb="34px">
         Заполните анкету
       </Typography>

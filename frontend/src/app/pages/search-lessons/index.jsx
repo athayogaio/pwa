@@ -66,11 +66,12 @@ const SearchLessonsPage = () => {
           {lessons && lessons.data?.map(lesson => (
             <LessonCard
               key={lesson.id}
-              id={lesson.id}
-              title={lesson.name}
-              description={lesson.description}
+              id={lesson.base_course.id}
+              title={lesson.base_course.name}
+              description={lesson.base_course.description}
               price={lesson.price}
-              level={lesson.level}
+              level={lesson.base_course.level}
+              favorite={lesson.favorite}
             />
           ))}
         </Box>
