@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Typography, Container,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
 import LessonCard from '../../components/lesson-card';
 import getFavoritesSlice from '../../core/slices/favorites/getFavorites';
 import Header from '../../components/header';
@@ -26,27 +25,19 @@ const FavoritesPage = () => {
         </Typography>
       )}
       <Container>
-        <Box sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'flex-start',
-          width: '800px',
-          gap: '24px',
-          margin: '0 auto',
-        }}
-        >
-          {favoritesLessons && favoritesLessons.data?.map(lesson => (
-            <LessonCard
-              key={lesson.id}
-              id={lesson.base_course.id}
-              title={lesson.base_course.name}
-              description={lesson.base_course.description}
-              price={lesson.price}
-              level={lesson.base_course.level}
-              favorite={lesson.favorite}
-            />
-          ))}
-        </Box>
+        {Array.isArray(favoritesLessons) && favoritesLessons.length
+          ? (
+            favoritesLessons?.map(lesson => (
+              <LessonCard
+                key={lesson.id}
+                id={lesson.base_course.id}
+                title={lesson.base_course.name}
+                description={lesson.base_course.description}
+                price={lesson.price}
+                level={lesson.base_course.level}
+                favorite={lesson.favorite}
+              />
+            ))) : ('Ничего не найдено')}
       </Container>
     </Box>
   );
