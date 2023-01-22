@@ -25,12 +25,8 @@ const LessonCard = ({
 
   const dispatch = useDispatch();
 
-  const [isFavorite, setIsFavorite] = useState(favorite);
-
-  dispatch(isFavorite ? removeFavoritesSlice(id) : addFavoritesSlice(id));
-
   const setFavorite = () => {
-    setIsFavorite(!isFavorite);
+    dispatch(favorite ? removeFavoritesSlice(id) : addFavoritesSlice(id));
   };
 
   return (
@@ -46,7 +42,7 @@ const LessonCard = ({
             </Typography>
             <Stack direction="row" spacing={2}>
               <Chip color="success" size="small" label="Вы участник" />
-              {isFavorite
+              {favorite
                 ? <FavoriteIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
                 : <FavoriteBorderIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
             </Stack>
