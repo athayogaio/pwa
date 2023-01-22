@@ -16,7 +16,7 @@ import avatar from '../../../assets/public/profile_avatar.jpg';
 
 const LessonDescription = ({
   title, description, price, level, favorite, comments,
-  rate, votes, isVideo, isRegular, startDate, duration,
+  rate, votes, isVideo, isRegular, startDate, duration, id, isPaid,
 }) => (
   <>
     <Box display="flex" alignItems="start" mb="23px">
@@ -45,9 +45,9 @@ const LessonDescription = ({
         {' '}
         {description.length > 600 && (
 
-          <Typography component={Link} fontSize="16px" color="primary" sx={{ textDecoration: 'none' }}>
-            Показать еще
-          </Typography>
+        <Typography component={Link} fontSize="16px" color="primary" sx={{ textDecoration: 'none' }}>
+          Показать еще
+        </Typography>
         )}
       </Typography>
 
@@ -139,9 +139,11 @@ const LessonDescription = ({
     </Box>
     <Box display="flex" justifyContent="flex-end">
       <Button
+        component={Link}
+        to={isPaid && `/abonement/${id}`}
         variant="contained"
         sx={{
-          fontSize: '16px', fontWeight: '500', width: '227px',
+          fontSize: '16px', fontWeight: '500', width: '227px', mb: '20px',
         }}
       >
         Записаться

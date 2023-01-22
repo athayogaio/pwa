@@ -1,7 +1,9 @@
 import React from 'react';
-import {Navigate, Outlet, Route, Routes,} from 'react-router-dom';
-import {CssBaseline, ThemeProvider} from '@mui/material';
-import {createTheme} from '@mui/material/styles';
+import {
+  Navigate, Outlet, Route, Routes,
+} from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import WelcomePage from './pages/welcome';
 import LoginPage from './pages/auth/login';
 import RegisterPage from './pages/auth/register';
@@ -20,6 +22,7 @@ import MyLessonsPage from './pages/my-lessons';
 import LessonDetailsPage from './pages/lesson-details';
 import TeacherFormPage from './pages/teacher-form';
 import FavoritesPage from './pages/favorites';
+import AbonementPage from './pages/abonement';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -98,6 +101,7 @@ const App = () => {
             <Route path="lesson-details/:id" element={<LessonDetailsPage />} />
             <Route path="teacher-form" element={<TeacherFormPage />} />
             <Route path="favorites" element={<FavoritesPage />} />
+            <Route path="abonement/:id" element={<AbonementPage />} />
           </Route>
         </Route>
       </Routes>
