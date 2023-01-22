@@ -21,7 +21,6 @@ const LessonCard = ({
     MEDIUM: 'Средний',
     ADVANCED: 'Продвинутый',
   };
-  console.log(favorite);
 
   const dispatch = useDispatch();
 
@@ -43,8 +42,8 @@ const LessonCard = ({
             <Stack direction="row" spacing={2}>
               <Chip color="success" size="small" label="Вы участник" />
               {favorite
-                ? <FavoriteIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
-                : <FavoriteBorderIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
+                ? <FavoriteIcon onClick={setFavorite()} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
+                : <FavoriteBorderIcon onClick={setFavorite()} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
             </Stack>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
