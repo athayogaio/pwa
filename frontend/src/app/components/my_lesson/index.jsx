@@ -9,18 +9,17 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import ellipse from '../../../assets/public/ellipse.png';
+import ticket from '../../../assets/public/ticket.svg';
 
 const MyLesson = ({ title }) => (
-  <Card sx={{
-    p: '20px 24px 20px 20px',
+  <div style={{
+    padding: '20px 24px 20px 20px',
     borderRadius: '16px',
-    boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-    border: '1px solid #BDBDBD',
-    position: 'relative',
     width: '480px',
     marginRight: '24px',
     marginBottom: '24px',
-
+    background: `center / contain no-repeat url(${ticket})`,
+    filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
   }}
   >
     <Link to="/">
@@ -34,23 +33,20 @@ const MyLesson = ({ title }) => (
         <div>
           <Typography
             variant="h6"
-            noWrap="true"
             paragraph
             sx={{
-              fontSize: '18px', maxWidth: '271px', mb: '0',
+              fontSize: '18px',
+              maxWidth: '271px',
+              height: '43px',
+              mb: '0',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
             }}
           >
             {title}
-          </Typography>
-          <Typography
-            variant="h6"
-            noWrap="true"
-            paragraph
-            sx={{
-              fontSize: '18px', maxWidth: '271px', mb: '0',
-            }}
-          >
-            по курсу Евгения Романова ещё какой-то текст чтобы добить 100ку символов
           </Typography>
         </div>
         <Grid item xs container direction="column">
@@ -106,7 +102,7 @@ const MyLesson = ({ title }) => (
         </Grid>
       </Grid>
     </Stack>
-  </Card>
+  </div>
 );
 
 export default MyLesson;
