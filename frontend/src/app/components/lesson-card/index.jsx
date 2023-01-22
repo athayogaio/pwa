@@ -18,7 +18,7 @@ const LessonCard = ({
     MEDIUM: 'Средний',
     ADVANCED: 'Продвинутый',
   };
-  const [isFavorite, setIsFavorite] = useState(false);
+  // const [isFavorite, setIsFavorite] = useState(false);
 
   return (
 
@@ -34,7 +34,7 @@ const LessonCard = ({
             </Typography>
             <Stack direction="row" spacing={2}>
               <Chip color="success" size="small" label="Вы участник" />
-              {isFavorite ? <FavoriteIcon fontSize="medium" sx={{ color: '#E91E63' }} /> : <FavoriteBorderIcon fontSize="medium" sx={{ color: '#E91E63' }} />}
+
             </Stack>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>

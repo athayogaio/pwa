@@ -8,7 +8,7 @@ import filterSlice from '../../core/slices/lessons/filter';
 import useDebounce from '../../utils/hooks/useDebounce';
 import LessonCard from '../../components/lesson-card';
 import Header from '../../components/header';
-import MyLesson from '../../components/my_lesson';
+// import MyLesson from '../../components/my_lesson';
 
 const SearchLessonsPage = () => {
   const dispatch = useDispatch();
