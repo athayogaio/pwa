@@ -3,9 +3,9 @@ import FavoritesService from '../../../services/favorites';
 
 const removeFavoritesSlice = createAsyncThunk(
   'courses/favorites/remove',
-  async thunkAPI => {
+  async (id, thunkAPI) => {
     try {
-      const result = await FavoritesService.removeFavorites();
+      const result = await FavoritesService.removeFavorites(id);
 
       return result.data;
     } catch (error) {
