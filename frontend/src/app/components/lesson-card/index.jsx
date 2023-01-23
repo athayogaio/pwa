@@ -48,17 +48,15 @@ const LessonCard = ({
             <Typography variant="h6">
               {title}
             </Typography>
-            <Stack direction="row" spacing={2}>
-              <Chip color="success" size="small" label="Вы участник" />
-              {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
-              <FavoriteIcon
-                onClick={setFavorite}
-                fontSize="medium"
-                sx={favorite
-                  ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
-                  : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
-              />
-            </Stack>
+
+            <FavoriteIcon
+              onClick={setFavorite}
+              fontSize="medium"
+              sx={favorite
+                ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
+                : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
+            />
+
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
             <Typography
