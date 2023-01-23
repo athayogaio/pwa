@@ -11,7 +11,7 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import ellipse from '../../../assets/public/ellipse.png';
 import ticket from '../../../assets/public/ticket.svg';
 
-const MyLesson = ({ title }) => (
+const MyLesson = ({ title, ticketsAmount }) => (
   <div style={{
     padding: '20px 24px 20px 20px',
     borderRadius: '16px',
@@ -23,13 +23,13 @@ const MyLesson = ({ title }) => (
   }}
   >
     <Link to="/">
-      <MoreHorizOutlinedIcon color="disabled" sx={{ position: 'absolute', top: '5px', right: '10px' }} />
+      <MoreHorizOutlinedIcon color="disabled" sx={{ position: 'absolute', top: '5px', right: '15px' }} />
     </Link>
     <Stack
       direction="row"
       spacing={2}
     >
-      <Grid container direction="column" gap="16px">
+      <Grid container direction="column" gap="16px" width="217%">
         <div>
           <Typography
             variant="h6"
@@ -88,7 +88,7 @@ const MyLesson = ({ title }) => (
         </Grid>
         <Grid item>
           <Typography variant="h4" color="primary">
-            1
+            {ticketsAmount}
           </Typography>
         </Grid>
         <Grid item container direction="column" spacing={1} alignItems="center">
