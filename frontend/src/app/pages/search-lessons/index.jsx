@@ -33,8 +33,8 @@ const SearchLessonsPage = () => {
           p: '8px 4px',
           display: 'flex',
           alignItems: 'center',
-          width: '100%',
-          maxWidth: '800px',
+          width: '80%',
+          maxWidth: '984px',
           margin: '32px auto',
         }}
       >
@@ -57,7 +57,7 @@ const SearchLessonsPage = () => {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'flex-start',
-          width: '800px',
+          maxWidth: '984px',
           gap: '20px',
           margin: '0 auto',
         }}

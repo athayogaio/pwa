@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Typography, Button, Grid, Stack,
+  Box, Typography, Button, Grid, Stack, Container,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -26,23 +26,25 @@ const MyLessonsPage = () => {
     >
       <Header title="Мои занятия" />
       {tickets?.length ? (
-        <Stack
-          direction="row"
-          sx={{
-            margin: '32px auto',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-          }}
-        >
-          {tickets.map(ticket => (
-            <MyLesson
-              key={ticket.course.id}
-              title={ticket.course.base_course.name}
-            />
-          ))}
-        </Stack>
+        <Container>
+          <Stack
+            direction="row"
+            sx={{
+              margin: '32px auto',
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            {tickets.map(ticket => (
+              <MyLesson
+                key={ticket.course.id}
+                title={ticket.course.base_course.name}
+              />
+            ))}
+          </Stack>
+        </Container>
       ) : (
         <Grid
           item

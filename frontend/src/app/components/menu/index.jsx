@@ -34,12 +34,12 @@ const Menu = ({ auth }) => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'start',
-          p: 2,
-          gap: '6px',
+          px: 2,
+          pt: 2.5,
+          gap: '8px',
         }}
       >
-        <button onClick={auth.logout}>Logout</button>
-        <div style={{ textAlign: 'center', marginBottom: '18px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '10px' }}>
           <img src={menuLogo} alt="atha yoga logo" style={{ width: '103px', height: '26px' }} />
         </div>
         <MenuItem
@@ -120,13 +120,21 @@ const Menu = ({ auth }) => {
       <Typography
         component={Link}
         variant="body2"
-        color="primary"
+        color="text.secondary"
         to="/"
         sx={{
-          textDecoration: 'none', position: 'absolute', bottom: '20px', left: '20px',
+          textDecoration: 'none', position: 'absolute', bottom: '50px', left: '20px',
         }}
       >
         О проекте
+      </Typography>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        onClick={auth.logout}
+        sx={{ position: 'absolute', bottom: '20px', left: '20px', cursor: 'pointer' }}
+      >
+        Выход
       </Typography>
     </Box>
   );

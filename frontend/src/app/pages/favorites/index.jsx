@@ -25,19 +25,23 @@ const FavoritesPage = () => {
         </Typography>
       )}
       <Container>
-        {Array.isArray(favoritesLessons) && favoritesLessons.length
-          ? (
-            favoritesLessons?.map(lesson => (
-              <LessonCard
-                key={lesson.id}
-                id={lesson.base_course.id}
-                title={lesson.base_course.name}
-                description={lesson.base_course.description}
-                price={lesson.price}
-                level={lesson.base_course.level}
-                favorite={lesson.favorite}
-              />
-            ))) : ('Ничего не найдено')}
+        <Box
+          maxWidth="984px"
+        >
+          {Array.isArray(favoritesLessons) && favoritesLessons.length
+            ? (
+              favoritesLessons?.map(lesson => (
+                <LessonCard
+                  key={lesson.id}
+                  id={lesson.base_course.id}
+                  title={lesson.base_course.name}
+                  description={lesson.base_course.description}
+                  price={lesson.price}
+                  level={lesson.base_course.level}
+                  favorite={lesson.favorite}
+                />
+              ))) : ('Ничего не найдено')}
+        </Box>
       </Container>
     </Box>
   );

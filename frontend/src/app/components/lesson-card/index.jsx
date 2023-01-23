@@ -25,7 +25,8 @@ const LessonCard = ({
     ADVANCED: 'Продвинутый',
   };
   const dispatch = useDispatch();
-  const setFavorite = () => {
+  const setFavorite = e => {
+    e.stopPropagation();
     if (favorite) {
       dispatch(removeFavoritesSlice(id));
     } else {
@@ -37,7 +38,7 @@ const LessonCard = ({
     <Box
       onClick={() => navigate(`/lesson-details/${id}`)}
       sx={{
-        borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%', cursor: 'pointer',
+        mb: '2%', borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%', cursor: 'pointer',
       }}
     >
       <Grid container alignItems="flex-start" justifyContent="center" height="100%">
