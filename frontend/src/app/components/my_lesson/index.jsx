@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-=======
 import { Link, useNavigate } from 'react-router-dom';
->>>>>>> ca066a9fa7b45197cdd54f58e79585a1c0eea196
 import {
   Card, Divider, Grid, Typography,
 } from '@mui/material';

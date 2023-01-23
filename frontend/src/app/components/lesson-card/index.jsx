@@ -25,9 +25,6 @@ const LessonCard = ({
     CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
   };
-<<<<<<< HEAD
-  // const [isFavorite, setIsFavorite] = useState(false);
-=======
 
   const setFavorite = () => {
     if (favorite) {
@@ -37,11 +34,10 @@ const LessonCard = ({
     }
     dispatch(getFavoritesSlice());
   };
->>>>>>> ca066a9fa7b45197cdd54f58e79585a1c0eea196
 
   return (
     <Box
-      // onClick={() => navigate(`/lesson-details/${id}`)}
+      onClick={() => navigate(`/lesson-details/${id}`)}
       sx={{
         borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%', cursor: 'pointer',
       }}
@@ -53,10 +49,7 @@ const LessonCard = ({
               {title}
             </Typography>
             <Stack direction="row" spacing={2}>
-<<<<<<< HEAD
               <Chip color="success" size="small" label="Вы участник" />
-
-=======
               {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
               <FavoriteIcon
                 onClick={setFavorite}
@@ -65,7 +58,6 @@ const LessonCard = ({
                   ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
                   : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
               />
->>>>>>> ca066a9fa7b45197cdd54f58e79585a1c0eea196
             </Stack>
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
