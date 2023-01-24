@@ -41,7 +41,7 @@ const LessonCard = ({
 
   return (
     <Box
-      // onClick={() => navigate(`/lesson-details/${id}`)}
+      onClick={() => navigate(`/lesson-details/${id}`)}
       sx={{
         borderRadius: '8px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', width: '100%', cursor: 'pointer',
       }}
@@ -52,6 +52,7 @@ const LessonCard = ({
             <Typography variant="h6">
               {title}
             </Typography>
+<<<<<<< HEAD
               <FavoriteIcon
                 onClick={setFavorite}
                 fontSize="medium"
@@ -59,6 +60,17 @@ const LessonCard = ({
                   ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
                   : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
               />
+=======
+
+            <FavoriteIcon
+              onClick={setFavorite}
+              fontSize="medium"
+              sx={favorite
+                ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
+                : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
+            />
+
+>>>>>>> c599660ae7b833946ad8b718227341382414ea7a
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
             <Typography
