@@ -1,30 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
+import passRecoverySlice from '../../core/slices/pass-recovery/passRecovery';
+import { clearMessage } from '../../core/slices/message';
 
 const PasswordRecovery = () => {
-  const [values, setValues] = useState({
-    amount: '',
-    password: '',
-    weight: '',
-    weightRange: '',
-    showPassword: false,
-  });
+  const dispatch = useDispatch();
+
+  const { message } = useSelector(state => state.message);
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, []);
 
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email');
+    dispatch(passRecoverySlice({ email }));
   };
 
+  if (message === 'Success') {
+    return <Navigate to="/instruction-recovery-password" />;
+  }
+
   return (
-    <Container sx={{height: '100%'}} component="main" maxWidth="xs">
+    <Container sx={{ height: '100%' }} component="main" maxWidth="xs">
       <Box
         sx={{
           height: '100%',
@@ -53,6 +59,8 @@ const PasswordRecovery = () => {
             placeholder="E-mail"
             name="email"
             autoComplete="email"
+            error={!!message?.invalid?.email || !!message?.permission_denied}
+            helperText={message?.invalid?.email || message?.permission_denied}
             autoFocus
           />
           <Button
