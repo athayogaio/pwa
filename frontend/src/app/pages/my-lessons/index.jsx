@@ -29,6 +29,7 @@ const MyLessonsPage = () => {
           direction="row"
           sx={{
             margin: '32px auto',
+            padding: '0 29px',
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',

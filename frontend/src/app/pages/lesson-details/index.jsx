@@ -9,6 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link, useParams } from 'react-router-dom';
 import LessonDescription from '../../components/lesson-description';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
+import Header from '../../components/header';
 
 const LessonDetailsPage = () => {
   const levels = {
@@ -30,34 +31,15 @@ const LessonDetailsPage = () => {
 
   return (
     <>
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{
-          width: '100%', minHeight: '64px', px: '29px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)', mb: '32px',
-        }}
-      >
-        <Typography component={Link} to="/search-lessons" fontSize="20px" fontWeight="500" color="text.secondary" sx={{ textDecoration: 'none' }}>
-          <ArrowBackIcon sx={{ mr: '14px', verticalAlign: '-2px' }} fontSize="medium" color="action" />
-          Назад
-        </Typography>
-        <Stack alignItems="center" direction="row" spacing={2}>
-          <Badge color="error" variant="dot">
-            <NotificationsNoneIcon fontSize="medium" color="disabled" />
-          </Badge>
-          <Link to="/settings">
-            <SettingsOutlinedIcon color="disabled" sx={{ transform: 'translateY(3px)' }} />
-          </Link>
-        </Stack>
-      </Box>
+      <Header title="Назад" withBackBtn />
       <Box
         display="flex"
         margin="0 auto"
         justifyContent="center"
         flexDirection="column"
-        maxWidth="982px"
+        sx={{
+          width: '100%', px: '29px',
+        }}
       >
         {errorMessage && (
         <Typography color="error.main">

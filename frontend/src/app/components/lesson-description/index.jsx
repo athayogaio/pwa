@@ -39,7 +39,7 @@ const LessonDescription = ({
       {level.join(' • ')}
     </Typography>
 
-    <Box width="982px" maxHeight="176px" display="flex" flexDirection="column" mb="32px">
+    <Box maxHeight="176px" display="flex" flexDirection="column" mb="32px">
       <Typography fontSize="16px" noWrap="false">
         {description}
         {' '}

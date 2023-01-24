@@ -5,20 +5,30 @@ import {
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
-import ellipse from '../../../assets/public/ellipse.png';
+import ticketSearch from '../../../assets/public/ticketSearch.svg';
 
 const MyLessonSearch = () => (
-
-  <Card sx={{
+  <div style={{
+    padding: '20px 24px 20px 20px',
     borderRadius: '16px',
-    boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-    border: '1px dashed #BDBDBD',
     width: '480px',
-    height: '192px',
-    p: '15px',
-
+    height: '240px',
+    marginRight: '24px',
+    marginBottom: '24px',
+    background: `center / contain no-repeat url(${ticketSearch})`,
+    filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
   }}
   >
+    {/* // <Card sx={{
+  //   borderRadius: '16px',
+  //   boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
+  //   border: '1px dashed #BDBDBD',
+  //   width: '480px',
+  //   height: '192px',
+  //   p: '15px',
+
+  // }}
+  // > */}
     <Stack
       direction="row"
       spacing={2}
@@ -33,10 +43,9 @@ const MyLessonSearch = () => (
         </Typography>
       </Stack>
       <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
-      <img src={ellipse} alt="" style={{ position: 'absolute', bottom: '0px' }} />
       <Grid container direction="column" gap="12px" alignItems="center" justifyContent="space-between" />
     </Stack>
-  </Card>
+  </div>
 );
 
 export default MyLessonSearch;

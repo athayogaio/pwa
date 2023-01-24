@@ -25,9 +25,7 @@ const LessonCard = ({
     CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
   };
-<<<<<<< HEAD
   // const [isFavorite, setIsFavorite] = useState(false);
-=======
 
   const setFavorite = () => {
     if (favorite) {
@@ -37,7 +35,6 @@ const LessonCard = ({
     }
     dispatch(getFavoritesSlice());
   };
->>>>>>> ca066a9fa7b45197cdd54f58e79585a1c0eea196
 
   return (
     <Box
@@ -52,15 +49,6 @@ const LessonCard = ({
             <Typography variant="h6">
               {title}
             </Typography>
-<<<<<<< HEAD
-              <FavoriteIcon
-                onClick={setFavorite}
-                fontSize="medium"
-                sx={favorite
-                  ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
-                  : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
-              />
-=======
 
             <FavoriteIcon
               onClick={setFavorite}
@@ -70,7 +58,13 @@ const LessonCard = ({
                 : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
             />
 
->>>>>>> c599660ae7b833946ad8b718227341382414ea7a
+            <FavoriteIcon
+              onClick={setFavorite}
+              fontSize="medium"
+              sx={favorite
+                ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
+                : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
+            />
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
             <Typography
