@@ -8,6 +8,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
