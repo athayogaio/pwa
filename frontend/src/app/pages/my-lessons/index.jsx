@@ -13,8 +13,7 @@ import MyLessonSearch from '../../components/my_lesson_search';
 
 const MyLessonsPage = () => {
   const dispatch = useDispatch();
-  const tickets = useSelector(state => state.tickets.tickets.data);
-
+  const tickets = useSelector(state => state.tickets.tickets?.data);
   useEffect(() => {
     dispatch(getTicketsSlice());
   }, [dispatch]);
@@ -31,6 +30,7 @@ const MyLessonsPage = () => {
             direction="row"
             sx={{
               margin: '32px auto',
+              padding: '0 29px',
               width: '100%',
               alignItems: 'center',
               justifyContent: 'center',
@@ -41,6 +41,7 @@ const MyLessonsPage = () => {
               <MyLesson
                 key={ticket.course.id}
                 title={ticket.course.base_course.name}
+                ticketsAmount={ticket.amount}
               />
             ))}
           </Stack>

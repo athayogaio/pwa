@@ -9,7 +9,6 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
 import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
