@@ -1,5 +1,7 @@
 from django.urls import path
 
+from courses.app.handlers.calendar_handlers import CalendarLessonAddHandler, CalendarLessonRemoveHandler, \
+    CalendarListHandler
 from courses.app.handlers.comment_handlers import (
     CourseCommentListHandler,
     CourseCommentCreateHandler,
@@ -97,4 +99,7 @@ urlpatterns = [
     path("reschedule-lesson/<int:lesson_id>/", LessonRescheduleHandler.as_view()),
     path("cancel-lesson/<int:lesson_id>/", LessonCancelHandler.as_view()),
     path("tickets/", TicketListHandler.as_view()),
+    path("calendar/add/", CalendarLessonAddHandler.as_view()),
+    path("calendar/remove/", CalendarLessonRemoveHandler.as_view()),
+    path("calendar/retrive/", CalendarListHandler.as_view()),
 ]

@@ -263,3 +263,7 @@ class TicketTransaction(Transaction):
     class Meta:
         verbose_name = "Транзакция билета"
         verbose_name_plural = "Транзакции билетов"
+
+class Calendar(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
