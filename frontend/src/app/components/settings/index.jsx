@@ -24,6 +24,9 @@ const Settings = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        cursor: 'pointer',
+        boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.08)',
+        borderRadius: '8px',
       }}
     >
       <Stack direction="row" spacing={2}>
@@ -31,7 +34,7 @@ const Settings = () => {
 
         <Typography>{text}</Typography>
       </Stack>
-      <KeyboardArrowRightIcon color="action" />
+      <KeyboardArrowRightIcon sx={{ color: '#616161' }} />
     </Paper>
   );
 
@@ -43,24 +46,24 @@ const Settings = () => {
         spacing={2}
         sx={{
           margin: '32px auto',
-          width: '100%',
-          maxWidth: '800px',
+          width: '80%',
+          maxWidth: '944px',
         }}
       >
         <Wpapper link text="Личные данные">
-          <PersonOutlineOutlinedIcon color="action" />
+          <PersonOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
         </Wpapper>
 
         <Wpapper link text="Платежи и карты">
-          <CreditCardIcon color="action" />
+          <CreditCardIcon sx={{ color: '#9E9E9E' }} />
         </Wpapper>
 
         <Wpapper link="/teacher-form" text="Стать преподавателем">
-          <SchoolOutlinedIcon color="action" />
+          <SchoolOutlinedIcon sx={{ color: '#9E9E9E' }} />
         </Wpapper>
 
         <Wpapper link text="Помощь">
-          <HelpOutlineOutlinedIcon color="action" />
+          <HelpOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
         </Wpapper>
 
       </Stack>

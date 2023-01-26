@@ -46,7 +46,7 @@ const TeacherForm = () => {
     dispatch(postQuestionnaireSlice({
       ...answersArr,
       certificate_photos: photos,
-      date_of_birth: dateOfBirth.toISOString().split('T')[0],
+      date_of_birth: dateOfBirth ? `${dateOfBirth.$y}-${dateOfBirth.$M + 1}-${dateOfBirth.$D}` : null,
     }));
   };
 

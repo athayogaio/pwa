@@ -6,7 +6,6 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import {Link} from 'react-router-dom';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
-import Header from '../header';
 
 const ScheduleLessonCard = () => (
   <Box
@@ -16,8 +15,7 @@ const ScheduleLessonCard = () => (
       alignItems: 'center',
     }}
   >
-    <Header title="Календарь" />
-    <Box width="800px" m="16px" sx={{ border: '1px solid #E0E0E0', borderRadius: '8px' }}>
+    <Box width="100%" maxWidth="732px" m="16px" sx={{ border: '1px solid #E0E0E0', borderRadius: '8px' }}>
       <Grid container alignItems="center" justifyContent="center">
         <Grid item>
           <Typography sx={{ textAlign: 'center', p: '32px 16px 33px 20px', fontSize: '18px' }}>

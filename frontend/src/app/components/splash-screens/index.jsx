@@ -46,10 +46,11 @@ const SplashScreens = () => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 6,
+          height: '100vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <Typography component="h1" variant="h4" fontWeight="500" gutterBottom>

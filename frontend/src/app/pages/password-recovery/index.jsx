@@ -1,5 +1,5 @@
 import React from 'react';
-import PasswordRecovery from '../../components/password-recovery/index.jsx';
+import PasswordRecovery from '../../components/password-recovery';
 
 const PasswordRecoveryPage = () => <PasswordRecovery />;
 

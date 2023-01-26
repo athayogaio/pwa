@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import ellipse from '../../../assets/public/ellipse.png';
 import ticket from '../../../assets/public/ticket.svg';
 
 const MyLesson = ({ title, ticketsAmount }) => (
@@ -83,7 +82,6 @@ const MyLesson = ({ title, ticketsAmount }) => (
         </Grid>
       </Grid>
       <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
-      <img src={ellipse} alt="" style={{ position: 'absolute', bottom: '0px' }} />
       <Grid container direction="column" gap="12px" alignItems="center" justifyContent="space-between">
         <Grid item>
           <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>

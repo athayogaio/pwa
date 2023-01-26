@@ -17,9 +17,9 @@ const Header = ({ title, withBackBtn = false }) => {
       flexDirection="row"
       alignItems="center"
       justifyContent="space-between"
-      mb="20px"
+      mb="30px"
       sx={{
-        width: '100%', minHeight: '64px', px: '29px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
+        width: '100%', minHeight: '64px', px: '25px', boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
       }}
     >
       <Stack direction="row" alignItems="center" spacing={2} color="text.secondary">
