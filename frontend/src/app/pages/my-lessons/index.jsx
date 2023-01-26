@@ -44,6 +44,7 @@ const MyLessonsPage = () => {
                 ticketsAmount={ticket.amount}
               />
             ))}
+            <MyLessonSearch />
           </Stack>
         </Container>
       ) : (
