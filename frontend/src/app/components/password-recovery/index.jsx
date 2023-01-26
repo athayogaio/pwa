@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -13,6 +13,7 @@ const PasswordRecovery = () => {
   const dispatch = useDispatch();
 
   const { message } = useSelector(state => state.message);
+  console.log(message);
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -30,48 +31,65 @@ const PasswordRecovery = () => {
   }
 
   return (
-    <Container sx={{ height: '100%' }} component="main" maxWidth="xs">
+    <Container sx={{
+      height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',
+    }}
+    >
       <Box
         sx={{
-          height: '100%',
+          maxWidth: '455px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Typography component="h1" variant="h4" sx={{ mb: 4 }}>
+        <Typography variant="h1" sx={{ fontSize: '40px', mb: '32px', textAlign: 'center' }}>
           Восстановление пароля
         </Typography>
-        <Typography variant="body2" textAlign="center">
-          Мы отправим вам письмо
+        <Typography sx={{ fontSize: '18px', textAlign: 'center', m: '0 46px 20px' }}>
+          Ссылка для восстановления пароля будет отправлена на электронную почту
         </Typography>
-        <Typography variant="body2" textAlign="center">
-          со ссылкой для восстановления пароля
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate className="form__container">
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{
+            width: '100%', display: 'flex', flexDirection: 'column', gap: '32px', px: '27px', py: '32px', border: '1px solid #E0E0E0', borderRadius: '16px',
+          }}
+        >
           <TextField
-            sx={{ mb: 2, mt: 1 }}
             label="Электронная почта"
-            margin="normal"
             fullWidth
             id="email"
-            placeholder="E-mail"
+            placeholder="Электронная почта"
             name="email"
             autoComplete="email"
             error={!!message?.invalid?.email || !!message?.permission_denied}
             helperText={message?.invalid?.email || message?.permission_denied}
             autoFocus
           />
-          <Button
-            type="submit"
-            size="large"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 2, mb: 1 }}
-          >
-            Отправить
-          </Button>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Button
+              type="submit"
+              size="large"
+              fullWidth
+              variant="contained"
+              sx={{ mb: '16px' }}
+            >
+              Отправить
+            </Button>
+            <Button
+              component={Link}
+              to="/login"
+              color="primary"
+              sx={{
+                fontWeight: '500', fontSize: '13px', textDecoration: 'none', textTransform: 'uppercase', lineHeight: '22px',
+              }}
+            >
+              Назад
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Container>

@@ -24,6 +24,7 @@ import TeacherFormPage from './pages/teacher-form';
 import FavoritesPage from './pages/favorites';
 import AbonementPage from './pages/abonement';
 import InstructionRecoveryPage from './pages/instruction-recovery';
+import ResetPasswordPage from './pages/reset-password';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -81,7 +82,6 @@ const theme = createTheme({
 const App = () => {
   const auth = useAuth();
   const Layout = auth.isLoggedIn ? ProfileLayout : BaseLayout;
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -92,6 +92,7 @@ const App = () => {
           <Route path="register" element={<RegisterPage />} />
           <Route path="recovery-password" element={<PasswordRecoveryPage />} />
           <Route path="instruction-recovery-password" element={<InstructionRecoveryPage />} />
+          <Route path="reset-password" element={<ResetPasswordPage />} />
           <Route path="*" element={<ErrorPage />} />
           <Route element={auth.isLoggedIn ? <Outlet /> : <Navigate replace to="/" />}>
             <Route path="search-lessons" element={<SearchLessonsPage />} />
