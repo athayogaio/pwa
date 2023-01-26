@@ -30,6 +30,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './theme/style.scss';
+import PaymentSuccessPage from './pages/payment-success';
 
 const theme = createTheme({
   palette: {
@@ -104,6 +105,7 @@ const App = () => {
             <Route path="teacher-form" element={<TeacherFormPage />} />
             <Route path="favorites" element={<FavoritesPage />} />
             <Route path="abonement/:id" element={<AbonementPage />} />
+            <Route path="payment-success/:id" element={<PaymentSuccessPage />} />
           </Route>
         </Route>
       </Routes>

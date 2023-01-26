@@ -23,7 +23,7 @@ const MyLessonSearch = () => (
       spacing={2}
       sx={{ height: '100%' }}
     >
-      <Stack direction="column" spacing={2} alignItems="center" justifyContent="center" sx={{ width: '217%', height: '100%' }}>
+      <Stack direction="column" spacing={2} alignItems="center" justifyContent="center" sx={{ width: '218%', height: '100%' }}>
         <Link to="/search-lessons">
           <SearchIcon color="disabled" sx={{ width: '45px', height: '45px' }} />
         </Link>
