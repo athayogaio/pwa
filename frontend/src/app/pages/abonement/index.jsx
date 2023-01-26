@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Button, Typography, Stack, Card,
+  Box, Button, Typography, Stack, Card, Input,
 } from '@mui/material';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
@@ -10,18 +10,23 @@ import Header from '../../components/header';
 import buyTicketSlice from '../../core/slices/tickets/buyTicket/buyTicket.js';
 
 const AbonementPage = () => {
-  const max_ticket_amount = 1;
-  const [amount, setAmount] = useState(null);
+  // const max_ticket_amount = 1;
+  const [amount, setAmount] = useState(12);
   const { id } = useParams();
   const dispatch = useDispatch();
   const { lesson, errorMessage } = useSelector(state => state.lesson);
   const preparedDate = date => date.split('T')[0].split('-').reverse().slice(0, 2).join('.');
+  const calculatePrice = (price, amount) => {
+    if (amount > 11) return Math.round(((price * amount) * 8) / 10);
+    if ((amount > 7) && (amount < 12)) return Math.round(((price * amount) * 85) / 100);
+    if ((amount > 3) && (amount < 8)) return Math.round(((price * amount) * 9) / 10);
+  };
   const handlePay = () => {
     console.log(id, amount);
     dispatch(buyTicketSlice(id, amount));
   };
 
-  console.log(lesson);
+  // console.log(lesson);
 
   useEffect(() => {
     dispatch(getLessonSlice(id));
@@ -44,7 +49,6 @@ const AbonementPage = () => {
           {errorMessage}
         </Typography>
         )}
-        {lesson && console.log(lesson.data.base_course.level)}
         {lesson && (
           <>
             <Typography fontSize="24px" fontWeight="500">
@@ -84,7 +88,6 @@ const AbonementPage = () => {
                 cursor: 'pointer',
 
               }}
-              onClick={() => setAmount(1)}
             >
               <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
                 <Typography fontSize="24px" fontWeight="500">
@@ -111,7 +114,6 @@ const AbonementPage = () => {
                 cursor: 'pointer',
 
               }}
-              onClick={() => setAmount(4)}
             >
               <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
                 <Typography fontSize="24px" fontWeight="500">
@@ -145,7 +147,6 @@ const AbonementPage = () => {
                 cursor: 'pointer',
 
               }}
-              onClick={() => setAmount(8)}
             >
               <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
                 <Typography fontSize="24px" fontWeight="500">
@@ -179,24 +180,39 @@ const AbonementPage = () => {
                 cursor: 'pointer',
 
               }}
-              onClick={() => setAmount(12)}
             >
               <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
-                <Typography fontSize="32px" fontWeight="500" sx={{ textDecoration: 'underline' }}>
-                  12
-                </Typography>
-                <Stack direction="column" alignItems="center" justifyContent="center">
-                  <Typography color="text.secondary" fontSize="24px" fontWeight="400" sx={{ textDecoration: 'line-through' }}>
-                    {lesson.data.price * 12}
-                    {' '}
-                    ₽
-                  </Typography>
+                <Input
+                  defaultValue="12"
+                  autoFocus
+                  onChange={e => setAmount(e.target.value)}
+                  sx={{
+                    fontSize: '32px',
+                    fontWeight: '500',
+                    maxWidth: '37px',
+                  }}
+                />
+                {amount < 4 && (
                   <Typography color="primary" fontSize="32px" fontWeight="700">
-                    {((lesson.data.price * 12) * 8) / 10}
+                    {lesson.data.price}
                     {' '}
                     ₽
                   </Typography>
-                </Stack>
+                )}
+                {amount > 3 && (
+                  <Stack direction="column" alignItems="center" justifyContent="center">
+                    <Typography color="text.secondary" fontSize="24px" fontWeight="400" sx={{ textDecoration: 'line-through' }}>
+                      {lesson.data.price * amount}
+                      {' '}
+                      ₽
+                    </Typography>
+                    <Typography color="primary" fontSize="32px" fontWeight="700">
+                      {calculatePrice(lesson.data.price, amount)}
+                      {' '}
+                      ₽
+                    </Typography>
+                  </Stack>
+                )}
               </Stack>
             </Card>
           </>
@@ -204,8 +220,6 @@ const AbonementPage = () => {
 
         <Stack direction="row" justifyContent="flex-end" width="100%">
           <Button
-            component={Link}
-            to="/"
             onClick={amount && (() => handlePay())}
             variant="contained"
             sx={{
