@@ -30,16 +30,15 @@ const LessonDetailsPage = () => {
   }, []);
 
   return (
-    <>
-      <Header title="Назад" withBackBtn />
+    <Box sx={{ width: '100%' }}>
+      <Header withBackBtn />
       <Box
         display="flex"
         margin="0 auto"
         justifyContent="center"
         flexDirection="column"
-        sx={{
-          width: '100%', px: '29px',
-        }}
+        maxWidth="982px"
+        width="90%"
       >
         {errorMessage && (
         <Typography color="error.main">
@@ -67,7 +66,7 @@ const LessonDetailsPage = () => {
         />
         )}
       </Box>
-    </>
+    </Box>
   );
 };
 

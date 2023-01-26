@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
-import ticketSearch from '../../../assets/public/ticketSearch.svg';
+import ticketSearch from '../../../assets/public/ticket.svg';
 
 const MyLessonSearch = () => (
   <div style={{

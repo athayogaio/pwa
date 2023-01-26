@@ -79,13 +79,13 @@ const LogIn = () => {
 
   return (
     <Container sx={{ height: '100%' }} component="main" maxWidth="xs">
-      <div style={{
+      {/* <div style={{
         display: 'flex', flexDirection: 'column', gap: '5px', position: 'absolute', right: '30px', top: '30px',
       }}
       >
         <img src={menuLogo} alt="athayoga logo" />
         <Button onClick={handleInstall}>Add to home screen</Button>
-      </div>
+      </div> */}
       <Box
         sx={{
           display: 'flex',
