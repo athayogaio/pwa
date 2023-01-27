@@ -23,9 +23,7 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
       filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
     }}
     >
-      <Link to="/">
-        <MoreHorizOutlinedIcon color="disabled" sx={{ position: 'absolute', top: '5px', right: '15px' }} />
-      </Link>
+      <MoreHorizOutlinedIcon color="disabled" sx={{ position: 'absolute', top: '10px', right: '15px' }} />
       <Stack
         direction="row"
         spacing={2}

@@ -49,19 +49,13 @@ const LessonCard = ({
               {title}
             </Typography>
 
-            <FavoriteIcon
-              onClick={setFavorite}
-              fontSize="medium"
-              sx={favorite
-                ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
-                : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
-            />
             <Stack direction="row" spacing={2}>
               {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
               {favorite
                 ? <FavoriteIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
                 : <FavoriteBorderOutlinedIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
             </Stack>
+
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
             <Typography

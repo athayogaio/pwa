@@ -15,7 +15,7 @@ const PaymentSuccessPage = () => {
       container
       flexDirection="column"
     >
-      <Header title="" withBackBtn />
+      <Header withBackBtn />
 
       <Container>
         <Box sx={{

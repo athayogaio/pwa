@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Typography, Button, Grid, Stack, Container,
 } from '@mui/material';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import Header from '../../components/header';
 
@@ -15,7 +15,7 @@ const PaymentFailedPage = () => {
       container
       flexDirection="column"
     >
-      <Header title="" withBackBtn />
+      <Header withBackBtn />
 
       <Container>
         <Box sx={{
