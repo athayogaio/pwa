@@ -126,7 +126,7 @@ class UserResetPass:
                 subject="Восстановление пароля",
                 message=f"Дорогой пользователь, для восстановления доступа к Atha.Yoga, "
                 f"пожалуйста, перейдите по следующей "
-                f"ссылке:\n{settings.SITE_URL}/?token={token}/.\n"
+                f"ссылке: <a href='{settings.SITE_URL}/reset-password/{token}/'>Ссылка</a>.\n"
                 f"Если Вы не запрашивали восстановление пароля, просто проигнорируйте это письмо."
                 f"\nС уважением и заботой,\nкоманда ATHAYOGA.",
                 receivers=[email],
