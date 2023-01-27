@@ -15,7 +15,7 @@ const PaymentFailedPage = () => {
       container
       flexDirection="column"
     >
-      <Header title="title" withBackBtn />
+      <Header title="" withBackBtn />
 
       <Container>
         <Box sx={{

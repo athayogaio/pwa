@@ -9,12 +9,13 @@ import Header from '../../components/header';
 
 const PaymentSuccessPage = () => {
   const { id } = useParams();
+
   return (
     <Grid
       container
       flexDirection="column"
     >
-      <Header title="title" withBackBtn />
+      <Header title="" withBackBtn />
 
       <Container>
         <Box sx={{
