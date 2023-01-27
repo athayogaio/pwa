@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -11,20 +11,15 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  OutlinedInput, FormControl, InputLabel, useFormControl, FormHelperText,
-} from '@mui/material';
 import { AuthContext } from '../../utils/providers/auth';
 import { clearMessage, setMessage } from '../../core/slices/message';
 
 const SignUp = () => {
   const [values, setValues] = useState({
-    amount: '',
     password: '',
-    weight: '',
-    weightRange: '',
     showPassword: false,
   });
+
   const context = useContext(AuthContext);
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
@@ -55,19 +50,6 @@ const SignUp = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     context.register({ email: data.get('email'), password: data.get('password') });
-  };
-
-  const MyFormHelperText = () => {
-    const { focused } = useFormControl() || {};
-
-    const helperText = React.useMemo(() => {
-      if (focused) {
-        return 'Не меньше 10 символов, знаки 3 из 4 категорий: 0-9, a-z, A-Z и специальные символы';
-      }
-      return '';
-    }, [focused]);
-
-    return <FormHelperText>{helperText}</FormHelperText>;
   };
 
   return (

@@ -120,7 +120,9 @@ const UploadFiles = ({ updatePhoto, loaderName, updateCertificate }) => {
                   <img src={photoUploaded} alt="uploaded" style={{ width: '48px', height: '48px' }} />
                 </Box>
                 <Box
-                  sx={{ width: '14px', height: '14px', m: '13px' }}
+                  sx={{
+                    width: '14px', height: '14px', m: '13px', cursor: 'pointer',
+                  }}
                   onClick={() => deleteFile(file.name)}
                 >
                   <img

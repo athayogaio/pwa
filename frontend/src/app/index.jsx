@@ -25,6 +25,7 @@ import FavoritesPage from './pages/favorites';
 import AbonementPage from './pages/abonement';
 import InstructionRecoveryPage from './pages/instruction-recovery';
 import ResetPasswordPage from './pages/reset-password';
+import RegisterConfirmPage from './pages/auth/register-confirm';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -90,9 +91,10 @@ const App = () => {
           <Route index element={!auth.isLoggedIn ? <WelcomePage /> : <Navigate replace to="profile" />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="register-confirm" element={<RegisterConfirmPage />} />
           <Route path="recovery-password" element={<PasswordRecoveryPage />} />
           <Route path="instruction-recovery-password" element={<InstructionRecoveryPage />} />
-          <Route path="reset-password" element={<ResetPasswordPage />} />
+          <Route path="reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="*" element={<ErrorPage />} />
           <Route element={auth.isLoggedIn ? <Outlet /> : <Navigate replace to="/" />}>
             <Route path="search-lessons" element={<SearchLessonsPage />} />

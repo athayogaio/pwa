@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
-import instructionRecovery from '../../../assets/public/instruction_recovery.png';
+import instructionConfirm from '../../../assets/public/instruction_confirm.png';
+import FooterSupport from '../footer-support';
 
 const InstructionRecovery = () => (
   <Box
@@ -14,7 +15,7 @@ const InstructionRecovery = () => (
     }}
     >
       <Box sx={{ mb: '48px' }}>
-        <img src={instructionRecovery} alt="pass-recovery-email" />
+        <img src={instructionConfirm} alt="pass-recovery-email" />
       </Box>
       <Typography
         variant="h4"
@@ -32,11 +33,7 @@ const InstructionRecovery = () => (
       </Typography>
     </Box>
     <Box position="absolute" bottom="31px">
-      <Typography color="text.secondary" sx={{ fontSize: '14px', textAlign: 'center' }}>
-        Обратиться за помощью в службу поддержки
-        {' '}
-        <Typography component={Link} to="#" color="primary" sx={{ fontSize: '14px', textDecoration: 'none' }}>supportEmail</Typography>
-      </Typography>
+      <FooterSupport />
     </Box>
   </Box>
 );

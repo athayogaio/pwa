@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Typography, Button, TextField,
 } from '@mui/material';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import passConfirmSlice from '../../core/slices/reset-pass-confirm/resetPass';
+import loginSlice from '../../core/slices/auth/login';
 import { clearMessage } from '../../core/slices/message';
+import { UserEmailContext } from '../password-recovery';
 
 const ResetPassword = () => {
   const [values, setValues] = useState({
@@ -18,15 +20,21 @@ const ResetPassword = () => {
     showPassword: false,
   });
 
-  const [infoUser, setInfoUser] = useState({
-    pwd_reset_token: '509ebada-3857-411d-a7c8-8ca20a1cd8dd',
-    email: 'hoenmoki@gmail.com',
-    new_password: '',
-  });
+  const { token } = useParams();
+
+  const { userEmail } = useContext(UserEmailContext);
 
   const dispatch = useDispatch();
 
   const { message } = useSelector(state => state.message);
+
+  const [infoUser, setInfoUser] = useState({
+    pwd_reset_token: token,
+    email: 'hoenmoki@gmail.com',
+    new_password: userEmail,
+  });
+
+  console.log(infoUser);
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -50,6 +58,10 @@ const ResetPassword = () => {
   };
 
   if (message === 'Success') {
+    const pass = infoUser.new_password;
+    const { email } = infoUser;
+    console.log({ email, pass });
+    dispatch(loginSlice({ userEmail, pass }));
     return <Navigate to="/profile" />;
   }
 
