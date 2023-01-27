@@ -43,8 +43,10 @@ const MyLessonsPage = () => {
                 key={ticket.course.id}
                 title={ticket.course.base_course.name}
                 ticketsAmount={ticket.amount}
+                endDate={ticket.course.deadline_datetime}
               />
             ))}
+            <MyLessonSearch />
           </Stack>
         </Container>
       ) : (

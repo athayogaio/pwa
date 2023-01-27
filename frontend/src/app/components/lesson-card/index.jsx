@@ -24,6 +24,7 @@ const LessonCard = ({
     CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
   };
+
   const dispatch = useDispatch();
   const setFavorite = e => {
     e.stopPropagation();
@@ -47,12 +48,14 @@ const LessonCard = ({
             <Typography variant="h6">
               {title}
             </Typography>
+
             <Stack direction="row" spacing={2}>
               {isParticipant && <Chip color="success" size="small" label="Вы участник" />}
               {favorite
                 ? <FavoriteIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#E91E63', '&:hover': { cursor: 'pointer' } }} />
                 : <FavoriteBorderOutlinedIcon onClick={setFavorite} fontSize="medium" sx={{ color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }} />}
             </Stack>
+
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
             <Typography
@@ -106,7 +109,7 @@ const LessonCard = ({
             <Chip size="small" label="Вт 14:30-15:30" />
           </Grid>
           <Grid item xs container gap="6px" alignItems="center">
-            <Avatar alt="name" src="avatar" />
+            <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
             <Typography variant="body1">
               Виктор Васильев
             </Typography>
