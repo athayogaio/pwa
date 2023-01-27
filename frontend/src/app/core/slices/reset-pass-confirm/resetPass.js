@@ -11,7 +11,7 @@ const passConfirmSlice = createAsyncThunk(
       });
       thunkAPI.dispatch(setMessage('Success'));
 
-      return result;
+      return result.data;
     } catch (error) {
       const message = error.response.data.errors;
       thunkAPI.dispatch(setMessage(message));

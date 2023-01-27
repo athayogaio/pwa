@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -21,6 +21,7 @@ const SignUp = () => {
   });
 
   const context = useContext(AuthContext);
+  const navigate = useNavigate();
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
 
@@ -49,7 +50,7 @@ const SignUp = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    context.register({ email: data.get('email'), password: data.get('password') });
+    context.register({ email: data.get('email'), password: data.get('password') }, navigate('/register-confirm'));
   };
 
   return (
@@ -66,7 +67,7 @@ const SignUp = () => {
         <Typography component="h1" variant="h4" fontWeight="500" sx={{ mb: 3 }}>
           Регистрация
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className="form__container">
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             sx={{ mb: 2 }}
             margin="normal"

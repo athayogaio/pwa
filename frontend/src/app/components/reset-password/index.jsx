@@ -3,18 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Typography, Button, TextField,
 } from '@mui/material';
-import { Navigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import passConfirmSlice from '../../core/slices/reset-pass-confirm/resetPass';
-import loginSlice from '../../core/slices/auth/login';
+// import loginSlice from '../../core/slices/auth/login';
 import { clearMessage } from '../../core/slices/message';
 import { UserEmailContext } from '../password-recovery';
+import { AuthContext } from '../../utils/providers/auth';
 
 const ResetPassword = () => {
+  const context = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     password: '',
     showPassword: false,
@@ -34,8 +38,6 @@ const ResetPassword = () => {
     new_password: userEmail,
   });
 
-  console.log(infoUser);
-
   useEffect(() => {
     dispatch(clearMessage());
   }, []);
@@ -54,16 +56,11 @@ const ResetPassword = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(passConfirmSlice(infoUser));
+    dispatch(passConfirmSlice(infoUser))
+      .then(() => {
+        context.login({ email: infoUser.email, password: infoUser.new_password }, navigate('/profile'));
+      });
   };
-
-  if (message === 'Success') {
-    const pass = infoUser.new_password;
-    const { email } = infoUser;
-    console.log({ email, pass });
-    dispatch(loginSlice({ userEmail, pass }));
-    return <Navigate to="/profile" />;
-  }
 
   return (
     <Container
