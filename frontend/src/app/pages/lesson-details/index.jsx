@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Typography, Stack, Badge,
+  Box, Typography,
 } from '@mui/material';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link, useParams } from 'react-router-dom';
 import LessonDescription from '../../components/lesson-description';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
@@ -23,7 +20,7 @@ const LessonDetailsPage = () => {
   const dispatch = useDispatch();
   const { lesson, errorMessage } = useSelector(state => state.lesson);
 
-  console.log(lesson);
+  // console.log(lesson);
 
   useEffect(() => {
     dispatch(getLessonSlice(id));
@@ -62,7 +59,7 @@ const LessonDetailsPage = () => {
           startDate={lesson.data.lessons.start_datetime}
           duration={lesson.data.base_course.duration}
           isPaid={lesson.data.payment === 'PAYMENT'}
-          level={(lesson.data.base_course.level).split().map(lvl => levels[lvl])} // убрать split
+          level={levels[lesson.data.base_course.level[0]]}
         />
         )}
       </Box>
