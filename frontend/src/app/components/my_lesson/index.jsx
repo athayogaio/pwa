@@ -14,7 +14,7 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   return (
     <div style={{
-      padding: '20px 24px 20px 20px',
+      padding: '20px 24px 20px 30px',
       borderRadius: '16px',
       width: '480px',
       marginRight: '24px',
@@ -23,12 +23,12 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
       filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
     }}
     >
-      <MoreHorizOutlinedIcon color="disabled" sx={{ position: 'absolute', top: '10px', right: '15px' }} />
+      <MoreHorizOutlinedIcon color="disabled" sx={{ position: 'absolute', top: '10px', right: '20px' }} />
       <Stack
         direction="row"
         spacing={2}
       >
-        <Grid container direction="column" gap="16px" width="217%">
+        <Grid container direction="column" gap="16px" width="207%">
           <div>
             <Typography
               variant="h6"
@@ -48,11 +48,11 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
               {title}
             </Typography>
           </div>
-          <Grid item xs container direction="column">
+          <Grid container direction="column">
             <Typography variant="caption" color="text.secondary" sx={{ fontSize: '13px', mb: '7px' }}>
               Ближайшее занятие:
             </Typography>
-            <Grid item xs container>
+            <Grid container>
               <DateRangeOutlinedIcon
                 color="primary"
                 size="small"
@@ -70,8 +70,8 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid item xs container gap="6px" alignItems="center">
-            <Avatar alt="name" src="avatar" />
+          <Grid container gap="6px" alignItems="center">
+            <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
             <Typography variant="body1">
               Виктор Васильев
             </Typography>
@@ -89,7 +89,7 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
               {ticketsAmount}
             </Typography>
           </Grid>
-          <Grid item container direction="column" spacing={1} alignItems="center">
+          <Grid container direction="column" spacing={1} alignItems="center">
             <Typography variant="body2">
               Дата окончания:
             </Typography>

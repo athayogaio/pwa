@@ -109,7 +109,7 @@ const LessonCard = ({
             <Chip size="small" label="Вт 14:30-15:30" />
           </Grid>
           <Grid item xs container gap="6px" alignItems="center">
-            <Avatar alt="name" src="avatar" />
+            <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
             <Typography variant="body1">
               Виктор Васильев
             </Typography>

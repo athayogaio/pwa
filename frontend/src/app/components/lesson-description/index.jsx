@@ -127,9 +127,7 @@ const LessonDescription = ({
     <Box display="flex" alignItems="center" flexWrap="wrap" gap="6px" mb="56px">
       <Avatar
         src={avatar}
-        sx={{
-          width: '40px', height: '40px',
-        }}
+        sx={{ width: 32, height: 32 }}
       />
       <Typography
         fontSize="16px"
