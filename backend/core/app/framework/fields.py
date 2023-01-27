@@ -61,7 +61,7 @@ class JSONParsedField(models.JSONField):
             return [item for item in (self.convert(data=i) for i in data) if item]
         return self.convert(data=data)
 
-    def get_prep_value(self, value: Any) -> Optional[str]:
+    def convert_to_primitive(self, value: Any) -> Optional[Union[dict, List[dict]]]:
         if value is None:
             return value
         result_value = value
@@ -69,4 +69,9 @@ class JSONParsedField(models.JSONField):
             result_value = [asdict(i) if is_dataclass(i) else i for i in value]
         elif not isinstance(value, dict):
             result_value = asdict(value)
-        return json.dumps(result_value, cls=self.encoder, default=str)
+        return result_value
+
+    def get_prep_value(self, value: Any) -> Optional[str]:
+        return json.dumps(
+            self.convert_to_primitive(value=value), cls=self.encoder, default=str
+        )

@@ -24,12 +24,16 @@ import TeacherFormPage from './pages/teacher-form';
 import FavoritesPage from './pages/favorites';
 import AbonementPage from './pages/abonement';
 import InstructionRecoveryPage from './pages/instruction-recovery';
+import ResetPasswordPage from './pages/reset-password';
+import RegisterConfirmPage from './pages/auth/register-confirm';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './theme/style.scss';
+import PaymentSuccessPage from './pages/payment-success';
+import PaymentFailedPage from './pages/payment-failed';
 
 const theme = createTheme({
   palette: {
@@ -81,7 +85,6 @@ const theme = createTheme({
 const App = () => {
   const auth = useAuth();
   const Layout = auth.isLoggedIn ? ProfileLayout : BaseLayout;
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -90,8 +93,10 @@ const App = () => {
           <Route index element={!auth.isLoggedIn ? <WelcomePage /> : <Navigate replace to="profile" />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="register-confirm" element={<RegisterConfirmPage />} />
           <Route path="recovery-password" element={<PasswordRecoveryPage />} />
           <Route path="instruction-recovery-password" element={<InstructionRecoveryPage />} />
+          <Route path="reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="*" element={<ErrorPage />} />
           <Route element={auth.isLoggedIn ? <Outlet /> : <Navigate replace to="/" />}>
             <Route path="search-lessons" element={<SearchLessonsPage />} />
@@ -104,6 +109,8 @@ const App = () => {
             <Route path="teacher-form" element={<TeacherFormPage />} />
             <Route path="favorites" element={<FavoritesPage />} />
             <Route path="abonement/:id" element={<AbonementPage />} />
+            <Route path="payment-success/:id" element={<PaymentSuccessPage />} />
+            <Route path="payment-failed/:id" element={<PaymentFailedPage />} />
           </Route>
         </Route>
       </Routes>

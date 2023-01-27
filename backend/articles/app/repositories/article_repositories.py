@@ -1,5 +1,8 @@
+from typing import Optional
+
 from django.db.models import QuerySet, Q
 
+from articles.app.services.types import ArticleFilterData
 from articles.models import Article, Tag, Category
 from core.app.repositories.base_repository import BaseRepository
 
@@ -7,20 +10,23 @@ from core.app.repositories.base_repository import BaseRepository
 class ArticleRepository(BaseRepository):
     model = Article
 
-    def find_all_articles(self) -> QuerySet[Article]:
-        return self.model.objects.filter(published=True)
-
     def find_article_by_slug(self, article_slug: str) -> Article:
         return self.model.objects.filter(published=True, slug=article_slug).first()
 
-    def find_articles_by_search_query(self, query: str) -> QuerySet[Article]:
-        return self.model.objects.filter(published=True, title__icontains=query)
-
-    def find_articles_by_category(self, category: Category) -> QuerySet[Article]:
-        return self.model.objects.filter(
-            Q(published=True)
-            & (Q(category__in=category.get_children()) | Q(category=category))
-        )
+    def filter_articles(
+        self, data: ArticleFilterData = None, category: Optional[Category] = None
+    ) -> QuerySet[Article]:
+        filter_query = Q(published=True)
+        if data:
+            if query := data.get("query", None):
+                filter_query &= Q(title__icontains=query)
+            if tags := data.get("tags", None):
+                filter_query &= Q(tags__name__in=tags)
+        if category:
+            filter_query &= Q(category__in=category.get_children()) | Q(
+                category=category
+            )
+        return self.model.objects.filter(filter_query)
 
 
 class ArticleCategoryRepository(BaseRepository):

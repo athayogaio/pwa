@@ -1,22 +1,45 @@
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import letter from '../../../assets/public/letter.svg';
+import { Box, Typography } from '@mui/material';
+import FooterSupport from '../footer-support';
+import instructionConfirm from '../../../assets/public/instruction_confirm.png';
 
-const SignInConfirm = () => (
-  <div className="sign_in_confirm__container">
-    <img src={letter} alt="Письмо" />
-    <Typography variant="h6" maxWidth={270} textAlign="center" sx={{ mt: 4, mb: 2 }}>
-      Письмо с подтверждением регистрации отправлено
-      вам на почту
-    </Typography>
-    <Typography variant="body2" color="text.secondary" maxWidth={240} textAlign="center">
-      Следуйте инструкции из письма.
-      Если письмо не пришло,
-    </Typography>
-    <Link to="/" variant="body2" underline="none">
-      отправить письмо еще раз.
-    </Link>
-  </div>
+const SignUpConfirm = () => (
+  <Box
+    sx={{
+      width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', px: '42px',
+    }}
+  >
+    <Box sx={{
+      maxWidth: '552px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+    }}
+    >
+      <Box sx={{ mb: '48px' }}>
+        <img src={instructionConfirm} alt="pass-recovery-email" />
+      </Box>
+      <Typography
+        variant="h4"
+        sx={{
+          fontSize: '24px', lineheight: '120%', textAlign: 'center', mb: '37px',
+        }}
+      >
+        Подтвердите электронную почту
+      </Typography>
+      <Typography color="text.secondary" sx={{ fontSize: '18px', textAlign: 'center', mb: '16px' }}>
+        Ссылка на подтверждение регистрации отправлена на указанный электронный адрес.
+        Следуйте инструкциям в письме.
+      </Typography>
+      <Typography color="text.secondary" sx={{ fontSize: '18px', textAlign: 'center' }}>
+        Для изменения данных вы можете вернуться к
+        {' '}
+        <Typography component={Link} to="/register" color="primary" sx={{ fontSize: '18px', textDecoration: 'none' }}>
+          Регистрации
+        </Typography>
+      </Typography>
+    </Box>
+    <Box position="absolute" bottom="31px">
+      <FooterSupport />
+    </Box>
+  </Box>
 );
-export default SignInConfirm;
+export default SignUpConfirm;

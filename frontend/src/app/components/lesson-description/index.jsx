@@ -36,7 +36,7 @@ const LessonDescription = ({
       </Stack>
     </Box>
     <Typography display="flex" alignItems="center" fontSize="16px" color="text.secondary" mb="32px">
-      {level.join(' • ')}
+      {level}
     </Typography>
 
     <Box maxHeight="176px" display="flex" flexDirection="column" mb="32px">
@@ -127,9 +127,7 @@ const LessonDescription = ({
     <Box display="flex" alignItems="center" flexWrap="wrap" gap="6px" mb="56px">
       <Avatar
         src={avatar}
-        sx={{
-          width: '40px', height: '40px',
-        }}
+        sx={{ width: 32, height: 32 }}
       />
       <Typography
         fontSize="16px"

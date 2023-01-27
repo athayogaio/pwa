@@ -3,9 +3,9 @@
 {% load rest_framework %}
 
 {% block body %}
-    <form action="{% url 'search' %}" method="POST">
-        {% csrf_token %}
+    <form action="{% if category_slug %}{% url 'category' category_slug=category_slug %}{% else %}{% url 'index' %}{% endif %}" method="GET">
         {% render_form search_form %}
+        <input type="submit" value="Submit">
     </form>
 
     <h1>Категории</h1>
@@ -37,8 +37,8 @@
     <div class="pagination">
         <span class="step-links">
             {% if articles.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ articles.previous_page_number }}">previous</a>
+                <a href="?page=1&{{ params }}">&laquo; first</a>
+                <a href="?page={{ articles.previous_page_number }}&{{ params }}">previous</a>
             {% endif %}
 
             <span class="current">
@@ -46,8 +46,8 @@
             </span>
 
             {% if articles.has_next %}
-                <a href="?page={{ articles.next_page_number }}">next</a>
-                <a href="?page={{ articles.paginator.num_pages }}">last &raquo;</a>
+                <a href="?page={{ articles.next_page_number }}&{{ params }}">next</a>
+                <a href="?page={{ articles.paginator.num_pages }}&{{ params }}">last &raquo;</a>
             {% endif %}
         </span>
     </div>

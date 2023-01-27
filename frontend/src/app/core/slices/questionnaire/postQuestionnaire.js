@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import QuestionnaireService from '../../../services/questionnaire';
+import { setMessage } from '../message';
 
 const postQuestionnaireSlice = createAsyncThunk(
   'core/questionnaireteacher',
@@ -33,7 +34,10 @@ const postQuestionnaireSlice = createAsyncThunk(
         userWithPassportPhoto,
       });
     } catch (error) {
-      console.log(error);
+      const message = error.response.data.errors;
+      thunkAPI.dispatch(setMessage(message));
+
+      return thunkAPI.rejectWithValue();
     }
   },
 );

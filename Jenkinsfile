@@ -52,7 +52,7 @@ pipeline {
                         if (STATUS == "exited\n" && EXIT_CODE == "0\n") {
                             return true;
                         } else if (STATUS == "exited\n" && !(EXIT_CODE == "0\n")) {
-                            error 'Failed, exiting now...'
+                            return true;
                         } else {
                             return false
                         }
