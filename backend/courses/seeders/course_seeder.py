@@ -33,7 +33,7 @@ class BaseCourseSeeder:
             description=self.faker.sentence(),
             course_type=random.choice([i[0] for i in CourseTypes.choices]),
             complexity=random.choice([i[0] for i in CourseComplexities.choices]),
-            level=random.choice([i[0] for i in CourseLevels.choices]),
+            level=[random.choice([i[0] for i in CourseLevels.choices])],
             teacher=self.user,
         )
 

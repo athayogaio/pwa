@@ -104,7 +104,7 @@ class Course(TimeStampedModel):
         "Тип платежа", max_length=30, choices=CoursePaymentTypes.choices
     )
     price = models.FloatField("Цена", validators=(MinValueValidator(limit_value=0),))
-    schedule: List[CourseSchedule] = JSONParsedField(
+    schedule = JSONParsedField(
         default=list, parse_to=CourseSchedule, verbose_name="Расписание", blank=True
     )
     status = models.CharField(
@@ -113,6 +113,9 @@ class Course(TimeStampedModel):
         choices=CourseStatuses.choices,
         default=CourseStatuses.MODERATION,
     )
+
+    def primitive_schedule_value(self) -> List[Dict]:
+        return Course.schedule.field.convert_to_primitive(value=self.schedule) or []
 
     @cached_property
     def mapped_schedule(self) -> Dict[int, List[CourseSchedule]]:

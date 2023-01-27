@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -60,6 +62,10 @@ class BaseCourseResource(ModelSerializer):
 
 class CourseResource(ModelSerializer):
     base_course = BaseCourseResource()
+    schedule = serializers.SerializerMethodField()
+
+    def get_schedule(self, obj: Course) -> List[Dict]:
+        return obj.primitive_schedule_value()
 
     class Meta:
         model = Course
@@ -72,6 +78,7 @@ class CourseResource(ModelSerializer):
             "payment",
             "price",
             "status",
+            "schedule",
         ]
 
 
@@ -102,6 +109,10 @@ class CourseCardResource(ModelSerializer):
     rate = serializers.DecimalField(
         default=0, max_digits=None, decimal_places=3, coerce_to_string=False
     )
+    schedule = serializers.SerializerMethodField()
+
+    def get_schedule(self, obj: Course) -> List[Dict]:
+        return obj.primitive_schedule_value()
 
     def to_representation(self, instance: Course) -> dict:
         result = super().to_representation(instance=instance)
@@ -130,4 +141,5 @@ class CourseCardResource(ModelSerializer):
             "favorite",
             "votes_count",
             "rate",
+            "schedule",
         ]
