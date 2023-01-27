@@ -50,26 +50,25 @@ const MyLessonsPage = () => {
       ) : (
         <MyLessonsEmpty />
       )}
-
-      <Box display="flex" justifyContent="flex-end" m="48px">
-        <Button
-          component={Link}
-          to="/create-lesson"
-          sx={{
-            width: 'max-content',
-            p: '12px 16px',
-            fontSize: '15px',
-            lineHeight: '26px',
-            boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',
-            borderRadius: '64px',
-            color: '#000',
-          }}
-          size="large"
-        >
-          <Typography sx={{ mr: '8px' }}>Создать занятие</Typography>
-          <AddIcon />
-        </Button>
-      </Box>
+      <Button
+        component={Link}
+        to="/create-lesson"
+        sx={{
+          position: 'absolute',
+          bottom: '4%',
+          right: '4%',
+          p: '12px 16px',
+          fontSize: '15px',
+          lineHeight: '26px',
+          boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',
+          borderRadius: '64px',
+          color: '#000',
+        }}
+        size="large"
+      >
+        <Typography sx={{ mr: '8px' }}>Создать занятие</Typography>
+        <AddIcon />
+      </Button>
     </Box>
   );
 };

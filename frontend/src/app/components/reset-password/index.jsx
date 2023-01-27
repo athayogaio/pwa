@@ -10,7 +10,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import passConfirmSlice from '../../core/slices/reset-pass-confirm/resetPass';
-// import loginSlice from '../../core/slices/auth/login';
 import { clearMessage } from '../../core/slices/message';
 import { UserEmailContext } from '../password-recovery';
 import { AuthContext } from '../../utils/providers/auth';
@@ -34,8 +33,8 @@ const ResetPassword = () => {
 
   const [infoUser, setInfoUser] = useState({
     pwd_reset_token: token,
-    email: 'hoenmoki@gmail.com',
-    new_password: userEmail,
+    email: userEmail,
+    new_password: '',
   });
 
   useEffect(() => {
@@ -44,7 +43,6 @@ const ResetPassword = () => {
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
-    setInfoUser({ ...infoUser, new_password: event.target.value });
   };
 
   const handleClickShowPassword = () => {
@@ -56,6 +54,7 @@ const ResetPassword = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+    setInfoUser({ new_password: values.password });
     dispatch(passConfirmSlice(infoUser))
       .then(() => {
         context.login({ email: infoUser.email, password: infoUser.new_password }, navigate('/profile'));

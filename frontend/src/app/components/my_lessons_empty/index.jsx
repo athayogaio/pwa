@@ -1,17 +1,14 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {
-
-  Box, Typography, Button, Tabs, Tab,
+  Box, Tabs, Tab,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
-import profileCalendar from '../../../assets/public/profile_calendar.png';
 import StudentEpmty from './student';
 import TeacherEmpty from './teacher';
 
 const TabPanel = props => {
   const {
-    children, value, index, ...other
+    children, value, index,
   } = props;
 
   return (
@@ -20,7 +17,6 @@ const TabPanel = props => {
       hidden={value !== index}
       id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
-      {...other}
       style={{ height: '100%' }}
     >
       {value === index && (
@@ -35,7 +31,7 @@ const TabPanel = props => {
   );
 };
 
-const a11yProps = index => ({
+const labelProps = index => ({
   id: `simple-tab-${index}`,
   'aria-controls': `simple-tabpanel-${index}`,
 });
@@ -49,13 +45,13 @@ const MyLessonsEmpty = () => {
 
   return (
     <Box sx={{
-      width: '100%', height: '100%', display: 'flex', justifyContent: 'center',
+      width: '100%', height: '85%', display: 'flex', justifyContent: 'center',
     }}
     >
-      <Box sx={{ width: '100%', height: '100%', maxWidth: '984px' }}>
+      <Box sx={{ width: '100%', maxWidth: '984px' }}>
         <Tabs variant="fullWidth" value={value} onChange={handleChange} centered>
-          <Tab label="Преподаватель" {...a11yProps(0)} />
-          <Tab label="Ученик" {...a11yProps(1)} />
+          <Tab label="Преподаватель" {...labelProps(0)} />
+          <Tab label="Ученик" {...labelProps(1)} />
         </Tabs>
 
         <TabPanel
@@ -69,47 +65,6 @@ const MyLessonsEmpty = () => {
         </TabPanel>
       </Box>
     </Box>
-
-  // <Grid
-  //   item
-  //   display="flex"
-  //   flexDirection="column"
-  //   alignItems="center"
-  //   justifyContent="center"
-  //   sx={{
-  //     height: 'calc(100vh - 50px - 10vh)', maxHeight: '500px', justifyContent: 'space-between',
-  //   }}
-  // >
-
-  //   <Box
-  //     sx={{
-  //       background: `center / contain no-repeat url(${profileCalendar})`, width: '100%', height: 'calc(100vh - 150px)', minHeight: '100px',
-  //     }}
-  //     mt="5vh"
-  //     mb="7vh"
-  //   />
-
-  //   <Box>
-  //     <Typography textAlign="center" fontSize="18px" color="text.secondary" mb="24px">
-  //       Список занятий пока пуст
-  //       {' '}
-  //       <br />
-  //       Запишитесь на свое первое занятие
-  //     </Typography>
-  //     <Button
-  //       component={Link}
-  //       to="/search-lessons"
-  //       sx={{
-  //         minWidth: 382, borderRadius: '6px', fontSize: '16px', lineHeight: '26px',
-  //       }}
-  //       variant="contained"
-  //       size="large"
-  //     >
-  //       Найти занятие
-  //     </Button>
-  //   </Box>
-
-  // </Grid>
   );
 };
 

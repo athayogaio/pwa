@@ -9,17 +9,19 @@ const StudentEpmty = () => (
   }}
   >
     <Box sx={{
-      maxWidth: '287px', maxHeight: '364px', mb: '80px', textAlign: 'center',
+      mb: '80px', textAlign: 'center',
     }}
     >
-      <img src={profileCalendar} alt="student" style={{ width: '287px', height: '364px' }} />
+      <img src={profileCalendar} alt="student" style={{ width: '100%', height: 'auto' }} />
     </Box>
-    <Typography sx={{ textAlign: 'center', fontSize: '18px', lineHeight: '25px' }}>
+    <Typography color="text.secondary" sx={{ textAlign: 'center', fontSize: '18px', lineHeight: '25px' }}>
       Список занятий пока пуст
     </Typography>
-    <Typography sx={{
-      textAlign: 'center', fontSize: '18px', lineHeight: '25px', mb: '24px',
-    }}
+    <Typography
+      color="text.secondary"
+      sx={{
+        textAlign: 'center', fontSize: '18px', lineHeight: '25px', mb: '24px',
+      }}
     >
       Запишитесь на свое первое занятие
     </Typography>
@@ -28,7 +30,7 @@ const StudentEpmty = () => (
       component={Link}
       to="/search-lessons"
       sx={{
-        borderRadius: '6px', fontSize: '16px', lineHeight: '26px',
+        borderRadius: '6px', fontSize: '16px', lineHeight: '26px', textAlign: 'center',
       }}
       variant="contained"
       size="large"

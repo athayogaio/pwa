@@ -35,7 +35,6 @@ const TeacherForm = () => {
   }, []);
 
   const { message } = useSelector(state => state.message);
-  console.log(message);
 
   const [photos, setPhoto] = useState([]);
 
@@ -49,7 +48,6 @@ const TeacherForm = () => {
 
   const handleChangeAnswer = prop => event => {
     setAnswers({ ...answers, [prop]: event.target.value });
-    console.log(photos);
   };
 
   const postAnswers = answersArr => {

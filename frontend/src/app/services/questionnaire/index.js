@@ -40,38 +40,6 @@ const postQuestionnaire = ({
   });
 };
 
-// const postQuestionnaire = ({
-//   name,
-//   surname,
-//   dateOfBirth,
-//   gender,
-//   aboutMe,
-//   workExperience,
-//   vkLink,
-//   telegramLink,
-//   certificatePhotos,
-//   passportPhoto,
-//   userPhoto,
-//   userWithPassportPhoto,
-// }) => axios
-//   .post(QUESTIONNAIRE_URL, {
-//     name,
-//     surname,
-//     date_of_birth: dateOfBirth,
-//     gender,
-//     about_me: aboutMe,
-//     work_experience: workExperience,
-//     vk_link: vkLink,
-//     telegram_link: telegramLink,
-//     certificate_photos: certificatePhotos,
-//     passport_photo: passportPhoto,
-//     user_photo: userPhoto,
-//     user_with_passport_photo: userWithPassportPhoto,
-//   }, { headers: authHeader() })
-//   .then(res => {
-//     console.log(res);
-//   });
-
 const QuestionnaireService = { postQuestionnaire };
 
 export default QuestionnaireService;
