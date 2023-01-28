@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Button, Typography, Stack, Card, Input,
@@ -7,29 +7,29 @@ import {
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
 import Header from '../../components/header';
-import buyTicketSlice from '../../core/slices/tickets/buyTicket/buyTicket.js';
+import buyTicketSlice from '../../core/slices/tickets/buyTicket/buyTicket';
 
 const AbonementPage = () => {
-  // const max_ticket_amount = 1;
-  const [amount, setAmount] = useState(6);
+  const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { lesson, errorMessage } = useSelector(state => state.lesson);
-  console.log(lesson)
   const { price } = lesson?.data || 0;
+  const [amount, setAmount] = useState(6);
+  const array = [{ num: 1, str: ' посещениe', id: 'id0' },
+    { num: 4, str: ' посещения', id: 'id1' },
+    { num: 8, str: ' посещений', id: 'id2' },
+    { num: 0, id: 'id3' }];
   const preparedDate = date => date.split('T')[0].split('-').reverse().slice(0, 2).join('.');
 
-  const getDiscontPrice = pr => {
-    if (pr > 11) return Math.round(((price * pr) * 8) / 10);
-    if ((pr > 7) && (pr < 12)) return Math.round(((price * pr) * 85) / 100);
-    if ((pr > 3) && (pr < 8)) return Math.round(((price * pr) * 9) / 10);
-  };
-
   const handlePay = () => {
-    dispatch(buyTicketSlice(id, +amount));
+    dispatch(buyTicketSlice({ id, amount }))
+      .then(response => {
+        window.open(response.payload.data);
+        navigate(-1); // ?
+      })
+      .catch(console.log());
   };
-
-  const array = [{ num: 1, str: ' посещениe', id: 'id0' }, { num: 4, str: ' посещения', id: 'id1' }, { num: 8, str: ' посещений', id: 'id2' }, { num: 0, id: 'id3' }];
 
   useEffect(() => {
     dispatch(getLessonSlice(id));
@@ -52,7 +52,7 @@ const AbonementPage = () => {
           {errorMessage}
         </Typography>
         )}
-        {lesson && (
+        {price > 0 && (
           <>
             <Typography fontSize="24px" fontWeight="500">
               &quot;
@@ -113,18 +113,18 @@ const AbonementPage = () => {
                       />
                     )}
 
-                  {amount > 3 ? (
+                  {el.num > 3 || amount > 3 ? ( // скидка - двойное поле
                     <Stack direction="column" alignItems="center" justifyContent="center">
                       <Typography color="text.secondary" fontSize="24px" fontWeight="400" sx={{ textDecoration: 'line-through' }}>
-                        {!el.num ? `${lesson.data.price * amount} ₽` : `${lesson.data.price * el.num} ₽`}
+                        {`${el.num * lesson.data.price || amount * lesson.data.price} ₽`}
                       </Typography>
                       <Typography color="primary" fontSize="32px" fontWeight="700">
-                        {!el.num ? `${getDiscontPrice(amount)} ₽` : `${(lesson.data.price * el.num) * 0.85} ₽`}
+                        {`${el.num * lesson.data.price * 0.85 || amount * lesson.data.price * 0.85} ₽`}
                       </Typography>
                     </Stack>
-                  ) : (
+                  ) : ( // без скидок
                     <Typography color="primary" fontSize="32px" fontWeight="700">
-                      {`${lesson.data.price} ₽`}
+                      {`${el.num * lesson.data.price || amount * lesson.data.price} ₽`}
                     </Typography>
                   )}
 
@@ -139,7 +139,7 @@ const AbonementPage = () => {
           <Button
             onClick={handlePay}
             variant="contained"
-            disabled={!amount}
+            disabled={price <= 0}
             sx={{
               fontSize: '16px', fontWeight: '500', width: '227px', mb: '20px', mt: '24px',
             }}
