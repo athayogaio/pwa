@@ -1,5 +1,4 @@
 #./manage.py reset_db --noinput
-./manage.py makemigrations
 ./manage.py migrate
 ./manage.py wait_for_elasticsearch
 #./manage.py seed
