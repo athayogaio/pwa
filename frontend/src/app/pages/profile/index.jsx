@@ -12,9 +12,11 @@ const ProfilePage = ({ auth: { user } }) => {
   }
 
   return (
-    <Box width="100%">
+    <Box width="100%" height="100%">
       <Header title="Профиль" />
-      <Profile user={user} />
+      <Box height="calc(100% - 64px - 32px)" sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Profile user={user} />
+      </Box>
     </Box>
   );
 };

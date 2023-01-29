@@ -15,14 +15,14 @@ const Profile = () => {
   const [openText, setOpenText] = useState(true);
 
   return (
-    <Card sx={{ height: '90%' }}>
+    <Card sx={{ height: 'calc(100% - 32px)', maxWidth: '984px', mx: '20px' }}>
       <CardMedia
         component="img"
         height="168"
         image={background}
         alt="user's background"
       />
-      <CardContent>
+      <CardContent sx={{ height: 'calc(100% - 34px)' }}>
         <Avatar
           src={avatar}
           sx={{
@@ -36,7 +36,17 @@ const Profile = () => {
         >
           @ivan
         </Typography>
-        <Typography variant="iter_h2" paragraph noWrap={openText}>
+        <Typography
+          variant="iter_h2"
+          paragraph
+          display={openText && '-webkit-box'}
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
@@ -50,14 +60,16 @@ const Profile = () => {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
         </Typography>
-        <Button
-          variant="text"
-          size="small"
-          sx={{ textTransform: 'none', left: '90%', position: 'relative' }}
-          onClick={() => setOpenText(!openText)}
-        >
-          {openText === true ? 'больше' : 'меньше'}
-        </Button>
+        {openText && (
+          <Button
+            variant="text"
+            size="small"
+            sx={{ textTransform: 'none', left: '87%', position: 'relative' }}
+            onClick={() => setOpenText(!openText)}
+          >
+            Показать ещё
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
