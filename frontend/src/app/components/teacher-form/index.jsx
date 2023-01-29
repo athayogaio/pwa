@@ -74,7 +74,7 @@ const TeacherForm = () => {
         * Поля, обязательные для заполнения
       </Typography>
       <Grid container spacing="24px" mb="60px">
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             required
@@ -83,7 +83,7 @@ const TeacherForm = () => {
             onChange={handleChangeAnswer('name')}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             required
@@ -133,6 +133,7 @@ const TeacherForm = () => {
             id="about-me"
             rows={8}
             helperText="Не более 3000 символов"
+            inputProps={{ maxLength: 3000 }}
             onChange={handleChangeAnswer('about_me')}
           />
         </Grid>
@@ -145,12 +146,14 @@ const TeacherForm = () => {
             id="work-experience"
             rows={6}
             helperText="Не более 1000 символов"
+            inputProps={{ maxLength: 1000 }}
             onChange={handleChangeAnswer('work_experience')}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
+            required
             id="vk-link"
             label="Ссылка на страницу ВК"
             onChange={handleChangeAnswer('vk_link')}
@@ -158,9 +161,10 @@ const TeacherForm = () => {
             helperText={message?.invalid?.vk_link}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
+            required
             id="telegram-link"
             label="Ссылка на профиль в Telegram"
             onChange={handleChangeAnswer('telegram_link')}
@@ -195,7 +199,7 @@ const TeacherForm = () => {
         alignItems="flex-end"
         gap="30px"
       >
-        <Box sx={{ width: '311px' }}>
+        <Box sx={{ maxWidth: '311px', width: '100%' }}>
           <Button
             fullWidth
             variant="contained"
