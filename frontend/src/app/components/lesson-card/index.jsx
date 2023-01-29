@@ -13,9 +13,10 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
 import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
+import { scheduleChipContent } from '../../utils/scheduleServices';
 
 const LessonCard = ({
-  title, description, price, level, id, favorite, isParticipant, comments, rate, votes,
+  title, description, price, level, id, favorite, isParticipant, comments, rate, votes, duration, schedule,
 
 }) => {
   const navigate = useNavigate();
@@ -104,8 +105,9 @@ const LessonCard = ({
             </Typography>
           </Grid>
           <Grid item xs container gap="8px" sx={{ mb: '28px' }}>
-            <Chip size="small" label="Пн 14:30-15:30" />
-            <Chip size="small" label="Вт 14:30-15:30" />
+            {schedule && schedule.map(item => (
+              <Chip key={crypto.randomUUID()} size="small" sx={{ fontSize: '13px' }} label={scheduleChipContent(item, duration)} />
+            )) }
           </Grid>
           <Grid item xs container gap="6px" alignItems="center">
             <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
