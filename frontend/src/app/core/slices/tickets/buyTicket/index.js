@@ -5,6 +5,7 @@ import buyTicketSlice from './buyTicket';
 const initialState = {
   tickets: [],
   errorMessage: null,
+  tinkofLink: '',
 };
 
 const buyTicketsSlice = createSlice({
@@ -12,7 +13,7 @@ const buyTicketsSlice = createSlice({
   initialState,
   extraReducers: {
     [buyTicketSlice.fulfilled]: (state, action) => {
-      state.favoritesLessons = [action.payload, ...state.buyTickets];
+      state.tinkofLink = action.payload;
       state.errorMessage = null;
     },
     [buyTicketSlice.rejected]: (state, action) => {

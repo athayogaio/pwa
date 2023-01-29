@@ -1,16 +1,27 @@
+import random
 from typing import Any
 
 from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
+from faker import Faker
 
-from core.models import User
+from core.models import User, UserRoles
 from core.seeders.user_seeder import (
     UserSeeder,
     TransactionSeeder,
     QuestionnaireTeacherSeeder,
 )
-from courses.models import Course
+from courses.app.services.course_service import CourseCreator
+from courses.app.services.types import CourseCreateData, LessonCreateData
+from courses.models import (
+    Course,
+    CoursePaymentTypes,
+    CourseTypes,
+    CourseComplexities,
+    RepetitionWeekdays,
+    CourseStatuses,
+)
 from courses.seeders.course_seeder import (
     CourseSeeder,
     TicketSeeder,
@@ -51,11 +62,45 @@ class Command(BaseCommand):
 
     def _seed_courses(self, count: int = DEFAULT_LESSONS_COUNT) -> None:
         for i in range(count):
+            faker = Faker()
             base_course = BaseCourseSeeder(
                 user=User.objects.order_by("?").first()
             ).seed()
             base_course.save()
-            CourseSeeder(base_course=base_course).seed().save()
+            course = CourseSeeder(base_course=base_course).seed()
+            user = User.objects.order_by("?").first()
+            if not user.has_role(UserRoles.TEACHER):
+                user.add_roles([UserRoles.TEACHER])
+                user.save()
+            created_course = CourseCreator(
+                data=CourseCreateData(
+                    name=base_course.name,
+                    description=base_course.description,
+                    course_type=CourseTypes(base_course.course_type),
+                    link=course.link,
+                    link_info=course.link_info,
+                    level=base_course.level,
+                    duration=course.duration,
+                    start_datetime=course.start_datetime,
+                    deadline_datetime=course.deadline_datetime,
+                    payment=CoursePaymentTypes(course.payment),
+                    price=course.price,
+                    complexity=CourseComplexities(base_course.complexity),
+                    lessons=[
+                        LessonCreateData(
+                            weekday=RepetitionWeekdays(random.randint(0, 6)),
+                            start_time=faker.date_time_between(
+                                course.start_datetime, course.deadline_datetime
+                            ).time(),
+                        )
+                        for _ in range(2)
+                    ],
+                    is_draft=False,
+                ),
+                user=user,
+            ).create()
+            created_course.status = CourseStatuses.PUBLISHED
+            created_course.save()
 
     def _seed_transactions(self, count: int = DEFAULT_LESSONS_COUNT) -> None:
         for i in range(count):

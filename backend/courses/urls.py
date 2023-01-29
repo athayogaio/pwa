@@ -28,6 +28,14 @@ from courses.app.handlers.lesson_handlers import (
     UserLessonsParticipateHandler,
     LessonParticipateHandler,
 )
+from courses.app.handlers.question_handlers import (
+    CourseQuestionListHandler,
+    CourseQuestionCreateHandler,
+    CourseQuestionRemoveHandler,
+    CourseAnswerListHandler,
+    CourseAnswerCreateHandler,
+    CourseAnswerRemoveHandler,
+)
 from courses.app.handlers.review_handlers import (
     CourseReviewListHandler,
     CourseReviewCreateHandler,
@@ -97,4 +105,34 @@ urlpatterns = [
     path("reschedule-lesson/<int:lesson_id>/", LessonRescheduleHandler.as_view()),
     path("cancel-lesson/<int:lesson_id>/", LessonCancelHandler.as_view()),
     path("tickets/", TicketListHandler.as_view()),
+    path(
+        "<int:pk>/questions/",
+        CourseQuestionListHandler.as_view(),
+        name="course_question_list",
+    ),
+    path(
+        "<int:pk>/questions/create/",
+        CourseQuestionCreateHandler.as_view(),
+        name="course_question_create",
+    ),
+    path(
+        "questions/<int:pk>/remove/",
+        CourseQuestionRemoveHandler.as_view(),
+        name="course_question_remove",
+    ),
+    path(
+        "questions/<int:pk>/answers/",
+        CourseAnswerListHandler.as_view(),
+        name="course_answer_list",
+    ),
+    path(
+        "questions/<int:pk>/answers/create/",
+        CourseAnswerCreateHandler.as_view(),
+        name="course_answer_create",
+    ),
+    path(
+        "answers/<int:pk>/remove/",
+        CourseAnswerRemoveHandler.as_view(),
+        name="course_answer_remove",
+    ),
 ]

@@ -3,7 +3,7 @@ import TicketService from '../../../../services/tickets';
 
 const buyTicketSlice = createAsyncThunk(
   'courses/ticket/buy',
-  async (id, amount, thunkAPI) => {
+  async ({ id, amount }, thunkAPI) => {
     try {
       const result = await TicketService.buyTicket(id, amount);
 

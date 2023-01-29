@@ -99,7 +99,7 @@ class BaseCourseCardResource(ModelSerializer):
 
 class CourseCardResource(ModelSerializer):
     base_course = BaseCourseCardResource()
-    lessons = LessonResource(many=True, allow_null=True)
+    lessons = LessonResource(many=True, allow_null=True, source="lessons_set")
     reviews_count = serializers.IntegerField(allow_null=True, default=0)
     comments_count = serializers.IntegerField(allow_null=True, default=0)
     tickets_amount = serializers.IntegerField(allow_null=True, default=0)

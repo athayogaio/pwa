@@ -43,7 +43,6 @@ const LessonDetailsPage = () => {
           {errorMessage}
         </Typography>
         )}
-        {lesson && console.log(lesson.data.base_course.level)}
         {lesson && (
         <LessonDescription
           id={lesson.data.id}
@@ -58,7 +57,7 @@ const LessonDetailsPage = () => {
           isRegular={lesson.data.lessons.length > 1}
           startDate={lesson.data.lessons.start_datetime}
           duration={lesson.data.base_course.duration}
-          isPaid={lesson.data.payment === 'PAYMENT'}
+          payment={lesson.data.payment}
           level={levels[lesson.data.base_course.level[0]]}
         />
         )}

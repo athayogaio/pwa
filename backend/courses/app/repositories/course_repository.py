@@ -167,3 +167,6 @@ class BaseCourseRepository(BaseRepository):
         return self.model.objects.filter(
             pk=id_, base_course__teacher_id=teacher_id
         ).first()
+
+    def find_by_id(self, id_: int) -> Optional[BaseCourse]:
+        return self.model.objects.filter(pk=id_).first()
