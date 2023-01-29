@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Typography, Button, Grid, Stack, Container,
+  Typography, Button, Stack, Container,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -19,11 +19,7 @@ const MyLessonsPage = () => {
   }, [dispatch]);
 
   return (
-    <Box
-      height="100%"
-      display="flex"
-      flexDirection="column"
-    >
+    <>
       <Header title="Мои занятия" />
       {tickets?.length ? (
         <Container>
@@ -71,7 +67,7 @@ const MyLessonsPage = () => {
         <Typography sx={{ mr: '8px' }}>Создать занятие</Typography>
         <AddIcon />
       </Button>
-    </Box>
+    </>
   );
 };
 
