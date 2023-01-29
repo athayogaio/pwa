@@ -97,3 +97,12 @@ class CourseTicketBuyRequest(UnimplementedSerializer):
 
 class CourseTicketUseRequest(UnimplementedSerializer):
     lesson_id = serializers.IntegerField(min_value=1)
+
+
+class CourseQuestionCreateRequest(UnimplementedSerializer):
+    title = serializers.CharField(max_length=120)
+    text = serializers.CharField(max_length=1000)
+
+
+class CourseAnswerCreateRequest(UnimplementedSerializer):
+    text = serializers.CharField(max_length=1000)

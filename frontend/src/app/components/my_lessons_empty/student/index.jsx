@@ -4,15 +4,12 @@ import { Link } from 'react-router-dom';
 import profileCalendar from '../../../../assets/public/profile_calendar.png';
 
 const StudentEpmty = () => (
-  <Box sx={{
-    maxWidth: '382px', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-  }}
-  >
+  <Box>
     <Box sx={{
       mb: '80px', textAlign: 'center',
     }}
     >
-      <img src={profileCalendar} alt="student" style={{ width: '100%', height: 'auto' }} />
+      <img src={profileCalendar} alt="student" style={{ maxWidth: '100%', height: 'auto', maxHeight: '100%' }} />
     </Box>
     <Typography color="text.secondary" sx={{ textAlign: 'center', fontSize: '18px', lineHeight: '25px' }}>
       Список занятий пока пуст

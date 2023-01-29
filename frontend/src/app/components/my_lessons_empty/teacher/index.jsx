@@ -4,15 +4,12 @@ import { Link } from 'react-router-dom';
 import profileCalendarTeacher from '../../../../assets/public/profile_calendar_teacher.png';
 
 const TeacherEmpty = () => (
-  <Box sx={{
-    maxWidth: '384px', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-  }}
-  >
+  <Box>
     <Box sx={{
       mb: '80px', textAlign: 'center',
     }}
     >
-      <img src={profileCalendarTeacher} alt="teacher" style={{ width: '100%', height: 'auto' }} />
+      <img src={profileCalendarTeacher} alt="teacher" style={{ maxWidth: '100%', height: 'auto' }} />
     </Box>
     <Typography color="text.secondary" sx={{ textAlign: 'center', fontSize: '18px', lineHeight: '25px' }}>
       Список занятий пока пуст
