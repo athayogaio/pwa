@@ -16,7 +16,7 @@ import avatar from '../../../assets/public/profile_avatar.jpg';
 
 const LessonDescription = ({
   title, description, price, level, favorite, comments,
-  rate, votes, isVideo, isRegular, startDate, duration, id, payment,
+  rate, votes, isVideo, isRegular, startDate, duration, id, isPaid,
 }) => (
   <>
     <Box display="flex" alignItems="start" mb="23px">
@@ -138,13 +138,13 @@ const LessonDescription = ({
     <Box display="flex" justifyContent="flex-end">
       <Button
         component={Link}
-        to={`/abonement/${id}`}
+        to={isPaid ? `/abonement/${id}` : ''}
         variant="contained"
         sx={{
           fontSize: '16px', fontWeight: '500', width: '227px', mb: '20px',
         }}
       >
-        Записаться
+        {isPaid ? 'Записаться' : 'Заниматься'}
       </Button>
     </Box>
   </>

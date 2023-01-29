@@ -15,14 +15,17 @@ const Profile = () => {
   const [openText, setOpenText] = useState(true);
 
   return (
-    <Card sx={{ height: 'calc(100% - 32px)', maxWidth: '984px', mx: '20px' }}>
+    <Card sx={{
+      height: 'calc(100% - 32px)', maxWidth: '984px', mx: '20px', overflowY: 'auto',
+    }}
+    >
       <CardMedia
         component="img"
         height="168"
         image={background}
         alt="user's background"
       />
-      <CardContent sx={{ height: 'calc(100% - 34px)' }}>
+      <CardContent sx={{ maxHeight: 'calc(100% - 34px)' }}>
         <Avatar
           src={avatar}
           sx={{
@@ -39,8 +42,8 @@ const Profile = () => {
         <Typography
           variant="iter_h2"
           paragraph
-          display={openText && '-webkit-box'}
-          sx={{
+          sx={openText && {
+            display: '-webkit-box',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             WebkitLineClamp: 3,
@@ -59,12 +62,18 @@ const Profile = () => {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Конец
         </Typography>
         {openText && (
           <Button
             variant="text"
             size="small"
-            sx={{ textTransform: 'none', left: '87%', position: 'relative' }}
+            sx={{ textTransform: 'none', left: 'calc(100% - 90px)', position: 'relative' }}
             onClick={() => setOpenText(!openText)}
           >
             Показать ещё

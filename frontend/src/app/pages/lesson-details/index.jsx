@@ -20,18 +20,16 @@ const LessonDetailsPage = () => {
   const dispatch = useDispatch();
   const { lesson, errorMessage } = useSelector(state => state.lesson);
 
-  // console.log(lesson);
-
   useEffect(() => {
     dispatch(getLessonSlice(id));
   }, []);
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <>
       <Header withBackBtn />
       <Box
         display="flex"
-        margin="0 auto"
+        margin="40px auto"
         justifyContent="center"
         flexDirection="column"
         maxWidth="982px"
@@ -39,10 +37,10 @@ const LessonDetailsPage = () => {
       >
         {errorMessage && (
         <Typography color="error.main">
-          Error:
-          {errorMessage}
+          {`Error: ${errorMessage.errors.not_found[0]}`}
         </Typography>
         )}
+
         {lesson && (
         <LessonDescription
           id={lesson.data.id}
@@ -57,12 +55,12 @@ const LessonDetailsPage = () => {
           isRegular={lesson.data.lessons.length > 1}
           startDate={lesson.data.lessons.start_datetime}
           duration={lesson.data.base_course.duration}
-          payment={lesson.data.payment}
+          isPaid={lesson.data.payment === 'PAYMENT'}
           level={levels[lesson.data.base_course.level[0]]}
         />
         )}
       </Box>
-    </Box>
+    </>
   );
 };
 
