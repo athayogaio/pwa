@@ -19,11 +19,7 @@ const MyLessonsPage = () => {
   }, [dispatch]);
 
   return (
-    <Box
-      height="100%"
-      display="flex"
-      flexDirection="column"
-    >
+    <>
       <Header title="Мои занятия" />
       {tickets?.length ? (
         <Box height="100%" display="flex" flexDirection="column" justifyContent="space-between">
@@ -72,7 +68,7 @@ const MyLessonsPage = () => {
       ) : (
         <MyLessonsEmpty />
       )}
-    </Box>
+    </>
   );
 };
 
