@@ -17,7 +17,7 @@ const TabPanel = props => {
       hidden={value !== index}
       id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
-      style={{ maxWidth: '382px', width: '100%' }}
+      style={{ width: '100%', maxHeight: '560px' }}
     >
       {value === index && (
         <Box>
@@ -42,11 +42,11 @@ const MyLessonsEmpty = () => {
 
   return (
     <Box sx={{
-      height: 'calc(100% - 64px - 113px)', display: 'flex', flexDirection: 'column', alignItems: 'center', pb: '251px',
+      height: 'calc(100% - 64px - 251px);', display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '2%',
     }}
     >
       <Box sx={{
-        display: 'flex', justifyContent: 'center', ml: '34px', mb: '113px',
+        display: 'flex', justifyContent: 'center', ml: '34px', mb: '11vh',
       }}
       >
         <Tabs value={value} onChange={handleChange} centered>
@@ -54,7 +54,7 @@ const MyLessonsEmpty = () => {
           <Tab label="Ученик" {...labelProps(1)} sx={{ width: '156px' }} />
         </Tabs>
       </Box>
-      <Box sx={{ height: '560px', my: 'auto' }}>
+      <Box sx={{ height: '100%', width: '100%', maxWidth: '414px', display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
         <TabPanel value={value} index={0}>
           <TeacherEmpty />
         </TabPanel>

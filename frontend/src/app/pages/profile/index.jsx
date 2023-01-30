@@ -14,7 +14,7 @@ const ProfilePage = ({ auth: { user } }) => {
   return (
     <Box width="100%" height="100%">
       <Header title="Профиль" />
-      <Box height="calc(100% - 64px)" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box height="100%" sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', overflow: 'auto' }}>
         <Profile user={user} />
       </Box>
     </Box>

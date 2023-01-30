@@ -16,7 +16,7 @@ const Profile = () => {
 
   return (
     <Card sx={{
-      height: 'calc(100% - 32px)', maxWidth: '984px', mx: '20px', overflowY: 'auto',
+      minHeight: '85%', maxWidth: '984px', mx: '20px', mt: '32px', mb: '96px',
     }}
     >
       <CardMedia
@@ -25,7 +25,7 @@ const Profile = () => {
         image={background}
         alt="user's background"
       />
-      <CardContent sx={{ maxHeight: 'calc(100% - 34px)' }}>
+      <CardContent sx={{ height: '100%' }}>
         <Avatar
           src={avatar}
           sx={{
@@ -42,6 +42,7 @@ const Profile = () => {
         <Typography
           variant="iter_h2"
           paragraph
+          my="16px"
           sx={openText && {
             display: '-webkit-box',
             overflow: 'hidden',
@@ -50,6 +51,16 @@ const Profile = () => {
             WebkitBoxOrient: 'vertical',
           }}
         >
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
