@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Typography, Button, Grid, Stack, Container,
+  Box, Typography, Button, Grid, Stack, Container, Backdrop, CircularProgress,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,8 +12,14 @@ import MyLessonSearch from '../../components/my_lesson_search';
 import MyLessonsEmpty from '../../components/my_lessons_empty';
 
 const MyLessonsPage = () => {
+  const { isLoading } = useSelector(state => state.tickets);
+  const [open, setOpen] = React.useState(isLoading);
+  const handleClose = () => {
+    setOpen(false);
+  };
   const dispatch = useDispatch();
   const tickets = useSelector(state => state.tickets.tickets?.data);
+
   useEffect(() => {
     dispatch(getTicketsSlice());
   }, [dispatch]);
@@ -25,6 +31,21 @@ const MyLessonsPage = () => {
       flexDirection="column"
     >
       <Header title="Мои занятия" />
+      {isLoading && (
+        <Backdrop
+          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+          open={open}
+          onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
+      {/* {errorMessage && (
+        <Typography color="error.main">
+          Error:
+          {errorMessage}
+        </Typography>
+      )} */}
       {tickets?.length ? (
         <Container>
           <Stack
