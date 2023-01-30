@@ -41,9 +41,11 @@ const MyLessonsPage = () => {
             {tickets.map(ticket => (
               <MyLesson
                 key={ticket.course.id}
+                id={ticket.course.id}
                 title={ticket.course.base_course.name}
                 ticketsAmount={ticket.amount}
                 endDate={ticket.course.deadline_datetime}
+                isOneTime={ticket.course.schedule.length === 0}
               />
             ))}
             <MyLessonSearch />

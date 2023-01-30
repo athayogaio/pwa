@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
+  Button,
   Card, Divider, Grid, Menu, MenuItem, Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
@@ -8,10 +9,13 @@ import Avatar from '@mui/material/Avatar';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ticket from '../../../assets/public/ticket.svg';
 
-const MyLesson = ({ title, ticketsAmount, endDate }) => {
+const MyLesson = ({
+  title, ticketsAmount, endDate, isOneTime, id,
+}) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -54,6 +58,10 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
           <DeleteOutlinedIcon sx={{ marginRight: '19px' }} />
           {'   '}
           Удалить
+
+        </MenuItem>
+        <MenuItem onClick={handleClose} sx={{ fontSize: '16px', minWidth: '220px' }}>
+          В архив
 
         </MenuItem>
       </Menu>
@@ -111,27 +119,64 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
           </Grid>
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
-        <Grid container direction="column" gap="12px" alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
-              Осталось посещений:
-            </Typography>
+        {isOneTime && (
+          <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
+            <Grid item>
+              <LocalLibraryOutlinedIcon color="primary" fontSize="large" />
+            </Grid>
+            <Grid item>
+              <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                Разовое занятие
+              </Typography>
+            </Grid>
+
           </Grid>
-          <Grid item>
-            <Typography variant="h4" color="primary">
-              {ticketsAmount}
-            </Typography>
-          </Grid>
-          <Grid container direction="column" spacing={1} alignItems="center">
+        )}
+        {!isOneTime && (
+        <Grid container direction="column" gap="8px" alignItems="center" justifyContent="center">
+          {ticketsAmount ? (
+            <>
+              <Grid item>
+                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                  Осталось посещений:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="h4" color="primary">
+                  {ticketsAmount}
+                </Typography>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid item>
+                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                  Посещения закончились
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  component={Link}
+                  to={`/abonement/${id}`}
+
+                >
+                  приобрести
+                </Button>
+              </Grid>
+            </>
+          )}
+
+          <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '8px' }}>
             <Typography variant="body2">
               Дата окончания:
             </Typography>
             <Typography color="primary" variant="body2" sx={{ fontWeight: '500' }}>
               {prepareEndDate(endDate)}
             </Typography>
-
           </Grid>
         </Grid>
+        )}
       </Stack>
     </div>
   );
