@@ -1,11 +1,11 @@
 const weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 const calculateEndTime = (startTime, duration) => {
-  const date = new Date();
+  const anyDate = new Date(2000, 0, 1, 0, 0, 0, 0);
   const startTimeInMinutes = +startTime.slice(0, 2) * 60 + +startTime.slice(3, 5);
   const durationInMinutes = +duration.slice(0, 2) * 60 + +duration.slice(3, 5);
-  date.setMinutes(startTimeInMinutes + durationInMinutes);
-  const endTimeHours = date.getHours();
-  const endTimeMinutes = date.getMinutes();
+  anyDate.setMinutes(startTimeInMinutes + durationInMinutes);
+  const endTimeHours = anyDate.getHours();
+  const endTimeMinutes = anyDate.getMinutes();
   return `${endTimeHours}:${endTimeMinutes}`;
 };
 
