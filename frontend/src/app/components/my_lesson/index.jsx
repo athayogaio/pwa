@@ -1,17 +1,26 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Card, Divider, Grid, Typography,
+  Card, Divider, Grid, Menu, MenuItem, Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ticket from '../../../assets/public/ticket.svg';
 
 const MyLesson = ({ title, ticketsAmount, endDate }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <div style={{
       padding: '20px 24px 20px 30px',
@@ -23,7 +32,31 @@ const MyLesson = ({ title, ticketsAmount, endDate }) => {
       filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
     }}
     >
-      <MoreHorizOutlinedIcon color="disabled" sx={{ position: 'absolute', top: '10px', right: '20px' }} />
+      <MoreHorizOutlinedIcon
+        color="disabled"
+        sx={{ position: 'absolute', top: '10px', right: '20px' }}
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleClose} sx={{ fontSize: '16px', minWidth: '220px' }}>
+          <DeleteOutlinedIcon sx={{ marginRight: '19px' }} />
+          {'   '}
+          Удалить
+
+        </MenuItem>
+      </Menu>
       <Stack
         direction="row"
         spacing={2}
