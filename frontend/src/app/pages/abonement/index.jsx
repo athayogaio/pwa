@@ -21,10 +21,10 @@ const AbonementPage = () => {
     { num: 8, str: ' посещений', id: 'id2' },
     { num: 0, id: 'id3' }];
   const preparedDate = date => date.split('T')[0].split('-').reverse().slice(0, 2).join('.');
-  const calculatePrice = (price, amount) => {
-    if (amount > 11) return Math.ceil(((price * amount) * 8) / 10);
-    if ((amount > 7) && (amount < 12)) return Math.ceil(((price * amount) * 85) / 100);
-    if ((amount > 3) && (amount < 8)) return Math.ceil(((price * amount) * 9) / 10);
+  const calculateDiscountPrice = (price, amount) => {
+    if ((amount > 3) && (amount < 8)) return (price * 0.9 * amount).toFixed(0);
+    if ((amount > 7) && (amount < 12)) return (price * 0.85 * amount).toFixed(0);
+    if (amount > 11) return (price * 0.8 * amount).toFixed(0);
   };
 
   const handlePay = () => {
@@ -124,7 +124,8 @@ const AbonementPage = () => {
                         {`${el.num * lesson.data.price || amount * lesson.data.price} ₽`}
                       </Typography>
                       <Typography color="primary" fontSize="32px" fontWeight="700">
-                        {`${el.num * lesson.data.price * 0.85 || amount * lesson.data.price * 0.85} ₽`}
+                        {/* {`${el.num * lesson.data.price * 0.85 || amount * lesson.data.price * 0.85} ₽`} */}
+                        {`${calculateDiscountPrice(lesson.data.price, el.num) || calculateDiscountPrice(lesson.data.price, amount)} ₽`}
                       </Typography>
                     </Stack>
                   ) : ( // без скидок
