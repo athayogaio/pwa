@@ -17,13 +17,10 @@ const TabPanel = props => {
       hidden={value !== index}
       id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
-      style={{ height: '100%' }}
+      style={{ width: '100%', maxHeight: '560px' }}
     >
       {value === index && (
-        <Box sx={{
-          height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-        }}
-        >
+        <Box>
           {children}
         </Box>
       )}
@@ -45,19 +42,20 @@ const MyLessonsEmpty = () => {
 
   return (
     <Box sx={{
-      width: '100%', height: '85%', display: 'flex', justifyContent: 'center',
+      height: 'calc(100% - 64px - 251px);', display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '2%',
     }}
     >
-      <Box sx={{ width: '100%', maxWidth: '984px' }}>
-        <Tabs variant="fullWidth" value={value} onChange={handleChange} centered>
-          <Tab label="Преподаватель" {...labelProps(0)} />
-          <Tab label="Ученик" {...labelProps(1)} />
+      <Box sx={{
+        display: 'flex', justifyContent: 'center', ml: '34px', mb: '11vh',
+      }}
+      >
+        <Tabs value={value} onChange={handleChange} centered>
+          <Tab label="Преподаватель" {...labelProps(0)} sx={{ width: '156px' }} />
+          <Tab label="Ученик" {...labelProps(1)} sx={{ width: '156px' }} />
         </Tabs>
-
-        <TabPanel
-          value={value}
-          index={0}
-        >
+      </Box>
+      <Box sx={{ height: '100%', width: '100%', maxWidth: '414px', display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+        <TabPanel value={value} index={0}>
           <TeacherEmpty />
         </TabPanel>
         <TabPanel value={value} index={1}>

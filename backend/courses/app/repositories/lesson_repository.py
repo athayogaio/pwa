@@ -44,6 +44,14 @@ class LessonRepository(BaseRepository):
             q &= Q(start_at__gte=now())
         return self.model.objects.filter(q, participants__id=user_id)
 
+    def find_user_enrolled(
+        self, user_id: int, skip_past: bool = False
+    ) -> QuerySet[Lesson]:
+        q = Q()
+        if skip_past:
+            q &= Q(start_at__gte=now())
+        return self.model.objects.filter(q, enrolled_users__id=user_id)
+
     def store(self, lesson: Lesson) -> None:
         lesson.save()
 

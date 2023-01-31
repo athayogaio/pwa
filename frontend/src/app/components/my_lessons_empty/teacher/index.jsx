@@ -5,15 +5,23 @@ import profileCalendarTeacher from '../../../../assets/public/profile_calendar_t
 
 const TeacherEmpty = () => (
   <Box sx={{
-    maxWidth: '384px', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+    mx: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center',
   }}
   >
-    <Box sx={{
-      mb: '80px', textAlign: 'center',
-    }}
-    >
-      <img src={profileCalendarTeacher} alt="teacher" style={{ width: '100%', height: 'auto' }} />
-    </Box>
+    <Box
+      sx={{
+        mb: '20%',
+        backgroundImage: `url(${profileCalendarTeacher})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        width: '100%',
+        minHeight: '234px',
+        height: '364px',
+        maxHeight: '30vh',
+      }}
+      alt="teacher"
+    />
     <Typography color="text.secondary" sx={{ textAlign: 'center', fontSize: '18px', lineHeight: '25px' }}>
       Список занятий пока пуст
     </Typography>
@@ -28,14 +36,14 @@ const TeacherEmpty = () => (
     <Button
       fullWidth
       component={Link}
-      to="/search-lessons"
+      to="/create-lesson"
       sx={{
         borderRadius: '6px', fontSize: '16px', lineHeight: '26px', textAlign: 'center',
       }}
       variant="contained"
       size="large"
     >
-      Найти занятие
+      Создать занятие
     </Button>
   </Box>
 );

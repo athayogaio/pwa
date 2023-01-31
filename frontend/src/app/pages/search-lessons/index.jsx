@@ -27,32 +27,34 @@ const SearchLessonsPage = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Header title="Поиск" />
-      <Paper
-        component="form"
-        sx={{
-          p: '8px 4px',
-          display: 'flex',
-          alignItems: 'center',
-          width: '80%',
-          maxWidth: '984px',
-          margin: '32px auto',
-        }}
-      >
-        <SearchIcon sx={{ margin: '4px' }} color="disabled" />
-        <InputBase
-          sx={{ ml: 1, flex: 1 }}
-          value={query}
-          placeholder="Поиск"
-          onChange={e => updateSearch(e)}
-        />
-      </Paper>
-      {errorMessage && (
-        <Typography color="error.main">
-          Error:
-          {errorMessage}
-        </Typography>
-      )}
       <Container>
+        <Paper
+          component="form"
+          sx={{
+            p: '8px 4px',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: '984px',
+            margin: '32px auto',
+          }}
+        >
+          <SearchIcon sx={{ margin: '4px' }} color="disabled" />
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            value={query}
+            placeholder="Поиск"
+            onClick={e => updateSearch(e)}
+            onChange={e => updateSearch(e)}
+            onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
+          />
+        </Paper>
+        {errorMessage && (
+          <Typography color="error.main">
+            Error:
+            {errorMessage}
+          </Typography>
+        )}
         <Box sx={{
           display: 'flex',
           flexWrap: 'wrap',

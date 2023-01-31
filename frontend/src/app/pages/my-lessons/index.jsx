@@ -25,11 +25,7 @@ const MyLessonsPage = () => {
   }, [dispatch]);
 
   return (
-    <Box
-      height="100%"
-      display="flex"
-      flexDirection="column"
-    >
+    <>
       <Header title="Мои занятия" />
       {isLoading && (
         <Backdrop
@@ -47,18 +43,21 @@ const MyLessonsPage = () => {
         </Typography>
       )} */}
       {tickets?.length ? (
-        <Container>
-          <Stack
-            direction="row"
-            sx={{
-              margin: '32px auto',
-              padding: '0 29px',
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
+        <Box height="100%" display="flex" flexDirection="column" justifyContent="space-between">
+          <Container>
+            <Stack
+              direction="row"
+              sx={{
+                margin: '32px auto',
+                padding: '0 29px',
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+              }}
+            >
+            
+            
             {tickets.map(ticket => (
               <MyLesson
                 key={ticket.course.id}
@@ -72,29 +71,28 @@ const MyLessonsPage = () => {
             <MyLessonSearch />
           </Stack>
         </Container>
+          <Button
+            component={Link}
+            to="/create-lesson"
+            variant="contained"
+            sx={{
+              position: 'fixed',
+              bottom: '48px',
+              right: '48px',
+              p: '12px 16px',
+              boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',
+              borderRadius: '64px',
+            }}
+            size="large"
+          >
+            <Typography sx={{ mr: '8px', fontSize: '15px', lineHeight: '26px' }}>Создать занятие</Typography>
+            <AddIcon />
+          </Button>
+        </Box>
       ) : (
         <MyLessonsEmpty />
       )}
-      <Button
-        component={Link}
-        to="/create-lesson"
-        sx={{
-          position: 'absolute',
-          bottom: '4%',
-          right: '4%',
-          p: '12px 16px',
-          fontSize: '15px',
-          lineHeight: '26px',
-          boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',
-          borderRadius: '64px',
-          color: '#000',
-        }}
-        size="large"
-      >
-        <Typography sx={{ mr: '8px' }}>Создать занятие</Typography>
-        <AddIcon />
-      </Button>
-    </Box>
+    </>
   );
 };
 

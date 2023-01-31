@@ -82,7 +82,7 @@ class LessonListHandler(Handler):
 
 
 @permission_classes([IsAuthenticated])
-class UserLessonsParticipateHandler(Handler):
+class UserLessonsParticipatedHandler(Handler):
     repository = LessonRepository()
 
     @extend_schema(responses=OpenApiTypes.OBJECT)
@@ -90,6 +90,26 @@ class UserLessonsParticipateHandler(Handler):
         lessons = OrderedQuerySet(
             queryset=self.repository.fetch_relations(
                 self.repository.find_user_participant(
+                    user_id=request.user.id, skip_past=True
+                )
+            )
+        ).order_by(columns=["start_at"])
+        return Response(
+            Pagination(
+                data=lessons, request=request, resource=LessonResource
+            ).paginate()
+        )
+
+
+@permission_classes([IsAuthenticated])
+class UserLessonsEnrolledHandler(Handler):
+    repository = LessonRepository()
+
+    @extend_schema(responses=OpenApiTypes.OBJECT)
+    def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        lessons = OrderedQuerySet(
+            queryset=self.repository.fetch_relations(
+                self.repository.find_user_enrolled(
                     user_id=request.user.id, skip_past=True
                 )
             )

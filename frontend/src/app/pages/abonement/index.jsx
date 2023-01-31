@@ -7,6 +7,7 @@ import {
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
 import Header from '../../components/header';
+import Price from '../../components/price';
 import buyTicketSlice from '../../core/slices/tickets/buyTicket/buyTicket';
 
 const AbonementPage = () => {
@@ -15,17 +16,13 @@ const AbonementPage = () => {
   const dispatch = useDispatch();
   const { lesson, errorMessage } = useSelector(state => state.lesson);
   const { price } = lesson?.data || 0;
-  const [amount, setAmount] = useState(6);
+  const [amount, setAmount] = useState(0);
+
   const array = [{ num: 1, str: ' посещениe', id: 'id0' },
     { num: 4, str: ' посещения', id: 'id1' },
     { num: 8, str: ' посещений', id: 'id2' },
     { num: 0, id: 'id3' }];
   const preparedDate = date => date.split('T')[0].split('-').reverse().slice(0, 2).join('.');
-  const calculateDiscountPrice = (price, amount) => {
-    if ((amount > 3) && (amount < 8)) return (price * 0.9 * amount).toFixed(0);
-    if ((amount > 7) && (amount < 12)) return (price * 0.85 * amount).toFixed(0);
-    if (amount > 11) return (price * 0.8 * amount).toFixed(0);
-  };
 
   const handlePay = () => {
     dispatch(buyTicketSlice({ id, amount }))
@@ -82,62 +79,8 @@ const AbonementPage = () => {
                 </Typography>
               </Stack>
             </Stack>
-
-            {array.map(el => (
-              <Card
-                key={el.id}
-                sx={{
-                  p: '27px 50px',
-                  borderRadius: '8px',
-                  boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-                  width: '479px',
-                  height: '130px',
-                  marginBottom: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                }}
-              >
-                <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
-                  {el.num ? (
-                    <Typography fontSize="24px" fontWeight="500">
-                      {`${el.num} ${el.str}`}
-                    </Typography>
-                  )
-                    : (
-                      <Input
-                        value={amount}
-                        autoFocus
-                        onChange={e => setAmount(e.target.value)}
-                        sx={{
-                          fontSize: '32px',
-                          fontWeight: '500',
-                          maxWidth: '37px',
-                        }}
-                      />
-                    )}
-
-                  {el.num > 3 || amount > 3 ? ( // скидка - двойное поле
-                    <Stack direction="column" alignItems="center" justifyContent="center">
-                      <Typography color="text.secondary" fontSize="24px" fontWeight="400" sx={{ textDecoration: 'line-through' }}>
-                        {`${el.num * lesson.data.price || amount * lesson.data.price} ₽`}
-                      </Typography>
-                      <Typography color="primary" fontSize="32px" fontWeight="700">
-                        {/* {`${el.num * lesson.data.price * 0.85 || amount * lesson.data.price * 0.85} ₽`} */}
-                        {`${calculateDiscountPrice(lesson.data.price, el.num) || calculateDiscountPrice(lesson.data.price, amount)} ₽`}
-                      </Typography>
-                    </Stack>
-                  ) : ( // без скидок
-                    <Typography color="primary" fontSize="32px" fontWeight="700">
-                      {`${el.num * lesson.data.price || amount * lesson.data.price} ₽`}
-                    </Typography>
-                  )}
-
-                </Stack>
-              </Card>
+            {array.map(el => (<Price key={el.id} el={el} price={price} setAmount={setAmount} amount={amount} />
             ))}
-
           </>
         )}
 
