@@ -119,22 +119,24 @@ const MyLesson = ({
           </Grid>
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
-        {isOneTime && (
-          <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
-            <Grid item>
-              <LocalLibraryOutlinedIcon color="primary" fontSize="large" />
-            </Grid>
-            <Grid item>
-              <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
-                Разовое занятие
-              </Typography>
-            </Grid>
 
-          </Grid>
-        )}
-        {!isOneTime && (
-        <Grid container direction="column" gap="8px" alignItems="center" justifyContent="center">
-          {ticketsAmount ? (
+        <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
+          {isOneTime && (
+            <>
+              <Grid item>
+                <LocalLibraryOutlinedIcon color="primary" fontSize="large" />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                  Разовое занятие
+                </Typography>
+              </Grid>
+            </>
+          )}
+          {!isOneTime && (
+          <>
+
+            {ticketsAmount > 0 && (
             <>
               <Grid item>
                 <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
@@ -147,7 +149,8 @@ const MyLesson = ({
                 </Typography>
               </Grid>
             </>
-          ) : (
+            )}
+            {!ticketsAmount && (
             <>
               <Grid item>
                 <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
@@ -159,24 +162,25 @@ const MyLesson = ({
                   variant="outlined"
                   component={Link}
                   to={`/abonement/${id}`}
-
                 >
                   приобрести
                 </Button>
               </Grid>
             </>
-          )}
+            )}
 
-          <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '8px' }}>
-            <Typography variant="body2">
-              Дата окончания:
-            </Typography>
-            <Typography color="primary" variant="body2" sx={{ fontWeight: '500' }}>
-              {prepareEndDate(endDate)}
-            </Typography>
-          </Grid>
+            <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
+              <Typography variant="body2">
+                Дата окончания:
+              </Typography>
+              <Typography color="primary" variant="body2" sx={{ fontWeight: '500' }}>
+                {prepareEndDate(endDate)}
+              </Typography>
+            </Grid>
+          </>
+
+          )}
         </Grid>
-        )}
       </Stack>
     </div>
   );
