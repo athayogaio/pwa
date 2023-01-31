@@ -12,7 +12,7 @@ import MyLessonSearch from '../../components/my_lesson_search';
 import MyLessonsEmpty from '../../components/my_lessons_empty';
 
 const MyLessonsPage = () => {
-  const { isLoading } = useSelector(state => state.tickets);
+  const { isLoading, errorMessage } = useSelector(state => state.tickets);
   const [isOpen, setIsOpen] = React.useState(isLoading);
   const handleClose = () => {
     setIsOpen(false);
@@ -36,12 +36,11 @@ const MyLessonsPage = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      {/* {errorMessage && (
+      {errorMessage && (
         <Typography color="error.main">
-          Error:
-          {errorMessage}
+          {`Error: ${errorMessage.errors.not_found[0]}`}
         </Typography>
-      )} */}
+      )}
       {tickets?.length ? (
         <Box height="100%" display="flex" flexDirection="column" justifyContent="space-between">
           <Container>
@@ -56,21 +55,20 @@ const MyLessonsPage = () => {
                 flexWrap: 'wrap',
               }}
             >
-            
-            
-            {tickets.map(ticket => (
-              <MyLesson
-                key={ticket.course.id}
-                id={ticket.course.id}
-                title={ticket.course.base_course.name}
-                ticketsAmount={ticket.amount}
-                endDate={ticket.course.deadline_datetime}
-                isOneTime={ticket.course.schedule.length === 0}
-              />
-            ))}
-            <MyLessonSearch />
-          </Stack>
-        </Container>
+
+              {tickets.map(ticket => (
+                <MyLesson
+                  key={ticket.course.id}
+                  id={ticket.course.id}
+                  title={ticket.course.base_course.name}
+                  ticketsAmount={ticket.amount}
+                  endDate={ticket.course.deadline_datetime}
+                  isOneTime={ticket.course.schedule.length === 0}
+                />
+              ))}
+              <MyLessonSearch />
+            </Stack>
+          </Container>
           <Button
             component={Link}
             to="/create-lesson"
