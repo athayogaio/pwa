@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Typography,
+  Backdrop,
+  Box, CircularProgress, Typography,
 } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import LessonDescription from '../../components/lesson-description';
@@ -18,7 +19,9 @@ const LessonDetailsPage = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-  const { lesson, errorMessage } = useSelector(state => state.lesson);
+  const { lesson, errorMessage, isLoading } = useSelector(state => state.lesson);
+
+  console.log(lesson);
 
   useEffect(() => {
     dispatch(getLessonSlice(id));
@@ -40,6 +43,14 @@ const LessonDetailsPage = () => {
           {`Error: ${errorMessage.errors.not_found[0]}`}
         </Typography>
         )}
+        {isLoading && (
+        <Backdrop
+          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        )}
 
         {lesson && (
         <LessonDescription
@@ -52,8 +63,8 @@ const LessonDetailsPage = () => {
           rate={lesson.data.rate}
           votes={lesson.data.votes_count}
           isVideo={lesson.data.base_course.course_type === 'VIDEO'}
-          isRegular={lesson.data.lessons.length > 1}
-          startDate={lesson.data.lessons.start_datetime}
+          isRegular={lesson.data.schedule.length > 0}
+          startDate={lesson.data.start_datetime}
           duration={lesson.data.duration}
           isPaid={lesson.data.payment === 'PAYMENT'}
           level={levels[lesson.data.base_course.level[0]]}
