@@ -34,6 +34,9 @@ const MyLesson = ({
     handleMenuClose();
     setOpenModal(true);
   };
+  const deleteTicket = () => {
+    handleCloseModal();
+  };
   const styleModal = {
     position: 'absolute',
     display: 'flex',
@@ -83,11 +86,6 @@ const MyLesson = ({
         <MenuItem onClick={handleOpenModal} sx={{ fontSize: '16px', minWidth: '220px' }}>
           <DeleteOutlinedIcon sx={{ marginRight: '19px' }} />
           {'   '}
-          Удалить
-
-        </MenuItem>
-
-        <MenuItem onClick={handleMenuClose} sx={{ fontSize: '16px', minWidth: '220px' }}>
           В архив
 
         </MenuItem>
@@ -106,12 +104,12 @@ const MyLesson = ({
             spacing={2}
           >
             <Typography id="modal-modal-title" variant="h6" component="h2" fontWeight="600">
-              Удалить занятие
+              Переместить занятие в архив
             </Typography>
             <CloseIcon sx={{ width: '24px', height: '24px', color: '#616161' }} onClick={handleCloseModal} />
           </Stack>
           <Typography id="modal-modal-description" fontSize="16px">
-            Вы действительно хотите удалить занятие?
+            Вы действительно хотите переместить занятие в архив?
           </Typography>
           <Stack
             direction="row"
@@ -120,7 +118,7 @@ const MyLesson = ({
             spacing={2}
           >
             <Button variant="text" sx={{ fontSize: '14px' }} onClick={handleCloseModal}>отмена</Button>
-            <Button variant="text" sx={{ fontSize: '14px' }} color="error">удалить</Button>
+            <Button variant="text" sx={{ fontSize: '14px' }} color="error" onClick={deleteTicket}>переместить</Button>
           </Stack>
         </Box>
       </Modal>
