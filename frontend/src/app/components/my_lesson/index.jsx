@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
+  Box,
   Button,
-  Card, Divider, Grid, Menu, MenuItem, Typography,
+  Card, Divider, Grid, Menu, MenuItem, Modal, Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ticket from '../../../assets/public/ticket.svg';
@@ -18,12 +20,36 @@ const MyLesson = ({
 }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = event => {
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const handleCloseModal = () => setOpenModal(false);
+  const openMenu = Boolean(anchorEl);
+  const handleMenuClick = event => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+  const handleOpenModal = () => {
+    handleMenuClose();
+    setOpenModal(true);
+  };
+  const styleModal = {
+    position: 'absolute',
+    display: 'flex',
+    gap: '34px',
+    flexDirection: 'column',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 616,
+    bgcolor: '#FAFAFA',
+    border: 'none',
+    boxShadow: '0px 10px 20px rgba(16, 50, 80, 0.12)',
+    p: 3,
+    '&:focus': {
+      outline: 'none',
+    },
   };
   return (
     <div style={{
@@ -40,31 +66,64 @@ const MyLesson = ({
         color="disabled"
         sx={{ position: 'absolute', top: '10px', right: '20px' }}
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
+        aria-controls={openMenu ? 'basic-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        aria-expanded={openMenu ? 'true' : undefined}
+        onClick={handleMenuClick}
       />
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
+        open={openMenu}
+        onClose={handleMenuClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose} sx={{ fontSize: '16px', minWidth: '220px' }}>
+        <MenuItem onClick={handleOpenModal} sx={{ fontSize: '16px', minWidth: '220px' }}>
           <DeleteOutlinedIcon sx={{ marginRight: '19px' }} />
           {'   '}
           Удалить
 
         </MenuItem>
-        <MenuItem onClick={handleClose} sx={{ fontSize: '16px', minWidth: '220px' }}>
+
+        <MenuItem onClick={handleMenuClose} sx={{ fontSize: '16px', minWidth: '220px' }}>
           В архив
 
         </MenuItem>
       </Menu>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModal}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+          >
+            <Typography id="modal-modal-title" variant="h6" component="h2" fontWeight="600">
+              Удалить занятие
+            </Typography>
+            <CloseIcon sx={{ width: '24px', height: '24px', color: '#616161' }} onClick={handleCloseModal} />
+          </Stack>
+          <Typography id="modal-modal-description" fontSize="16px">
+            Вы действительно хотите удалить занятие?
+          </Typography>
+          <Stack
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            spacing={2}
+          >
+            <Button variant="text" sx={{ fontSize: '14px' }} onClick={handleCloseModal}>отмена</Button>
+            <Button variant="text" sx={{ fontSize: '14px' }} color="error">удалить</Button>
+          </Stack>
+        </Box>
+      </Modal>
       <Stack
         direction="row"
         spacing={2}
