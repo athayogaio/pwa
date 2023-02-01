@@ -15,7 +15,7 @@ const favoritesSlice = createSlice({
   initialState,
   extraReducers: {
     [getFavoritesSlice.pending]: (state, action) => {
-      state.favoritesLessons = action.payload.data;
+      state.favoritesLessons = initialState.favoritesLessons;
       state.isLoading = true;
       state.errorMessage = null;
     },
