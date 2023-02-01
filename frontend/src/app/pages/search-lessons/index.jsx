@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, InputBase, Paper, Typography, Container,
+  Box, InputBase, Paper, Typography, Container, Backdrop, CircularProgress,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import filterSlice from '../../core/slices/lessons/filter';
@@ -12,7 +12,7 @@ import Header from '../../components/header';
 const SearchLessonsPage = () => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState('');
-  const { lessons, errorMessage } = useSelector(state => state.lessons);
+  const { lessons, errorMessage, isSearching } = useSelector(state => state.lessons);
 
   const searchQuery = useDebounce(query, 500);
 
@@ -55,6 +55,14 @@ const SearchLessonsPage = () => {
             {errorMessage}
           </Typography>
         )}
+        {isSearching && (
+        <Backdrop
+          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+          open={isSearching}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        )}
         <Box sx={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -64,7 +72,7 @@ const SearchLessonsPage = () => {
           margin: '0 auto',
         }}
         >
-          {lessons && lessons.data?.map(lesson => (
+          {!isSearching && lessons && lessons.data?.map(lesson => (
             <LessonCard
               key={lesson.id}
               id={lesson.id}

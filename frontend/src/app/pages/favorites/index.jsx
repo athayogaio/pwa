@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Typography, Container,
+  Box, Typography, Container, Backdrop, CircularProgress,
 } from '@mui/material';
 import LessonCard from '../../components/lesson-card';
 import getFavoritesSlice from '../../core/slices/favorites/getFavorites';
@@ -9,7 +9,7 @@ import Header from '../../components/header';
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
-  const { favoritesLessons, errorMessage } = useSelector(state => state.favorites);
+  const { favoritesLessons, errorMessage, isLoading } = useSelector(state => state.favorites);
 
   useEffect(() => {
     dispatch(getFavoritesSlice());
@@ -28,7 +28,15 @@ const FavoritesPage = () => {
         <Box
           maxWidth="984px"
         >
-          {Array.isArray(favoritesLessons) && favoritesLessons.length
+          {isLoading && (
+          <Backdrop
+            sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={isLoading}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          )}
+          {!isLoading && Array.isArray(favoritesLessons) && favoritesLessons.length
             ? (
               favoritesLessons?.map(lesson => (
                 <LessonCard

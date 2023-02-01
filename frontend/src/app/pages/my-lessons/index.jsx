@@ -14,10 +14,7 @@ import MyLessonsEmpty from '../../components/my_lessons_empty';
 
 const MyLessonsPage = () => {
   const { isLoading, errorMessage } = useSelector(state => state.tickets);
-  const [isOpen, setIsOpen] = React.useState(isLoading);
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+
   const dispatch = useDispatch();
   const tickets = useSelector(state => state.tickets.tickets?.data);
 
@@ -31,8 +28,7 @@ const MyLessonsPage = () => {
       {isLoading && (
         <Backdrop
           sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={isOpen}
-          onClick={handleClose}
+          open={isLoading}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
