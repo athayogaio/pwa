@@ -66,8 +66,7 @@ const Menu = ({ auth, menuItems }) => {
           <MenuItem
             component={NavLink}
             to={link}
-            // sx={{ ...menuItemStyle }}
-            sx={[{ ...menuItemStyle }, prev === { link } && { ...menuItemOtherStyle }]}
+            sx={[{ ...menuItemStyle }, prev === link && { ...menuItemOtherStyle }]}
             key={title}
           >
             <ListItemIcon>
