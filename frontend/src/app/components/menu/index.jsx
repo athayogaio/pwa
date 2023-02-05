@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,6 +23,30 @@ const Menu = ({ auth, menuItems }) => {
       },
     },
   };
+
+  const menuItemOtherStyle = {
+    backgroundColor: 'primary.main',
+    borderRadius: '5px',
+    '& .MuiSvgIcon-root, & .MuiTypography-root': {
+      color: 'common.white',
+    },
+  };
+
+  const currentUrl = useLocation();
+  const [prev, setPrev] = useState('');
+  const menuPath = ['search-lessons', 'favorites', 'my-lessons', 'calendar', 'profile'];
+
+  useEffect(() => {
+    menuPath.map(el => {
+      if (currentUrl.pathname.includes(el)) {
+        setPrev(currentUrl.pathname);
+      } else if (currentUrl.pathname.includes('settings')) {
+        setPrev('');
+      }
+      return null;
+    });
+  }, [currentUrl]);
+
   return (
     <Box sx={{ width: '100%', height: '100vh', backgroundColor: 'grey.A100' }}>
       <MenuList
@@ -38,22 +62,23 @@ const Menu = ({ auth, menuItems }) => {
         <div style={{ textAlign: 'center', marginBottom: '10px' }}>
           <img src={menuLogo} alt="atha yoga logo" style={{ width: '103px', height: '26px' }} />
         </div>
-        {menuItems.map(el => (
+        {menuItems.map(({ link, title, icon }) => (
           <MenuItem
             component={NavLink}
-            to={el.link}
-            sx={{ ...menuItemStyle }}
-            key={el.title}
+            to={link}
+            // sx={{ ...menuItemStyle }}
+            sx={[{ ...menuItemStyle }, prev === { link } && { ...menuItemOtherStyle }]}
+            key={title}
           >
             <ListItemIcon>
-              {el.icon}
+              {icon}
             </ListItemIcon>
             <ListItemText
               primary={(
                 <Typography
                   variant="body2"
                 >
-                  {el.title}
+                  {title}
                 </Typography>
                 )}
             />

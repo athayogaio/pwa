@@ -1,6 +1,6 @@
 import axios from 'axios';
 import storage from '../api/storage';
-import { LOGIN_URL, REGISTER_URL } from './utils';
+import { LOGIN_URL, REGISTER_URL, REGISTER_CONFIRM_URL } from './utils';
 import { USER_STORAGE_KEY } from '../user/utils';
 
 const register = ({ email, password }) => axios
@@ -12,6 +12,9 @@ const register = ({ email, password }) => axios
 
     return response.data;
   });
+
+const registerConfirm = ({ email, token }) => axios
+  .post(REGISTER_CONFIRM_URL, { email, register_confirm_token: token });
 
 const login = ({ email, password }) => axios
   .post(LOGIN_URL, { email, password })
@@ -27,6 +30,8 @@ const logout = () => {
   storage.remove(USER_STORAGE_KEY);
 };
 
-const AuthService = { register, login, logout };
+const AuthService = {
+  register, registerConfirm, login, logout,
+};
 
 export default AuthService;

@@ -43,13 +43,13 @@ const ProfileCard = () => {
           variant="iter_h2"
           paragraph
           my="16px"
-          sx={openText && {
+          sx={[openText && {
             display: '-webkit-box',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             WebkitLineClamp: 3,
             WebkitBoxOrient: 'vertical',
-          }}
+          }]}
         >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
