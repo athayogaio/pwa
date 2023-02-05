@@ -1,23 +1,19 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import {
-  Box, Typography, Button, Grid, Stack, Container,
+  Box, Typography, Button, Stack,
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import Header from '../../components/header';
+import LayoutContainer from '../../components/layout-container';
 
 const PaymentFailedPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   return (
-    <Grid
-      container
-      flexDirection="column"
-    >
+    <>
       <Header withBackBtn />
-
-      <Container>
+      <LayoutContainer>
         <Box sx={{
           height: '85vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         }}
@@ -46,8 +42,8 @@ const PaymentFailedPage = () => {
             попробовать снова
           </Button>
         </Box>
-      </Container>
-    </Grid>
+      </LayoutContainer>
+    </>
   );
 };
 export default PaymentFailedPage;

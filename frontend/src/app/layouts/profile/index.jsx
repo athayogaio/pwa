@@ -70,7 +70,6 @@ const ProfileLayout = ({ auth }) => {
       <Box sx={matches
         ? {
           width: 'calc(100vw - 256px)',
-          // maxWidth: 'calc(100vw - 256px)',
           height: '100vh',
           maxHeight: '100vh',
         }

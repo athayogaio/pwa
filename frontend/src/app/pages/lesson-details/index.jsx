@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Backdrop,
-  Box, CircularProgress, Typography,
+  Backdrop, CircularProgress, Typography,
 } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import LessonDescription from '../../components/lesson-description';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
 import Header from '../../components/header';
+import LayoutContainer from '../../components/layout-container';
 
 const LessonDetailsPage = () => {
   const levels = {
@@ -21,8 +21,6 @@ const LessonDetailsPage = () => {
   const dispatch = useDispatch();
   const { lesson, errorMessage, isLoading } = useSelector(state => state.lesson);
 
-  console.log(lesson);
-
   useEffect(() => {
     dispatch(getLessonSlice(id));
   }, []);
@@ -30,14 +28,7 @@ const LessonDetailsPage = () => {
   return (
     <>
       <Header withBackBtn />
-      <Box
-        display="flex"
-        margin="40px auto"
-        justifyContent="center"
-        flexDirection="column"
-        maxWidth="982px"
-        width="90%"
-      >
+      <LayoutContainer>
         {errorMessage && (
         <Typography color="error.main">
           {`Error: ${errorMessage.errors.not_found[0]}`}
@@ -71,7 +62,7 @@ const LessonDetailsPage = () => {
           schedule={lesson.data.schedule}
         />
         )}
-      </Box>
+      </LayoutContainer>
     </>
   );
 };

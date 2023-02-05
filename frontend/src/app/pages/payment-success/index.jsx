@@ -1,25 +1,22 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import {
-  Box, Typography, Button, Grid, Stack, Container,
+  Box, Typography, Button, Stack,
 } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import Header from '../../components/header';
+import LayoutContainer from '../../components/layout-container';
 
 const PaymentSuccessPage = () => {
   const { id } = useParams();
 
   return (
-    <Grid
-      container
-      flexDirection="column"
-    >
+    <>
       <Header withBackBtn />
 
-      <Container>
+      <LayoutContainer>
         <Box sx={{
-          height: '85vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          height: '85%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         }}
         >
           <CheckCircleOutlineOutlinedIcon color="success" sx={{ width: '100px', height: '100px', mb: '32px' }} />
@@ -40,8 +37,8 @@ const PaymentSuccessPage = () => {
             перейти к занятию
           </Button>
         </Box>
-      </Container>
-    </Grid>
+      </LayoutContainer>
+    </>
   );
 };
 export default PaymentSuccessPage;
