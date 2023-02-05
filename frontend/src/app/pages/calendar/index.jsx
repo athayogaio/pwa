@@ -4,7 +4,7 @@ import ScheduleLessonCard from '../../components/schedule-lesson-card';
 import Header from '../../components/header';
 
 const CalendarPage = () => (
-  <Box sx={{ width: '100%' }}>
+  <Box width="100%" height="100%">
     <Header title="Календарь" />
     <Container>
       <ScheduleLessonCard />

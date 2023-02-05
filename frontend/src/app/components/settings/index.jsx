@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Box, Paper, Typography, Stack,
+  Paper, Typography, Stack,
 } from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
@@ -9,6 +9,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Header from '../header';
+import LayoutContainer from '../layout-container';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -39,35 +40,37 @@ const Settings = () => {
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <>
       <Header title="Настройки" withBackBtn />
-      <Stack
-        direction="column"
-        spacing={2}
-        sx={{
-          margin: '32px auto',
-          width: '80%',
-          maxWidth: '944px',
-        }}
-      >
-        <Wpapper link text="Личные данные">
-          <PersonOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
-        </Wpapper>
+      <LayoutContainer>
+        <Stack
+          direction="column"
+          spacing={2}
+          sx={{
+            margin: '32px auto',
+            width: '80%',
+            maxWidth: '944px',
+          }}
+        >
+          <Wpapper link text="Личные данные">
+            <PersonOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
+          </Wpapper>
 
-        <Wpapper link text="Платежи и карты">
-          <CreditCardIcon sx={{ color: '#9E9E9E' }} />
-        </Wpapper>
+          <Wpapper link text="Платежи и карты">
+            <CreditCardIcon sx={{ color: '#9E9E9E' }} />
+          </Wpapper>
 
-        <Wpapper link="/teacher-form" text="Стать преподавателем">
-          <SchoolOutlinedIcon sx={{ color: '#9E9E9E' }} />
-        </Wpapper>
+          <Wpapper link="/teacher-form" text="Стать преподавателем">
+            <SchoolOutlinedIcon sx={{ color: '#9E9E9E' }} />
+          </Wpapper>
 
-        <Wpapper link text="Помощь">
-          <HelpOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
-        </Wpapper>
+          <Wpapper link text="Помощь">
+            <HelpOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
+          </Wpapper>
 
-      </Stack>
-    </Box>
+        </Stack>
+      </LayoutContainer>
+    </>
   );
 };
 

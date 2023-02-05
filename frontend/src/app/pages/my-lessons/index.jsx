@@ -23,39 +23,79 @@ const MyLessonsPage = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <Box width="100%" height="100%">
       <Header title="Мои занятия" />
-      {isLoading && (
+      <Container sx={{
+        overflow: 'auto', height: 'calc(100% - 0px)',
+                outline: '1px solid green',
+                maxWidth: '100%',
+                maxHeight: 'calc(100% - 0px)',
+      }}
+      >
+        {isLoading && (
         <Backdrop
           sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
           open={isLoading}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
-      )}
-      {errorMessage && (
+        )}
+        {errorMessage && (
         <Typography color="error.main">
           {`Error: ${errorMessage.errors.not_found[0]}`}
         </Typography>
-      )}
-      {!isLoading && (
+        )}
+
+        {!isLoading && (
         <>
           {tickets?.length ? (
-            <Box height="100%" display="flex" flexDirection="column" justifyContent="space-between">
-              <Container>
+            <>
+              <Container sx={{
+                overflow: 'auto', height: 'calc(100% - 180px)',
+                outline: '1px solid red',
+              }}
+              >
                 <Stack
                   direction="row"
                   sx={{
                     margin: '32px auto',
                     padding: '0 29px',
-                    width: '100%',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexWrap: 'wrap',
                   }}
                 >
-
-                  {tickets.map(ticket => (
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  phphpfftzasdfghjkl;mmnbvcxzqwertyuiop
+                  {/* {tickets.map(ticket => (
                     <MyLesson
                       key={ticket.course.id}
                       id={ticket.course.id}
@@ -64,11 +104,12 @@ const MyLessonsPage = () => {
                       endDate={ticket.course.deadline_datetime}
                       isOneTime={ticket.course.schedule.length === 0}
                     />
-                  ))}
+                  ))} */}
                   <MyLessonSearch />
                 </Stack>
               </Container>
-              <Button
+
+              {/* <Button
                 component={Link}
                 to="/create-lesson"
                 variant="contained"
@@ -84,14 +125,15 @@ const MyLessonsPage = () => {
               >
                 <Typography sx={{ mr: '8px', fontSize: '15px', lineHeight: '26px' }}>Создать занятие</Typography>
                 <AddIcon />
-              </Button>
-            </Box>
+              </Button> */}
+            </>
           ) : (
             <MyLessonsEmpty />
           )}
         </>
-      )}
-    </>
+        )}
+      </Container>
+    </Box>
   );
 };
 

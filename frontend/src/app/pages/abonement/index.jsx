@@ -38,7 +38,7 @@ const AbonementPage = () => {
   }, []);
 
   return (
-    <>
+    <Box width="100%" height="100%">
       <Header title="Назад" withBackBtn />
       <Box
         display="flex"
@@ -97,8 +97,7 @@ const AbonementPage = () => {
           </Button>
         </Stack>
       </Box>
-    </>
-
+    </Box>
   );
 };
 export default AbonementPage;

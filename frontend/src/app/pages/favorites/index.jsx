@@ -16,7 +16,7 @@ const FavoritesPage = () => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box width="100%" height="100%">
       <Header title="Избранное" />
       {isLoading && (
       <Backdrop
@@ -31,26 +31,28 @@ const FavoritesPage = () => {
           {`Error: ${errorMessage.errors.not_found[0]}`}
         </Typography>
       )}
-      <Container>
+      <Container
+        sx={{
+          mt: '32px', mb: '96px',
+        }}
+      >
         <Box
           maxWidth="984px"
         >
-          {!isLoading && (
-            <>
-              {Array.isArray(favoritesLessons) && favoritesLessons.length > 0
-                ? (
-                  favoritesLessons?.map(lesson => (
-                    <LessonCard
-                      key={lesson.id}
-                      id={lesson.base_course.id}
-                      title={lesson.base_course.name}
-                      description={lesson.base_course.description}
-                      price={lesson.price}
-                      level={lesson.base_course.level}
-                      favorite={lesson.favorite}
-                    />
-                  ))) : ('Ничего не найдено')}
-            </>
+          {!isLoading && Array.isArray(favoritesLessons) && (
+            favoritesLessons?.length > 0
+              ? (
+                favoritesLessons?.map(lesson => (
+                  <LessonCard
+                    key={lesson.id}
+                    id={lesson.base_course.id}
+                    title={lesson.base_course.name}
+                    description={lesson.base_course.description}
+                    price={lesson.price}
+                    level={lesson.base_course.level}
+                    favorite={lesson.favorite}
+                  />
+                ))) : ('Ничего не найдено')
           )}
         </Box>
       </Container>

@@ -11,12 +11,12 @@ import avatar from '../../../assets/public/profile_avatar.jpg';
 
 import './index.scoped.scss';
 
-const Profile = () => {
+const ProfileCard = () => {
   const [openText, setOpenText] = useState(true);
 
   return (
     <Card sx={{
-      minHeight: '85%', maxWidth: '984px', mx: '20px', mt: '32px', mb: '96px',
+      maxWidth: '984px',
     }}
     >
       <CardMedia
@@ -95,4 +95,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileCard;
