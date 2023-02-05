@@ -1,9 +1,8 @@
 from typing import Any
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema
 from rest_framework.decorators import permission_classes
 from rest_framework.exceptions import NotFound
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -18,7 +17,7 @@ from core.app.http.requests.user_requests import (
     UserSendPwdResetMailRequest,
     UserProfileUpdateRequest,
 )
-from core.app.http.resources.user_resources import UserResource
+from core.app.http.resources.user_resources import UserResource, UserDetailedProfile
 from core.app.repositories.user_repository import UserRepository
 from core.app.services.user_services import (
     UserRegister,
@@ -112,16 +111,14 @@ class UserResetPassHandler(GenericHandler):
 class LoggedUserProfileHandler(Handler):
     repository = UserRepository()
 
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, *args: Any, **kwargs: Any) -> Response:
         user = self.repository.find_by_id(id_=self.request.user.id, fetch_rels=True)
-        return Response({"data": UserResource(user).data})
+        return Response({"data": UserDetailedProfile(user).data})
 
 
 class UserProfileHandler(Handler):
     repository = UserRepository()
 
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, request: Request, pk: int, *args: Any, **kwargs: Any) -> Response:
         user = self.repository.find_by_id(id_=pk, fetch_rels=True)
         if not user:
@@ -133,8 +130,8 @@ class UserProfileHandler(Handler):
 @permission_classes([IsAuthenticated])
 class UserProfileUpdateHandler(GenericHandler):
     serializer_class = UserProfileUpdateRequest
+    parser_classes = [MultiPartParser]
 
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def patch(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         data = self.serializer_class(data=request.data, partial=True)
         data.is_valid(raise_exception=True)

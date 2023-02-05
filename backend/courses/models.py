@@ -113,6 +113,7 @@ class Course(TimeStampedModel):
         choices=CourseStatuses.choices,
         default=CourseStatuses.MODERATION,
     )
+    archived = models.BooleanField("Архивирован", default=False)
 
     def primitive_schedule_value(self) -> List[Dict]:
         return Course.schedule.field.convert_to_primitive(value=self.schedule) or []
@@ -164,10 +165,6 @@ class CourseCycle(TimeStampedModel):
 
 class Review(PolymorphicModel, TimeStampedModel):
     text = models.TextField("Текст")
-    star_rating = models.IntegerField(
-        "Рейтинг",
-        validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5)),
-    )
     user = models.ForeignKey(
         User, verbose_name="Автор", null=True, on_delete=models.SET_NULL
     )
@@ -301,3 +298,27 @@ class CourseAnswer(TimeStampedModel):
     class Meta:
         verbose_name = "Ответ на вопрос к курсу"
         verbose_name_plural = "Ответы на вопрос к курсу"
+
+
+class LessonRatingStar(models.Model):
+    star_rating = models.IntegerField(
+        "Рейтинг",
+        validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5)),
+    )
+    user = models.ForeignKey(
+        User,
+        verbose_name="Пользователь",
+        related_name="lesson_rating_stars",
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    lesson = models.ForeignKey(
+        Lesson,
+        verbose_name="Урок",
+        related_name="stars",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Оценка урока"
+        verbose_name_plural = "Оценки урока"

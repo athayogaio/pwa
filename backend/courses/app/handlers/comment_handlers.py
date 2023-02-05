@@ -1,7 +1,5 @@
 from typing import Any
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -19,7 +17,6 @@ from courses.app.services.comment_service import (
 
 
 class CourseCommentListHandler(Handler):
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, request: Request, pk: int, *args: Any, **kwargs: Any) -> Response:
         comments = CourseCommentRepository().find_by_course_id(course_id=pk)
         return Response(
@@ -45,7 +42,6 @@ class CourseCommentCreateHandler(GenericHandler):
 
 @permission_classes([IsAuthenticated])
 class CourseCommentRemoveHandler(Handler):
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def delete(self, request: Request, pk: int, *args: Any, **kwargs: Any) -> Response:
         comment = CourseCommentRemove(comment_id=pk, user=request.user).remove()
         return Response({"comment": CourseCommentResource(comment).data})

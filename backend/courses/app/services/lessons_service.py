@@ -4,10 +4,10 @@ from functools import cached_property
 
 import math
 from django.conf import settings
-from django.db import transaction
 from django.utils.timezone import now
 from rest_framework.exceptions import NotFound, ValidationError
 
+from core.app.framework.unit_of_work import UnitOfWork
 from core.app.repositories.user_repository import UserRepository
 from core.app.services.email_services import SimpleEmailTextService
 from core.app.services.types import TextMailData
@@ -26,6 +26,7 @@ from courses.models import (
     Course,
     CoursePaymentTypes,
     LessonEnrolledUser,
+    LessonRatingStar,
 )
 
 
@@ -103,7 +104,7 @@ class LessonCancel(LessonRescheduleCancel):
             raise ValidationError("Lesson not active")
         if not self._can_process():
             raise ValidationError("Cannot cancel lesson in current cycle")
-        with transaction.atomic():
+        with UnitOfWork():
             self._reduce_user_coef()
             self.lesson.status = LessonStatuses.CANCELED
             self.lesson_repos.store(lesson=self.lesson)
@@ -135,7 +136,7 @@ class LessonReschedule(LessonRescheduleCancel):
             end_at=self.reschedule_to + self.lesson.course.duration,
         ):
             raise ValidationError(f"User has lesson at {overlap_lesson.start_at}")
-        with transaction.atomic():
+        with UnitOfWork():
             self._reduce_user_coef()
             self._send_reschedule_message()
 
@@ -171,12 +172,11 @@ class LessonParticipation:
         if participant:
             return self.lesson.course.link
 
-        with transaction.atomic():
+        with UnitOfWork():
             if self.lesson.course.payment == CoursePaymentTypes.PAYMENT:
                 self.reduce_tickets()
 
             self.lesson_repository.add_participant(lesson=self.lesson, user=self._user)
-
         return self.lesson.course.link
 
 
@@ -189,3 +189,29 @@ class LessonEnrolledUserWork:
     def activation(self, active: bool) -> None:
         self._enrolled_user.active = active
         self.repository.store(enrolled_user=self._enrolled_user)
+
+
+class LessonRate:
+    repository = LessonRepository()
+
+    def __init__(self, lesson_id: int, user: User, star_rating: int):
+        self.star_rating = star_rating
+        self.user = user
+        self.lesson_id = lesson_id
+
+    @cached_property
+    def rating_star(self) -> LessonRatingStar:
+        lesson = self.repository.find_by_id(id_=self.lesson_id)
+        if not lesson:
+            raise NotFound(f"Undefined lesson with id {self.lesson_id}")
+
+        star = LessonRatingStar()
+        star.user = self.user
+        star.lesson = lesson
+        star.star_rating = self.star_rating
+
+        return star
+
+    def rate(self) -> LessonRatingStar:
+        self.repository.rate_lesson(rating_star=self.rating_star)
+        return self.rating_star

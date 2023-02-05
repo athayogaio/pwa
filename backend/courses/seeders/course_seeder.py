@@ -97,7 +97,6 @@ class CourseReviewSeeder:
     def seed(self) -> CourseReview:
         return CourseReview(
             text=self.faker.sentence(),
-            star_rating=random.randint(1, 5),
             user=self.user,
             base_course=self.course.base_course,
         )

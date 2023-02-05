@@ -3,7 +3,7 @@ from typing import Optional
 from django.db.models import QuerySet, Prefetch, OuterRef
 
 from core.app.repositories.base_repository import BaseRepository
-from core.models import User, QuestionnaireTeacher, QuestionnaireTeacherStatuses
+from core.models import User, TeacherProfileDB, TeacherProfileStatuses
 from courses.models import Ticket
 
 
@@ -42,9 +42,9 @@ class TicketRepository(BaseRepository):
                 ).prefetch_related(
                     Prefetch(
                         "teacher_profiles",
-                        queryset=QuestionnaireTeacher.objects.filter(
+                        queryset=TeacherProfileDB.objects.filter(
                             user_id=OuterRef("id"),
-                            status=QuestionnaireTeacherStatuses.ACCEPTED,
+                            status=TeacherProfileStatuses.ACCEPTED,
                         ),
                     )
                 ),

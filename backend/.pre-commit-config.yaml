@@ -20,4 +20,4 @@ repos:
         entry: mypy
         language: system
         files: .*.py
-        exclude: '^.*\b(migrations)\b.*$'
+        exclude: '^.*\b(migrations|.ini|tests)\b.*$'

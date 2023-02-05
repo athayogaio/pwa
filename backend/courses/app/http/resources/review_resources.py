@@ -26,7 +26,6 @@ class CourseReviewResource(ModelSerializer):
             "id",
             "base_course",
             "text",
-            "star_rating",
             "user",
             "created_at",
         ]
