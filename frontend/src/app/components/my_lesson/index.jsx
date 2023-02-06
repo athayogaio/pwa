@@ -61,8 +61,9 @@ const MyLesson = ({
       width: '480px',
       marginRight: '24px',
       marginBottom: '24px',
-      background: `center / contain no-repeat url(${ticket})`,
+      background: `center / cover no-repeat url(${ticket})`,
       filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
+      // outline: '1px solid red',
     }}
     >
       <MoreHorizOutlinedIcon
