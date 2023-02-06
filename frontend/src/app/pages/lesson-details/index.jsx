@@ -20,7 +20,7 @@ const LessonDetailsPage = () => {
 
   const dispatch = useDispatch();
   const { lesson, errorMessage, isLoading } = useSelector(state => state.lesson);
-
+  console.log(lesson);
   useEffect(() => {
     dispatch(getLessonSlice(id));
   }, []);
@@ -60,6 +60,7 @@ const LessonDetailsPage = () => {
           isPaid={lesson.data.payment === 'PAYMENT'}
           level={levels[lesson.data.base_course.level[0]]}
           schedule={lesson.data.schedule}
+          endDate={lesson.data.deadline_datetime}
         />
         )}
       </LayoutContainer>
