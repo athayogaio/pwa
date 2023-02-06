@@ -57,12 +57,12 @@ const SearchLessonsPage = () => {
           </Typography>
         )}
         {isSearching && (
-        <Backdrop
-          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={isSearching}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+          <Backdrop
+            sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={isSearching}
+          >
+            <CircularProgress />
+          </Backdrop>
         )}
         <Box sx={{
           display: 'flex',

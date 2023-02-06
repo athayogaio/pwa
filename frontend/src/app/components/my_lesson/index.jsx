@@ -45,7 +45,7 @@ const MyLesson = ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 616,
+    maxWidth: 616,
     bgcolor: '#FAFAFA',
     border: 'none',
     boxShadow: '0px 10px 20px rgba(16, 50, 80, 0.12)',
@@ -55,7 +55,7 @@ const MyLesson = ({
     },
   };
   return (
-    <div style={{
+    <Box style={{
       padding: '20px 24px 20px 30px',
       borderRadius: '16px',
       width: '480px',
@@ -127,7 +127,7 @@ const MyLesson = ({
         spacing={2}
       >
         <Grid container direction="column" gap="16px" width="207%">
-          <div>
+          <Box>
             <Typography
               variant="h6"
               paragraph
@@ -145,7 +145,7 @@ const MyLesson = ({
             >
               {title}
             </Typography>
-          </div>
+          </Box>
           <Grid container direction="column">
             <Typography variant="caption" color="text.secondary" sx={{ fontSize: '13px', mb: '7px' }}>
               Ближайшее занятие:
@@ -239,7 +239,7 @@ const MyLesson = ({
           )}
         </Grid>
       </Stack>
-    </div>
+    </Box>
   );
 };
 
