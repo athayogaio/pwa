@@ -54,6 +54,7 @@ const MyLessonsPage = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexWrap: 'wrap',
+                  // outline: '1px solid blue',
                 }}
               >
                 {tickets.map(ticket => (
@@ -75,7 +76,7 @@ const MyLessonsPage = () => {
                 variant="contained"
                 sx={{
                   position: 'fixed',
-                  bottom: '48px',
+                  bottom: '58px',
                   right: '48px',
                   p: '12px 16px',
                   boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',

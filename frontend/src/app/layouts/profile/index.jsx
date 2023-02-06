@@ -16,27 +16,27 @@ import Menu from '../../components/menu';
 const menuItems = [
   {
     title: 'Поиск',
-    icon: <SearchIcon color="disabled" fontSize="medium" />,
+    icon: <SearchIcon />,
     link: '/search-lessons',
   },
   {
     title: 'Избранное',
-    icon: <FavoriteBorderIcon color="disabled" fontSize="medium" />,
+    icon: <FavoriteBorderIcon />,
     link: '/favorites',
   },
   {
     title: 'Мои занятия',
-    icon: <SchoolOutlinedIcon color="disabled" fontSize="medium" />,
+    icon: <SchoolOutlinedIcon />,
     link: '/my-lessons',
   },
   {
     title: 'Календарь',
-    icon: <DateRangeIcon color="disabled" fontSize="medium" />,
+    icon: <DateRangeIcon />,
     link: '/calendar',
   },
   {
     title: 'Профиль',
-    icon: <AccountCircleOutlinedIcon color="disabled" fontSize="medium" />,
+    icon: <AccountCircleOutlinedIcon />,
     link: '/profile',
   },
 ];
@@ -46,6 +46,10 @@ const menuItemStyle = {
     '& .MuiSvgIcon-root': {
       color: 'primary.main',
     },
+  },
+  svg: {
+    width: '24px',
+    height: '24px',
   },
 };
 
@@ -97,7 +101,7 @@ const ProfileLayout = ({ auth }) => {
                 sx={{ ...menuItemStyle }}
                 component={NavLink}
                 to={el.link}
-                label={el.title}
+                label=""
                 icon={el.icon}
               />
             ))}
