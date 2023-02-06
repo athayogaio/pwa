@@ -3,7 +3,13 @@
 {% load rest_framework %}
 
 {% block body %}
-    <form action="{% if category_slug %}{% url 'category' category_slug=category_slug %}{% else %}{% url 'index' %}{% endif %}" method="GET">
+    <form action="{% if category_slug %}
+                    {% url 'category' category_slug=category_slug %}
+                  {% elif tag_slug %}
+                    {% url 'tag' tag_slug=tag_slug %}
+                  {% else %}
+                    {% url 'index' %}
+                  {% endif %}" method="GET">
         {% render_form search_form %}
         <input type="submit" value="Submit">
     </form>
@@ -12,7 +18,7 @@
     <ul>
         {% recursetree categories %}
             <li>
-                <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                <a href="{{ node.absolute_url }}">{{ node.name }}</a>
                 {% if not node.is_leaf_node %}
                     <ul class="children">
                         {{ children }}
@@ -25,13 +31,13 @@
     <h1>Тэги</h1>
     <p>
         {% for tag in tags %}
-            {{ tag.name }},
+            <a href="{{ tag.absolute_url }}">{{ tag.name }}</a>,
         {% endfor %}
     </p>
 
     <h1>Статьи</h1>
     {% for article in articles %}
-        <p><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></p>
+        <p><a href="{{ article.absolute_url }}">{{ article.title }}</a></p>
     {% endfor %}
 
     <div class="pagination">

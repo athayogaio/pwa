@@ -11,7 +11,7 @@ logger = logging.getLogger("default_log")
 
 class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> None:
-        for i in range(10):
+        for i in range(30):
             logger.info(f"Wait for Elasticsearch connection {i}")
             try:
                 connections.get_connection().cluster.health()

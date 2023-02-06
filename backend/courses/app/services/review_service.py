@@ -32,7 +32,6 @@ class CourseReviewCreate:
         review.user = self.user
         review.base_course = course.base_course
         review.text = self.data["text"]
-        review.star_rating = self.data["star_rating"]
 
         return review
 

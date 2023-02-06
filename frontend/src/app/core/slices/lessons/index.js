@@ -13,6 +13,7 @@ const lessonsSlice = createSlice({
   initialState,
   extraReducers: {
     [filterSlice.pending]: state => {
+      state.lessons = null;
       state.isSearching = true;
       state.errorMessage = null;
     },

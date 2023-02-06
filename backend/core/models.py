@@ -1,7 +1,11 @@
 import uuid
-from typing import List, Union
+from enum import Enum
+from typing import List, Union, Optional
 
 from django.contrib.auth.models import AbstractUser
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from polymorphic.models import PolymorphicModel
@@ -45,6 +49,16 @@ def user_default_roles() -> List[Union[UserRoles, str]]:
     return [UserRoles.STUDENT]
 
 
+class UserRegions(models.TextChoices):
+    RU = "RU"
+
+
+class GenderTypes(models.TextChoices):
+    MALE = "MALE"
+    FEMALE = "FEMALE"
+    EMPTY = ""
+
+
 class User(AbstractUser):
     first_name = models.CharField(_("first name"), max_length=100, blank=True)
     last_name = models.CharField(_("last name"), max_length=100, blank=True)
@@ -59,7 +73,21 @@ class User(AbstractUser):
     pwd_reset_token = models.CharField(
         _("pwd reset token"), max_length=300, blank=True, null=True
     )
-    rate = models.FloatField(default=5)
+    gender = models.CharField(
+        max_length=20, choices=GenderTypes.choices, default=GenderTypes.EMPTY
+    )
+    birthday = models.DateField(null=True)
+    hide_birthday = models.BooleanField(default=False)
+    sys_rate = models.FloatField(
+        default=0, validators=[MaxValueValidator(5), MinValueValidator(0)]
+    )
+    rate_mean: Optional[float] = None
+
+    @property
+    def rate(self) -> Optional[float]:
+        if self.rate_mean is None:
+            raise ValueError("rate_mean is not calculated")
+        return self.rate_mean
 
     def has_role(self, role: UserRoles) -> bool:
         return role in self.roles
@@ -107,24 +135,7 @@ class Transaction(PolymorphicModel):
         verbose_name_plural = "Транзакции"
 
 
-class GenderTypes(models.TextChoices):
-    MALE = "MALE"
-    FEMALE = "FEMALE"
-
-
-class QuestionnaireTeacherStatuses(models.TextChoices):
-    MODERATION = "MODERATION"
-    ACCEPTED = "ACCEPTED"
-    DECLINED = "DECLINED"
-
-
 class QuestionnaireTeacher(TimeStampedModel):
-    user = models.ForeignKey(
-        User,
-        related_name="teacher_profiles",
-        verbose_name="Пользователь",
-        on_delete=models.CASCADE,
-    )
     name = models.CharField("Имя", max_length=30)
     surname = models.CharField("Фамилия", max_length=50)
     date_of_birth = models.DateField("Дата рождения")
@@ -135,12 +146,6 @@ class QuestionnaireTeacher(TimeStampedModel):
     work_experience = models.CharField("Опыт работы", max_length=1000)
     vk_link = models.URLField("Ссылка на VK", max_length=200, blank=True)
     telegram_link = models.URLField("Ссылка на TG", max_length=200, blank=True)
-    status = models.CharField(
-        "Статус",
-        max_length=30,
-        choices=QuestionnaireTeacherStatuses.choices,
-        default=QuestionnaireTeacherStatuses.MODERATION,
-    )
     certificate_photos = models.ManyToManyField(
         Attachment, verbose_name="Фото сертификатов", blank=True
     )
@@ -154,6 +159,85 @@ class QuestionnaireTeacher(TimeStampedModel):
     class Meta:
         verbose_name = "Анкета преподавателя"
         verbose_name_plural = "Анкеты преподавателей"
+
+
+class BillingInfoRegexes(Enum):
+    INN_RU = r"^\d{10}$"
+    PRC_RU = r"^\d{10}$"
+    BIC_RU = r"^[A-Z0-9]{9}$"
+    ACCOUNT_NUMBER_RU = r"^\d{20}$"
+    CORRESPONDENT_ACCOUNT_RU = r"^\d{20}$"
+
+
+class UserBillingInfo(PolymorphicModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.CharField(max_length=255)
+    bank = models.CharField(max_length=255)
+    organization_address = models.CharField(max_length=255)
+
+
+class UserBillingInfoEU(UserBillingInfo):
+    inn = models.CharField("ИНН", max_length=50)
+    correspondent_account = models.CharField("Корреспондентский счет", max_length=50)
+    prc = models.CharField("КПП", max_length=50)
+    bic = models.CharField(max_length=50)
+    account_number = models.CharField("Номер счета", max_length=50)
+
+
+class UserBillingInfoRU(UserBillingInfo):
+    inn = models.CharField(
+        "ИНН",
+        max_length=10,
+        validators=[RegexValidator(regex=BillingInfoRegexes.INN_RU.value)],
+    )
+    correspondent_account = models.CharField(
+        "Корреспондентский счет",
+        max_length=20,
+        validators=[
+            RegexValidator(regex=BillingInfoRegexes.CORRESPONDENT_ACCOUNT_RU.value)
+        ],
+    )
+    prc = models.CharField(
+        "КПП",
+        max_length=10,
+        validators=[RegexValidator(regex=BillingInfoRegexes.PRC_RU.value)],
+    )
+    bic = models.CharField(
+        "БИК",
+        max_length=50,
+        validators=[RegexValidator(regex=BillingInfoRegexes.BIC_RU.value)],
+    )
+    account_number = models.CharField("Номер счета", max_length=30)
+
+
+BillingInfoModelType = Union[UserBillingInfoEU, UserBillingInfoEU]
+
+
+class TeacherProfileStatuses(models.TextChoices):
+    MODERATION = "MODERATION"
+    ACCEPTED = "ACCEPTED"
+    DECLINED = "DECLINED"
+
+
+class TeacherProfileDB(TimeStampedModel):
+    user = models.ForeignKey(
+        User,
+        related_name="teacher_profiles",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+    questionnaire = models.OneToOneField(QuestionnaireTeacher, on_delete=models.CASCADE)
+
+    billing_info_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    billing_info_obj_id = models.PositiveIntegerField()
+    billing_info = GenericForeignKey("billing_info_content_type", "billing_info_obj_id")
+
+    status = models.CharField(
+        "Статус",
+        max_length=30,
+        choices=TeacherProfileStatuses.choices,
+        default=TeacherProfileStatuses.MODERATION,
+    )
 
 
 class Comment(PolymorphicModel):

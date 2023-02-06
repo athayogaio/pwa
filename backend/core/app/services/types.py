@@ -1,9 +1,12 @@
+import datetime
 from dataclasses import dataclass
 from enum import Enum
 from typing import TypedDict, NamedTuple, List
 
 from dacite import from_dict, Config
 from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from core.models import QuestionnaireTeacher, UserBillingInfo, GenderTypes
 
 
 class UserRegisterData(TypedDict):
@@ -82,7 +85,7 @@ class QuestionnaireTeacherData(TypedDict):
     name: str
     surname: str
     date_of_birth: str
-    gender: str
+    gender: GenderTypes
     about_me: str
     work_experience: str
     vk_link: str
@@ -99,3 +102,22 @@ class UserProfileUpdateData(TypedDict, total=False):
     last_name: str
     about: str
     avatar: InMemoryUploadedFile
+    birthday: datetime.date
+    gender: GenderTypes
+    hide_birthday: bool
+
+
+class TeacherBillingInfoData(TypedDict):
+    organization: str
+    bic: str
+    bank: str
+    organization_address: str
+    inn: str
+    correspondent_account: str
+    prc: str
+    account_number: str
+
+
+class TeacherProfileCreateData(NamedTuple):
+    questionnaire: QuestionnaireTeacher
+    billing_info: UserBillingInfo

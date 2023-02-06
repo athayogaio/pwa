@@ -1,19 +1,22 @@
 import datetime
 from typing import List, Optional
 
-from django.db.models import QuerySet, F, Q
+from django.db.models import QuerySet, F, Q, Avg
 from django.utils.timezone import now
 
 from core.app.repositories.base_repository import BaseRepository
 from core.models import User
-from courses.models import Lesson
+from courses.models import Lesson, LessonRatingStar
 
 
 class LessonRepository(BaseRepository):
     model = Lesson
 
     def fetch_relations(self, lessons: QuerySet[Lesson]) -> QuerySet[Lesson]:
-        return lessons.annotate(end_at=F("start_at") + F("course__duration"))
+        return lessons.select_related("course").annotate(
+            end_at=F("start_at") + F("course__duration"),
+            rate_mean=Avg("stars__star_rating"),
+        )
 
     def bulk_create(self, objs: List[Lesson]) -> None:
         self.model.objects.bulk_create(objs)
@@ -23,6 +26,15 @@ class LessonRepository(BaseRepository):
         if fetch_rels:
             lesson_queryset = self.fetch_relations(lesson_queryset)
         return lesson_queryset.first()
+
+    def rate_lesson(self, rating_star: LessonRatingStar) -> None:
+        user_star = LessonRatingStar.objects.filter(
+            user=rating_star.user, lesson=rating_star.lesson
+        ).first()
+        if user_star:
+            user_star.star_rating = rating_star.star_rating
+            rating_star = user_star
+        rating_star.save()
 
     def find_by_course_id(self, course_id: int) -> QuerySet[Lesson]:
         return self.model.objects.filter(course_id=course_id)

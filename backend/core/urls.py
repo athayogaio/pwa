@@ -1,7 +1,7 @@
 from django.urls import path
 
-from core.app.handlers.teachers_questionnaire_handlers import (
-    QuestionnaireTeacherHandler,
+from core.app.handlers.teachers_handlers import (
+    TeacherProfileCreateHandler,
 )
 from core.app.handlers.user_handlers import (
     UserRegisterHandler,
@@ -25,9 +25,9 @@ urlpatterns = [
     path("login/", UserLoginHandler.as_view(), name="login"),
     path("changepass/", UserChangePassHandler.as_view(), name="changepass"),
     path(
-        "questionnaireteacher/",
-        QuestionnaireTeacherHandler.as_view(),
-        name="questionnaireteacherregestration",
+        "teacher-profile/",
+        TeacherProfileCreateHandler.as_view(),
+        name="teacher_profile_create",
     ),
     path("resetpass/", UserSendPwdResetMailHandler.as_view(), name="resetpass"),
     path("resetpass/confirm/", UserResetPassHandler.as_view(), name="resetpass_change"),

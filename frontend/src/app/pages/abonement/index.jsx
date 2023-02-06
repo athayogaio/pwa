@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Button, Typography, Stack, Card, Input,
+  Button, Typography, Stack,
 } from '@mui/material';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
 import Header from '../../components/header';
+import LayoutContainer from '../../components/layout-container';
 import Price from '../../components/price';
 import buyTicketSlice from '../../core/slices/tickets/buyTicket/buyTicket';
 
@@ -39,15 +40,8 @@ const AbonementPage = () => {
 
   return (
     <>
-      <Header title="Назад" withBackBtn />
-      <Box
-        display="flex"
-        margin="0 auto"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-        maxWidth="479px"
-      >
+      <Header withBackBtn />
+      <LayoutContainer>
         {errorMessage && (
         <Typography color="error.main">
           Error:
@@ -96,9 +90,8 @@ const AbonementPage = () => {
             Оплатить
           </Button>
         </Stack>
-      </Box>
+      </LayoutContainer>
     </>
-
   );
 };
 export default AbonementPage;

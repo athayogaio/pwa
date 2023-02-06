@@ -32,7 +32,7 @@ class UserRegisterConfirm:
         self.data = data
 
     def confirm(self) -> Tuple[User, UserToken]:
-        user = self.repository.find_by_email(self.data["email"])
+        user = self.repository.find_by_email(self.data["email"], fetch_rels=True)
         if not user:
             raise PermissionDenied("User with this email does not exist")
         if self.data["register_confirm_token"] != user.register_confirm_token:
@@ -65,7 +65,7 @@ class UserRegister:
                 subject="Регистрация в Atha.Yoga",
                 message=f"Дорогой пользователь, для завершения процедуры регистрации на платформе Atha.Yoga, "
                 f"пожалуйста, перейдите по следующей "
-                f"ссылке:\n{settings.SITE_URL}/verify-email/?token={token}/.\n"
+                f"ссылке:\n{settings.SITE_URL}/verify-email/token/{token}/.\n"
                 f"Если Вы не регистрировались на платформе, просто проигнорируйте это письмо."
                 f"\nС уважением и заботой,\nкоманда ATHAYOGA.",
                 receivers=[self.user.email],
@@ -87,7 +87,7 @@ class UserLogin:
 
     @cached_property
     def user(self) -> User:
-        user = self.repository.find_by_email(self.data["email"])
+        user = self.repository.find_by_email(self.data["email"], fetch_rels=True)
         if not user or not user.check_password(self.data["password"]):
             raise AuthenticationFailed(ErrorsMessages.AUTH_FAILED.value)
         return user
@@ -105,7 +105,7 @@ class UserChangePass:
 
     @cached_property
     def user(self) -> User:
-        user = self.repository.find_by_email(self.data["email"])
+        user = self.repository.find_by_email(self.data["email"], fetch_rels=True)
         if not user or not user.check_password(self.data["password"]):
             raise AuthenticationFailed()
         user.set_password(self.data["new_password"])
@@ -145,7 +145,7 @@ class UserResetPass:
     def change(
         self, new_password: str, email: str, pwd_reset_token: str
     ) -> Tuple[User, UserToken]:
-        user = self.repository.find_by_email(email=email)
+        user = self.repository.find_by_email(email=email, fetch_rels=True)
         if not user:
             raise PermissionDenied("User with this email does not exist")
         if pwd_reset_token != user.pwd_reset_token:

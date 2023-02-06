@@ -1,5 +1,5 @@
 import React, {
-  createContext, useEffect, useState, useMemo,
+  useEffect, useState,
 } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,8 +10,6 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import passRecoverySlice from '../../core/slices/pass-recovery/passRecovery';
 import { clearMessage } from '../../core/slices/message';
-
-export const UserEmailContext = createContext('');
 
 const PasswordRecovery = () => {
   const dispatch = useDispatch();
@@ -32,13 +30,10 @@ const PasswordRecovery = () => {
     dispatch(passRecoverySlice({ email }));
   };
 
-  const value = useMemo(() => userEmail, [userEmail]);
-
   if (message === 'Success') {
+    localStorage.setItem('userEmail', userEmail);
     return (
-      <UserEmailContext.Provider value={value}>
-        <Navigate to="/instruction-recovery-password" />
-      </UserEmailContext.Provider>
+      <Navigate to="/instruction-recovery-password" />
     );
   }
 

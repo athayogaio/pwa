@@ -14,3 +14,7 @@ class LessonRescheduleRequest(UnimplementedSerializer):
         if value < now():
             raise ValidationError(f"Reschedule must be greater then {now()}")
         return value
+
+
+class LessonRateRequest(UnimplementedSerializer):
+    star_rating = serializers.IntegerField(min_value=1, max_value=5)

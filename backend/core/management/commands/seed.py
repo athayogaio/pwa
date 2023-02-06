@@ -3,9 +3,9 @@ from typing import Any
 
 from django.conf import settings
 from django.core.management import BaseCommand
-from django.db import transaction
 from faker import Faker
 
+from core.app.framework.unit_of_work import transaction_method
 from core.models import User, UserRoles
 from core.seeders.user_seeder import (
     UserSeeder,
@@ -36,7 +36,7 @@ DEFAULT_LESSONS_COUNT = DEFAULT_USERS_COUNT * 10
 
 
 class Command(BaseCommand):
-    @transaction.atomic()
+    @transaction_method
     def handle(self, *args: Any, **options: Any) -> None:
         self._init_superuser()
         self._seed_users()

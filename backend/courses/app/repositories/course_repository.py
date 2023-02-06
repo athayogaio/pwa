@@ -16,7 +16,7 @@ from elasticsearch_dsl import Q as EQ
 from rest_framework.exceptions import NotFound
 
 from core.app.repositories.base_repository import BaseRepository
-from core.models import User, QuestionnaireTeacher, QuestionnaireTeacherStatuses
+from core.models import User, TeacherProfileDB, TeacherProfileStatuses
 from courses.app.repositories.types import CourseFilterData
 from courses.documents import BaseCourseDocument
 from courses.models import Course, Lesson, BaseCourse, CourseStatuses, Ticket
@@ -113,9 +113,9 @@ class CourseRepository(BaseRepository):
                     ).prefetch_related(
                         Prefetch(
                             "teacher_profiles",
-                            queryset=QuestionnaireTeacher.objects.filter(
+                            queryset=TeacherProfileDB.objects.filter(
                                 user_id=OuterRef("id"),
-                                status=QuestionnaireTeacherStatuses.ACCEPTED,
+                                status=TeacherProfileStatuses.ACCEPTED,
                             ),
                         )
                     ),
@@ -124,7 +124,7 @@ class CourseRepository(BaseRepository):
             .annotate(
                 reviews_count=Count("base_course__reviews"),
                 comments_count=Count("base_course__comments"),
-                rate=Avg("base_course__reviews__star_rating"),
+                rate_mean=Avg("lessons_set__stars__star_rating"),
             )
         )
         if self.user and self.user.id:
@@ -155,6 +155,9 @@ class CourseRepository(BaseRepository):
         return self.model.objects.filter(
             pk=course.id, lessons_set__enrolled_users__id=user.id
         ).exists()
+
+    def delete(self, course: Course) -> Course:
+        return course.delete()
 
 
 class BaseCourseRepository(BaseRepository):

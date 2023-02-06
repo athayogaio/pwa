@@ -11,7 +11,6 @@ from courses.models import (
 
 
 class CourseReviewCreateData(TypedDict):
-    star_rating: int
     text: str
 
 

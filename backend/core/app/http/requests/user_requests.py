@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from core.app.framework.serializers import UnimplementedSerializer, PasswordField
+from core.models import GenderTypes
 
 
 class UserRegisterRequest(UnimplementedSerializer):
@@ -61,8 +62,10 @@ class UserResetPassRequest(UnimplementedSerializer):
 
 
 class UserProfileUpdateRequest(UnimplementedSerializer):
-    username = serializers.CharField(max_length=150)
     first_name = serializers.CharField(max_length=100)
     last_name = serializers.CharField(max_length=100)
     about = serializers.CharField(max_length=100)
     avatar = serializers.ImageField()
+    birthday = serializers.DateField()
+    gender = serializers.ChoiceField(choices=GenderTypes.choices)
+    hide_birthday = serializers.BooleanField()

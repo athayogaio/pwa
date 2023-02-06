@@ -6,18 +6,22 @@ from django.db.models import QuerySet
 from core.app.repositories.teachers_questionnaire_repository import (
     QuestionnaireTeacherRepository,
 )
-from core.app.services.teachers_questionnaire_services import QuestionnaireTeacherAccept
-from core.models import QuestionnaireTeacher, QuestionnaireTeacherStatuses
+from core.app.services.teachers_services import TeacherProfileAccept
+from core.models import (
+    QuestionnaireTeacher,
+    QuestionnaireTeacherStatuses,
+    TeacherProfileDB,
+)
 
 
-@admin.action(description="Accept selected questionnaires")
-def accept_questionnaires(
+@admin.action(description="Accept selected profiles")
+def accept_teacher_profiles(
     modeladmin: ModelAdmin,
     request: WSGIRequest,
-    queryset: QuerySet[QuestionnaireTeacher],
+    queryset: QuerySet[TeacherProfileDB],
 ) -> None:
     for item in queryset:
-        QuestionnaireTeacherAccept(questionnaire=item).accept()
+        TeacherProfileAccept(profile=item).accept()
 
 
 @admin.action(description="Decline selected questionnaires")

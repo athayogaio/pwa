@@ -1,15 +1,24 @@
-import { Box, Container } from '@mui/material';
 import React from 'react';
 import ScheduleLessonCard from '../../components/schedule-lesson-card';
 import Header from '../../components/header';
+import LayoutContainer from '../../components/layout-container';
 
 const CalendarPage = () => (
-  <Box sx={{ width: '100%' }}>
+  <>
     <Header title="Календарь" />
-    <Container>
+    <LayoutContainer>
       <ScheduleLessonCard />
-    </Container>
-  </Box>
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+      <ScheduleLessonCard />
+    </LayoutContainer>
+  </>
 );
 
 export default CalendarPage;

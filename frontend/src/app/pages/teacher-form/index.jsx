@@ -1,16 +1,17 @@
 import React from 'react';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import TeacherForm from '../../components/teacher-form';
 import Header from '../../components/header';
+import LayoutContainer from '../../components/layout-container';
 
 const TeacherFormPage = () => (
-  <Box>
+  <Box width="100%" height="100%">
     <Header withBackBtn />
-    <Container>
+    <LayoutContainer>
       <Box display="flex" justifyContent="center" mb="116px">
         <TeacherForm />
       </Box>
-    </Container>
+    </LayoutContainer>
   </Box>
 );
 

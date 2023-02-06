@@ -11,31 +11,26 @@ import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import passConfirmSlice from '../../core/slices/reset-pass-confirm/resetPass';
 import { clearMessage } from '../../core/slices/message';
-import { UserEmailContext } from '../password-recovery';
 import { AuthContext } from '../../utils/providers/auth';
 
 const ResetPassword = () => {
   const context = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const { token } = useParams();
+
+  const userEmail = localStorage.getItem('userEmail');
+
   const [values, setValues] = useState({
+    pwd_reset_token: token,
+    email: userEmail,
     password: '',
     showPassword: false,
   });
 
-  const { token } = useParams();
-
-  const { userEmail } = useContext(UserEmailContext);
-
   const dispatch = useDispatch();
 
   const { message } = useSelector(state => state.message);
-
-  const [infoUser, setInfoUser] = useState({
-    pwd_reset_token: token,
-    email: userEmail,
-    new_password: '',
-  });
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -54,12 +49,17 @@ const ResetPassword = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    setInfoUser({ new_password: values.password });
-    dispatch(passConfirmSlice(infoUser))
-      .then(() => {
-        context.login({ email: infoUser.email, password: infoUser.new_password }, navigate('/profile'));
-      });
+    dispatch(passConfirmSlice({
+      pwd_reset_token: token, email: userEmail, new_password: values.password,
+    }));
   };
+
+  if (message === 'Success') {
+    localStorage.clear();
+    const { email, password } = values;
+    context.login({ email, password }, () => navigate('/profile'));
+    dispatch(clearMessage());
+  }
 
   return (
     <Container

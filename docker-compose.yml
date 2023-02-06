@@ -3,9 +3,10 @@ version: '3'
 services:
   server:
     build: backend/
-    container_name: "backend-${CONTAINER_SUFFIX}"
+    container_name: "backend.${COMPOSE_PROJECT_NAME}"
     env_file:
       - "${ENV_FILE}"
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     ports:
       - "${BACKEND_PORT}:8000"
     volumes:
@@ -16,15 +17,19 @@ services:
 
   frontend:
     build: frontend/
-    container_name: "frontend-${CONTAINER_SUFFIX}"
+    container_name: "frontend.${COMPOSE_PROJECT_NAME}"
+    env_file:
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     ports:
       - "${FRONTEND_PORT}:8080"
 
   cypress:
     build: frontend/tests/
-    container_name: "cypress-${CONTAINER_SUFFIX}"
+    container_name: "cypress.${COMPOSE_PROJECT_NAME}"
+    env_file:
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     environment:
-      - "CYPRESS_baseUrl=http://frontend-${CONTAINER_SUFFIX}:8080"
+      - "CYPRESS_baseUrl=http://frontend.${COMPOSE_PROJECT_NAME}:8080"
       - "BRANCH_NAME=${CONTAINER_SUFFIX}"
     volumes:
       - ./frontend/tests/cypress/reports/:/e2e/cypress/reports/
@@ -34,17 +39,20 @@ services:
 
   db:
     image: postgres:14
-    container_name: "db-${CONTAINER_SUFFIX}"
+    container_name: "db.${COMPOSE_PROJECT_NAME}"
     env_file:
       - "${ENV_FILE}"
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     ports:
       - "${DATABASE_PORT}:5432"
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - "./volumes/db.${COMPOSE_PROJECT_NAME}/:/var/lib/postgresql/data"
 
   dozzle:
-    container_name: "dozzle-${CONTAINER_SUFFIX}"
+    container_name: "dozzle.${COMPOSE_PROJECT_NAME}"
     image: amir20/dozzle:v4.4.1
+    env_file:
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -54,41 +62,46 @@ services:
 
   elasticsearch:
     image: elasticsearch:7.17.5
-    container_name: "elasticsearch-${CONTAINER_SUFFIX}"
+    container_name: "elasticsearch.${COMPOSE_PROJECT_NAME}"
     env_file:
       - "${ENV_FILE}"
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     ports:
       - "${ELASTIC_PORT}:9200"
     volumes:
       - .devops/build/hunspell:/usr/share/elasticsearch/config/hunspell
+      - "./volumes/elasticsearch.${COMPOSE_PROJECT_NAME}/:/usr/share/elasticsearch/data"
     environment:
       - discovery.type=single-node
       - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
       - xpack.security.enabled=true
       - ES_JAVA_OPTS=-Xms750m -Xmx750m
+      - ingest.geoip.downloader.enabled=false
 
   redis:
     image: redis:7.0
-    container_name: "redis-${CONTAINER_SUFFIX}"
+    container_name: "redis.${COMPOSE_PROJECT_NAME}"
     command:
       - redis-server
       - --requirepass
       - ${REDIS_PASSWORD}
     env_file:
       - "${ENV_FILE}"
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     environment:
       - "REDIS_PASSWORD=${REDIS_PASSWORD}"
       - "REDIS_PORT=${REDIS_PORT}"
     ports:
       - "${REDIS_PORT}:6379"
     volumes:
-      - ./redis:/data
+      - "./volumes/redis.${COMPOSE_PROJECT_NAME}/:/data"
 
   rabbitmq:
     image: rabbitmq:3.11.7-management
-    container_name: "rabbitmq-${CONTAINER_SUFFIX}"
+    container_name: "rabbitmq.${COMPOSE_PROJECT_NAME}"
     env_file:
       - "${ENV_FILE}"
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     ports:
       - ${RABBITMQ_PORT}:5672
       - ${RABBITMQ_MANAGEMENT_PORT}:15672
@@ -96,18 +109,18 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     volumes:
-      - ./rabbitmq/:/var/lib/rabbitmq
+      - "./volumes/rabbitmq.${COMPOSE_PROJECT_NAME}/:/var/lib/rabbitmq"
 
   flower:
     image: mher/flower:1.2
-    container_name: "flower-${CONTAINER_SUFFIX}"
+    container_name: "flower.${COMPOSE_PROJECT_NAME}"
     command: "celery flower --broker_api=http://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@\
               ${RABBITMQ_HOST}:${RABBITMQ_MANAGEMENT_PORT}/api/"
     env_file:
       - "${ENV_FILE}"
+      - ".env/.ci-env.${COMPOSE_PROJECT_NAME}"
     ports:
       - "${FLOWER_PORT}:5555"
     environment:
-      - "CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@\
-         rabbitmq-${CONTAINER_SUFFIX}:${RABBITMQ_PORT}//"
+      - "CELERY_BROKER_URL=${CELERY_BROKER_URL}"
       - "FLOWER_BASIC_AUTH=${FLOWER_BASIC_AUTH}"

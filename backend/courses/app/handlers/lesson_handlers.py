@@ -1,7 +1,5 @@
 from typing import Any
 
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema
 from rest_framework.decorators import permission_classes
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
@@ -13,13 +11,21 @@ from core.app.framework.pagination import Pagination
 from core.app.framework.permissions import IsTeacher
 from core.app.framework.queryset import OrderedQuerySet
 from courses.app.http.requests.course_requests import CourseTicketUseRequest
-from courses.app.http.requests.lesson_requests import LessonRescheduleRequest
-from courses.app.http.resources.course_resources import LessonResource
+from courses.app.http.requests.lesson_requests import (
+    LessonRescheduleRequest,
+    LessonRateRequest,
+)
+from courses.app.http.resources.course_resources import (
+    LessonResource,
+    LessonRatingStarResource,
+    LessonDetailResource,
+)
 from courses.app.repositories.lesson_repository import LessonRepository
 from courses.app.services.lessons_service import (
     LessonReschedule,
     LessonCancel,
     LessonParticipation,
+    LessonRate,
 )
 
 
@@ -44,7 +50,6 @@ class LessonRescheduleHandler(GenericHandler):
 
 @permission_classes([IsTeacher])
 class LessonCancelHandler(Handler):
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def post(
         self, request: Request, lesson_id: int, *args: Any, **kwargs: Any
     ) -> Response:
@@ -54,20 +59,35 @@ class LessonCancelHandler(Handler):
 
 
 class LessonRetrieveHandler(Handler):
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(
         self, request: Request, lesson_id: int, *args: Any, **kwargs: Any
     ) -> Response:
-        lesson = LessonRepository().find_by_id(id_=lesson_id)
+        lesson = LessonRepository().find_by_id(id_=lesson_id, fetch_rels=True)
         if not lesson:
             raise NotFound(f"Undefined lesson with pk {lesson_id}")
         return Response({"data": LessonResource(lesson).data})
 
 
+@permission_classes([IsAuthenticated])
+class LessonRateHandler(GenericHandler):
+    serializer_class = LessonRateRequest
+
+    def put(
+        self, request: Request, lesson_id: int, *args: Any, **kwargs: Any
+    ) -> Response:
+        data = self.serializer_class(data=request.data)
+        data.is_valid(raise_exception=True)
+        star = LessonRate(
+            lesson_id=lesson_id,
+            user=self.request.user,
+            star_rating=data.validated_data["star_rating"],
+        ).rate()
+        return Response({"data": LessonRatingStarResource(star).data})
+
+
 class LessonListHandler(Handler):
     repository = LessonRepository()
 
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(
         self, request: Request, course_pk: int, *args: Any, **kwargs: Any
     ) -> Response:
@@ -85,7 +105,6 @@ class LessonListHandler(Handler):
 class UserLessonsParticipatedHandler(Handler):
     repository = LessonRepository()
 
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         lessons = OrderedQuerySet(
             queryset=self.repository.fetch_relations(
@@ -96,7 +115,7 @@ class UserLessonsParticipatedHandler(Handler):
         ).order_by(columns=["start_at"])
         return Response(
             Pagination(
-                data=lessons, request=request, resource=LessonResource
+                data=lessons, request=request, resource=LessonDetailResource
             ).paginate()
         )
 
@@ -105,7 +124,6 @@ class UserLessonsParticipatedHandler(Handler):
 class UserLessonsEnrolledHandler(Handler):
     repository = LessonRepository()
 
-    @extend_schema(responses=OpenApiTypes.OBJECT)
     def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         lessons = OrderedQuerySet(
             queryset=self.repository.fetch_relations(
@@ -116,7 +134,7 @@ class UserLessonsEnrolledHandler(Handler):
         ).order_by(columns=["start_at"])
         return Response(
             Pagination(
-                data=lessons, request=request, resource=LessonResource
+                data=lessons, request=request, resource=LessonDetailResource
             ).paginate()
         )
 

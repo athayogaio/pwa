@@ -1,10 +1,8 @@
-from typing import Any
-
 from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.template.defaultfilters import slugify, striptags
+from django.template.defaultfilters import striptags
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -13,10 +11,14 @@ from core.models import TimeStampedModel, User, Comment
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField()
 
     class Meta:
         verbose_name = "Тэг"
         verbose_name_plural = "Тэги"
+
+    def absolute_url(self) -> str:
+        return reverse("tag", kwargs={"tag_slug": self.slug})
 
     def __str__(self) -> str:
         return self.name
@@ -51,17 +53,15 @@ class Article(TimeStampedModel):
         verbose_name_plural = "Статьи"
         ordering = ["-created_at"]
 
-    def get_absolute_url(self) -> str:
+    def absolute_url(self) -> str:
         return reverse("article", kwargs={"article_slug": self.slug})
 
-    def get_reading_time(self) -> int:
-        time = round(len(striptags(self.content).split(" ")) / settings.READING_SPEED)
+    def reading_time(self) -> int:
+        time = round(
+            len(striptags(self.content).replace("\n", " ").replace("  ", " ").split())
+            / settings.READING_SPEED
+        )
         return time if time > 0 else 1
-
-    def save(self, *args: Any, **kwargs: Any) -> None:
-        if not self.slug:
-            self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.title
@@ -92,13 +92,8 @@ class Category(MPTTModel):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
-    def get_absolute_url(self) -> str:
+    def absolute_url(self) -> str:
         return reverse("category", kwargs={"category_slug": self.slug})
-
-    def save(self, *args: Any, **kwargs: Any) -> None:
-        if not self.slug:
-            self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name

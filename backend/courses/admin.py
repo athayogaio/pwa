@@ -14,6 +14,7 @@ from .models import (
     CourseComment,
     Ticket,
     TicketTransaction,
+    LessonRatingStar,
 )
 
 
@@ -112,7 +113,6 @@ class ReviewAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
         "text",
-        "star_rating",
         "user",
     )
     list_filter = ("created_at", "updated_at")
@@ -127,12 +127,21 @@ class CourseReviewAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
         "text",
-        "star_rating",
         "user",
         "base_course",
     )
     list_filter = ("created_at", "updated_at")
     date_hierarchy = "created_at"
+
+
+@admin.register(LessonRatingStar)
+class LessonRatingStarAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "star_rating",
+        "user",
+        "lesson",
+    )
 
 
 @admin.register(Lesson)

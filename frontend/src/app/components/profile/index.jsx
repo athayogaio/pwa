@@ -11,12 +11,12 @@ import avatar from '../../../assets/public/profile_avatar.jpg';
 
 import './index.scoped.scss';
 
-const Profile = () => {
+const ProfileCard = () => {
   const [openText, setOpenText] = useState(true);
 
   return (
     <Card sx={{
-      minHeight: '85%', maxWidth: '984px', mx: '20px', mt: '32px', mb: '96px',
+      maxWidth: '984px',
     }}
     >
       <CardMedia
@@ -43,13 +43,13 @@ const Profile = () => {
           variant="iter_h2"
           paragraph
           my="16px"
-          sx={openText && {
+          sx={[openText && {
             display: '-webkit-box',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             WebkitLineClamp: 3,
             WebkitBoxOrient: 'vertical',
-          }}
+          }]}
         >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto corporis id
@@ -95,4 +95,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileCard;
