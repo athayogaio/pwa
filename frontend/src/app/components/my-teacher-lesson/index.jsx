@@ -14,22 +14,22 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import EmojiFlagsOutlinedIcon from '@mui/icons-material/EmojiFlagsOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
 
 const MyTeacherLesson = ({
-  title, endDate, status = 'CANCELED',
+  title, endDate, id, status,
 }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = React.useState(false);
-  const statuses = {
-    CANCELED: 'CANCELED',
-    DRAFT: 'DRAFT',
-    PUBLISHED: 'PUBLISHED',
-    MODERATION: 'MODERATION',
-    DECLINED: 'DECLINED',
+  const isEnded = () => {
+    const today = new Date();
+    const endTime = new Date(Date.parse(endDate));
+    return !((endTime - today));
   };
+  console.log(status, isEnded());
 
   const handleCloseModal = () => setOpenModal(false);
   const openMenu = Boolean(anchorEl);
@@ -132,7 +132,7 @@ const MyTeacherLesson = ({
           </Stack>
         </Box>
       </Modal>
-      {(status === 'PUBLISHED' || status === 'MODERATION') && (
+      {((status === 'PUBLISHED' && isEnded() === false) || status === 'MODERATION') && (
       <Stack
         direction="row"
         spacing={2}
@@ -294,6 +294,58 @@ const MyTeacherLesson = ({
             </>
             )}
 
+          </Grid>
+        </Stack>
+      )}
+      {(status === 'PUBLISHED' && isEnded() === true) && (
+        <Stack
+          direction="row"
+          spacing={2}
+        >
+          <Grid container direction="column" justifyContent="space-between" width="207%" gap="77px">
+            <Box>
+              <Typography
+                variant="h6"
+                color="text.disabled"
+                paragraph
+                sx={{
+                  fontSize: '18px',
+                  maxWidth: '271px',
+                  height: '43px',
+                  mb: '0',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                }}
+              >
+                {title}
+              </Typography>
+            </Box>
+            <Grid container gap="6px" alignItems="center">
+              <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
+              <Typography variant="body1" color="text.disabled">
+                Виктор Васильев
+              </Typography>
+            </Grid>
+          </Grid>
+          <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
+
+          <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
+            <Stack direction="column" alignItems="center">
+              <EmojiFlagsOutlinedIcon fontSize="large" sx={{ mt: '30px', color: '#616161' }} />
+              <Typography variant="body1" sx={{ fontWeight: '500' }} color="text.secondary">
+                Завершено
+              </Typography>
+            </Stack>
+            <Grid item>
+              <Button
+                variant="outlined"
+              >
+                продлить
+              </Button>
+            </Grid>
           </Grid>
         </Stack>
       )}

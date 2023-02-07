@@ -99,9 +99,10 @@ const MyLessonsPage = () => {
                         {tickets.map(ticket => (
                           <MyTeacherLesson
                             key={ticket.course.id}
+                            id={ticket.course.id}
                             title={ticket.course.base_course.name}
                             endDate={ticket.course.deadline_datetime}
-                            // status={ticket.course.status}
+                            status={ticket.course.status}
                           />
                         ))}
                       </Stack>
