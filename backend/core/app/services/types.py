@@ -102,6 +102,7 @@ class UserProfileUpdateData(TypedDict, total=False):
     last_name: str
     about: str
     avatar: InMemoryUploadedFile
+    background: InMemoryUploadedFile
     birthday: datetime.date
     gender: GenderTypes
     hide_birthday: bool

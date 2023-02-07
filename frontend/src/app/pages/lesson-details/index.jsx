@@ -20,7 +20,7 @@ const LessonDetailsPage = () => {
 
   const dispatch = useDispatch();
   const { lesson, errorMessage, isLoading } = useSelector(state => state.lesson);
-
+  console.log(lesson);
   useEffect(() => {
     dispatch(getLessonSlice(id));
   }, []);
@@ -36,10 +36,10 @@ const LessonDetailsPage = () => {
         )}
         {isLoading && (
         <Backdrop
-          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+          sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
           open={isLoading}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress />
         </Backdrop>
         )}
 
@@ -60,6 +60,7 @@ const LessonDetailsPage = () => {
           isPaid={lesson.data.payment === 'PAYMENT'}
           level={levels[lesson.data.base_course.level[0]]}
           schedule={lesson.data.schedule}
+          endDate={lesson.data.deadline_datetime}
         />
         )}
       </LayoutContainer>

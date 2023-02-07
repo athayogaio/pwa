@@ -13,11 +13,13 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import avatar from '../../../assets/public/profile_avatar.jpg';
-import { oneTimeLessonChipContent, scheduleChipContent, weekdays } from '../../utils/scheduleServices';
+import {
+  courseDuration, oneTimeLessonChipContent, scheduleChipContent, weekdays,
+} from '../../utils/scheduleServices';
 
 const LessonDescription = ({
   title, description, price, level, favorite, comments,
-  rate, votes, isVideo, isRegular, startDate, duration, id, payment, schedule, isPaid,
+  rate, votes, isVideo, isRegular, startDate, duration, id, payment, schedule, isPaid, endDate,
 }) => (
   <>
     <Box display="flex" alignItems="start" mb="23px">
@@ -56,11 +58,11 @@ const LessonDescription = ({
     <Divider flexItem />
     <Box display="flex" flexDirection="column" gap="12px" mb="32px" mt="32px">
       <Typography fontSize="16px" fontWeight="500">
-        Дата занятия
+        Продолжительность серии
       </Typography>
       <Stack direction="row" spacing={1} alignItems="center">
         <AccessTimeIcon color="primary" />
-        <Typography fontSize="18px" fontWeight="600">12.03.23</Typography>
+        <Typography fontSize="18px" fontWeight="600">{courseDuration(startDate, endDate)}</Typography>
       </Stack>
     </Box>
     {!isVideo && (

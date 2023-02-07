@@ -22,10 +22,10 @@ const FavoritesPage = () => {
       <LayoutContainer>
         {isLoading && (
         <Backdrop
-          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+          sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
           open={isLoading}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress />
         </Backdrop>
         )}
         {errorMessage && (

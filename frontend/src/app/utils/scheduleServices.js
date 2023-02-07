@@ -24,3 +24,9 @@ export const oneTimeLessonChipContent = (startDate, duration) => {
 export const scheduleChipContent = (item, duration) => (
   `${weekdays[item.weekday]} ${item.start_time.slice(0, 5)}-${calculateEndTime(item.start_time, duration)}`
 );
+
+export const courseDuration = (startDate, endDate) => {
+  const startTime = `${startDate.slice(8, 10)}.${startDate.slice(5, 7)}.${startDate.slice(2, 4)}`;
+  const endTime = `${endDate.slice(8, 10)}.${endDate.slice(5, 7)}.${endDate.slice(2, 4)}`;
+  return `${startTime} - ${endTime}`;
+};

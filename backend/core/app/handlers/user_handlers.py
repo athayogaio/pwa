@@ -138,4 +138,12 @@ class UserProfileUpdateHandler(GenericHandler):
         user = UserProfileUpdator(
             user=self.request.user, data=data.validated_data
         ).update()
-        return Response({"data": UserResource(user).data})
+        repository = UserRepository()
+
+        return Response(
+            {
+                "data": UserResource(
+                    repository.find_by_id(id_=user.id, fetch_rels=True)
+                ).data
+            }
+        )

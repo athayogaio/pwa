@@ -1,3 +1,4 @@
+import datetime
 import logging
 from functools import cached_property
 
@@ -80,7 +81,14 @@ class CourseCreator:
         if self._data["is_draft"]:
             course.status = CourseStatuses.DRAFT
         course.schedule = [
-            CourseSchedule(weekday=item["weekday"], start_time=item["start_time"])
+            CourseSchedule(
+                weekday=item["weekday"],
+                start_time=datetime.time(
+                    hour=item["start_time"].hour,
+                    minute=item["start_time"].minute,
+                    second=item["start_time"].second,
+                ),
+            )
             for item in self._data["lessons"]
         ]
         return course

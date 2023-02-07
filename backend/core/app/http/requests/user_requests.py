@@ -66,6 +66,7 @@ class UserProfileUpdateRequest(UnimplementedSerializer):
     last_name = serializers.CharField(max_length=100)
     about = serializers.CharField(max_length=100)
     avatar = serializers.ImageField()
+    background = serializers.ImageField()
     birthday = serializers.DateField()
     gender = serializers.ChoiceField(choices=GenderTypes.choices)
     hide_birthday = serializers.BooleanField()

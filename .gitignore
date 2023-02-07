@@ -25,3 +25,4 @@ frontend/tests/node_modules
 backend/core/logs/
 cache/
 */celerybeat*
+volumes/*

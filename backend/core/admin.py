@@ -38,7 +38,8 @@ class UserAdmin(admin.ModelAdmin):
         "roles",
         "register_confirm_token",
         "pwd_reset_token",
-        "rate",
+        "sys_rate",
+        "background",
     )
     list_filter = (
         "last_login",
