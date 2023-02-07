@@ -12,12 +12,13 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
 
 const MyTeacherLesson = ({
-  title, endDate, isActive = false, isChecking = true,
-  // isDraft, isCanceled,
+  title, endDate, isActive = false, isChecking = false,
+  isDraft = true, isCanceled = false,
 }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -219,12 +220,12 @@ const MyTeacherLesson = ({
         </Grid>
       </Stack>
       )}
-      {/* {(isDraft || isCanceled) && (
+      {(isDraft || isCanceled) && (
         <Stack
           direction="row"
           spacing={2}
         >
-          <Grid container direction="column" gap="16px" width="207%">
+          <Grid container direction="column" justifyContent="space-between" width="207%">
             <Box>
               <Typography
                 variant="h6"
@@ -255,27 +256,22 @@ const MyTeacherLesson = ({
           <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
 
           <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
-            {isActive && (
+            {isDraft && (
             <>
-              <Grid item>
-                <CheckCircleOutlineOutlinedIcon color="success" fontSize="medium" />
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" color="success" sx={{ fontWeight: '500', textAlign: 'center' }}>
-                  Активно
+              <Stack direction="column" alignItems="center">
+                <HistoryEduOutlinedIcon fontSize="large" sx={{ mt: '20px' }} />
+                <Typography variant="body1" sx={{ fontWeight: '500' }}>
+                  Черновик
                 </Typography>
-              </Grid>
-              <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
-                <Typography variant="body2" color="text.secondary">
-                  Дата окончания:
-                </Typography>
-                <Typography color="primary" variant="body2" sx={{ fontWeight: '500' }}>
-                  {prepareEndDate(endDate)}
+              </Stack>
+              <Grid item>
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                  Нажмите для редактирования
                 </Typography>
               </Grid>
             </>
             )}
-            {isChecking && (
+            {isCanceled && (
             <>
               <Grid item>
                 <AccessTimeIcon color="warning" fontSize="medium" />
@@ -295,7 +291,7 @@ const MyTeacherLesson = ({
 
           </Grid>
         </Stack>
-      )} */}
+      )}
     </Box>
   );
 };
