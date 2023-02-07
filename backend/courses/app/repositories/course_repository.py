@@ -31,8 +31,11 @@ class CourseRepository(BaseRepository):
     def store(self, course: Course) -> None:
         course.save()
 
+    def find(self, user: User) -> QuerySet[Course]:
+        return self.model.objects.filter(base_course__teacher_id=user)
+
     def find_by_id(
-        self, id_: int, raise_exception: bool = False, fetch_rels: bool = False
+            self, id_: int, raise_exception: bool = False, fetch_rels: bool = False
     ) -> Optional[Course]:
         query = self.model.objects.filter(pk=id_)
         if fetch_rels:
@@ -59,7 +62,7 @@ class CourseRepository(BaseRepository):
         )
 
     def filter(
-        self, data: CourseFilterData, base_query: QuerySet[Course]
+            self, data: CourseFilterData, base_query: QuerySet[Course]
     ) -> QuerySet[Course]:
         filter_query = Q()
         if "query" in data:
