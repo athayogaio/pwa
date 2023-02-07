@@ -7,16 +7,17 @@ import {
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
 
 const MyTeacherLesson = ({
-  title, ticketsAmount, endDate, isOneTime, id, isActive, isDraft, isCanceled, isChecking,
+  title, endDate, isActive = false, isChecking = true,
+  // isDraft, isCanceled,
 }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -123,6 +124,7 @@ const MyTeacherLesson = ({
           </Stack>
         </Box>
       </Modal>
+      {(isActive || isChecking) && (
       <Stack
         direction="row"
         spacing={2}
@@ -178,68 +180,122 @@ const MyTeacherLesson = ({
         </Grid>
         <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
 
-        <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
-          {isOneTime && (
+        <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
+          {isActive && (
             <>
-              <Grid item>
-                <LocalLibraryOutlinedIcon color="primary" fontSize="large" />
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
-                  Разовое занятие
+              <Stack spacing={1} direction="column" alignItems="center">
+                <CheckCircleOutlineOutlinedIcon fontSize="large" sx={{ mt: '30px', color: '#4CAF50' }} />
+
+                <Typography variant="body1" sx={{ fontWeight: '500', fontSize: '16px', color: '#4CAF50' }}>
+                  Активно
+                </Typography>
+              </Stack>
+              <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
+                <Typography variant="body1" color="text.secondary">
+                  Дата окончания:
+                </Typography>
+                <Typography color="primary" variant="body1" sx={{ fontWeight: '500' }}>
+                  {prepareEndDate(endDate)}
                 </Typography>
               </Grid>
             </>
           )}
-          {!isOneTime && (
+          {isChecking && (
           <>
-
-            {ticketsAmount > 0 && (
-            <>
-              <Grid item>
-                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
-                  Осталось посещений:
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="h4" color="primary">
-                  {ticketsAmount}
-                </Typography>
-              </Grid>
-            </>
-            )}
-            {!ticketsAmount && (
-            <>
-              <Grid item>
-                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
-                  Посещения закончились
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  component={Link}
-                  to={`/abonement/${id}`}
-                >
-                  приобрести
-                </Button>
-              </Grid>
-            </>
-            )}
-
-            <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
-              <Typography variant="body2">
-                Дата окончания:
+            <Stack spacing={1} direction="column" alignItems="center">
+              <AccessTimeIcon color="warning" fontSize="large" sx={{ mt: '30px' }} />
+              <Typography variant="body1" sx={{ fontWeight: '500', color: '#ED6C02' }}>
+                На проверке
               </Typography>
-              <Typography color="primary" variant="body2" sx={{ fontWeight: '500' }}>
-                {prepareEndDate(endDate)}
+            </Stack>
+            <Grid item>
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                По окончании проверки придет уведомление
               </Typography>
             </Grid>
           </>
-
           )}
+
         </Grid>
       </Stack>
+      )}
+      {/* {(isDraft || isCanceled) && (
+        <Stack
+          direction="row"
+          spacing={2}
+        >
+          <Grid container direction="column" gap="16px" width="207%">
+            <Box>
+              <Typography
+                variant="h6"
+                color="disabled"
+                paragraph
+                sx={{
+                  fontSize: '18px',
+                  maxWidth: '271px',
+                  height: '43px',
+                  mb: '0',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                }}
+              >
+                {title}
+              </Typography>
+            </Box>
+            <Grid container gap="6px" alignItems="center">
+              <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
+              <Typography variant="body1" color="disabled">
+                Виктор Васильев
+              </Typography>
+            </Grid>
+          </Grid>
+          <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
+
+          <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
+            {isActive && (
+            <>
+              <Grid item>
+                <CheckCircleOutlineOutlinedIcon color="success" fontSize="medium" />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1" color="success" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                  Активно
+                </Typography>
+              </Grid>
+              <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
+                <Typography variant="body2" color="text.secondary">
+                  Дата окончания:
+                </Typography>
+                <Typography color="primary" variant="body2" sx={{ fontWeight: '500' }}>
+                  {prepareEndDate(endDate)}
+                </Typography>
+              </Grid>
+            </>
+            )}
+            {isChecking && (
+            <>
+              <Grid item>
+                <AccessTimeIcon color="warning" fontSize="medium" />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }} color="warning">
+                  На проверке
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" color="text.secondary">
+                  По окончании проверки придет уведомление
+                </Typography>
+              </Grid>
+            </>
+            )}
+
+          </Grid>
+        </Stack>
+      )} */}
     </Box>
   );
 };

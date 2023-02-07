@@ -12,6 +12,7 @@ import getTicketsSlice from '../../core/slices/tickets/getTickets';
 import MyLesson from '../../components/my_lesson';
 import MyLessonSearch from '../../components/my_lesson_search';
 import MyLessonsEmpty from '../../components/my_lessons_empty';
+import MyTeacherLesson from '../../components/my-teacher-lesson';
 
 const MyLessonsPage = () => {
   const { isLoading, errorMessage } = useSelector(state => state.tickets);
@@ -58,13 +59,18 @@ const MyLessonsPage = () => {
                 }}
               >
                 {tickets.map(ticket => (
-                  <MyLesson
+                  // <MyLesson
+                  //   key={ticket.course.id}
+                  //   id={ticket.course.id}
+                  //   title={ticket.course.base_course.name}
+                  //   ticketsAmount={ticket.amount}
+                  //   endDate={ticket.course.deadline_datetime}
+                  //   isOneTime={ticket.course.schedule.length === 0}
+                  // />
+                  <MyTeacherLesson
                     key={ticket.course.id}
-                    id={ticket.course.id}
                     title={ticket.course.base_course.name}
-                    ticketsAmount={ticket.amount}
                     endDate={ticket.course.deadline_datetime}
-                    isOneTime={ticket.course.schedule.length === 0}
                   />
                 ))}
                 <MyLessonSearch />
@@ -91,6 +97,7 @@ const MyLessonsPage = () => {
           ) : (
             <MyLessonsEmpty />
           )}
+
         </>
         )}
       </LayoutContainer>

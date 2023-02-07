@@ -31,7 +31,7 @@ const TeacherEmpty = () => (
         textAlign: 'center', fontSize: '18px', lineHeight: '25px', mb: '24px',
       }}
     >
-      Запишитесь на свое первое занятие
+      Создайте свое первое занятие
     </Typography>
     <Button
       fullWidth
