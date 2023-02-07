@@ -13,16 +13,23 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
 
 const MyTeacherLesson = ({
-  title, endDate, isActive = false, isChecking = false,
-  isDraft = true, isCanceled = false,
+  title, endDate, status = 'CANCELED',
 }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = React.useState(false);
+  const statuses = {
+    CANCELED: 'CANCELED',
+    DRAFT: 'DRAFT',
+    PUBLISHED: 'PUBLISHED',
+    MODERATION: 'MODERATION',
+    DECLINED: 'DECLINED',
+  };
 
   const handleCloseModal = () => setOpenModal(false);
   const openMenu = Boolean(anchorEl);
@@ -125,7 +132,7 @@ const MyTeacherLesson = ({
           </Stack>
         </Box>
       </Modal>
-      {(isActive || isChecking) && (
+      {(status === 'PUBLISHED' || status === 'MODERATION') && (
       <Stack
         direction="row"
         spacing={2}
@@ -182,7 +189,7 @@ const MyTeacherLesson = ({
         <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
 
         <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
-          {isActive && (
+          {status === 'PUBLISHED' && (
             <>
               <Stack spacing={1} direction="column" alignItems="center">
                 <CheckCircleOutlineOutlinedIcon fontSize="large" sx={{ mt: '30px', color: '#4CAF50' }} />
@@ -201,7 +208,7 @@ const MyTeacherLesson = ({
               </Grid>
             </>
           )}
-          {isChecking && (
+          {status === 'MODERATION' && (
           <>
             <Stack spacing={1} direction="column" alignItems="center">
               <AccessTimeIcon color="warning" fontSize="large" sx={{ mt: '30px' }} />
@@ -220,16 +227,16 @@ const MyTeacherLesson = ({
         </Grid>
       </Stack>
       )}
-      {(isDraft || isCanceled) && (
+      {(status === 'DRAFT' || status === 'CANCELED') && (
         <Stack
           direction="row"
           spacing={2}
         >
-          <Grid container direction="column" justifyContent="space-between" width="207%">
+          <Grid container direction="column" justifyContent="space-between" width="207%" gap="77px">
             <Box>
               <Typography
                 variant="h6"
-                color="disabled"
+                color={status === 'CANCELED' ? 'text.disabled' : ''}
                 paragraph
                 sx={{
                   fontSize: '18px',
@@ -248,18 +255,18 @@ const MyTeacherLesson = ({
             </Box>
             <Grid container gap="6px" alignItems="center">
               <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
-              <Typography variant="body1" color="disabled">
+              <Typography variant="body1" color={status === 'CANCELED' ? 'text.disabled' : ''}>
                 Виктор Васильев
               </Typography>
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
 
-          <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
-            {isDraft && (
+          <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
+            {status === 'DRAFT' && (
             <>
               <Stack direction="column" alignItems="center">
-                <HistoryEduOutlinedIcon fontSize="large" sx={{ mt: '20px' }} />
+                <HistoryEduOutlinedIcon fontSize="large" sx={{ mt: '30px' }} />
                 <Typography variant="body1" sx={{ fontWeight: '500' }}>
                   Черновик
                 </Typography>
@@ -271,19 +278,17 @@ const MyTeacherLesson = ({
               </Grid>
             </>
             )}
-            {isCanceled && (
+            {status === 'CANCELED' && (
             <>
-              <Grid item>
-                <AccessTimeIcon color="warning" fontSize="medium" />
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }} color="warning">
-                  На проверке
+              <Stack direction="column" alignItems="center">
+                <CancelOutlinedIcon color="error" fontSize="large" sx={{ mt: '30px' }} />
+                <Typography variant="body1" sx={{ fontWeight: '500' }} color="error">
+                  Отменено
                 </Typography>
-              </Grid>
+              </Stack>
               <Grid item>
-                <Typography variant="body2" color="text.secondary">
-                  По окончании проверки придет уведомление
+                <Typography variant="body2" color="text.disabled" sx={{ textAlign: 'center' }}>
+                  Потраченные средства будут возмещены
                 </Typography>
               </Grid>
             </>

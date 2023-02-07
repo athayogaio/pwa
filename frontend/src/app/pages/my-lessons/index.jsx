@@ -81,54 +81,55 @@ const MyLessonsPage = () => {
           >
             <TabPanel value={value} index={0}>
               {!isLoading && (
-              <>
-                {tickets?.length ? (
-                  <>
-                    <Stack
-                      direction="row"
-                      sx={{
-                        padding: '0 29px',
-                        maxWidth: '100%',
-                        maxHeight: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexWrap: 'wrap',
-                      // outline: '1px solid blue',
-                      }}
-                    >
-                      {tickets.map(ticket => (
-                        <MyTeacherLesson
-                          key={ticket.course.id}
-                          title={ticket.course.base_course.name}
-                          endDate={ticket.course.deadline_datetime}
-                        />
-                      ))}
-                      <MyLessonSearch />
-                    </Stack>
+                <>
+                  {tickets?.length ? (
+                    <>
+                      <Stack
+                        direction="row"
+                        sx={{
+                          padding: '0 29px',
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexWrap: 'wrap',
+                        // outline: '1px solid blue',
+                        }}
+                      >
+                        {tickets.map(ticket => (
+                          <MyTeacherLesson
+                            key={ticket.course.id}
+                            title={ticket.course.base_course.name}
+                            endDate={ticket.course.deadline_datetime}
+                            // status={ticket.course.status}
+                          />
+                        ))}
+                      </Stack>
+                      <Button
+                        component={Link}
+                        to="/create-lesson"
+                        variant="contained"
+                        sx={{
+                          position: 'fixed',
+                          bottom: '58px',
+                          right: '48px',
+                          p: '12px 16px',
+                          boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',
+                          borderRadius: '64px',
+                        }}
+                        size="large"
+                      >
+                        <Typography sx={{ mr: '8px', fontSize: '15px', lineHeight: '26px' }}>Создать занятие</Typography>
+                        <AddIcon />
+                      </Button>
+                    </>
+                  ) : (
+                    <Box sx={{ maxWidth: '440px', margin: '0 auto' }}>
+                      <TeacherEmpty />
+                    </Box>
+                  )}
 
-                    <Button
-                      component={Link}
-                      to="/create-lesson"
-                      variant="contained"
-                      sx={{
-                        position: 'fixed',
-                        bottom: '58px',
-                        right: '48px',
-                        p: '12px 16px',
-                        boxShadow: '0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 8px rgba(0, 0, 0, 0.12)',
-                        borderRadius: '64px',
-                      }}
-                      size="large"
-                    >
-                      <Typography sx={{ mr: '8px', fontSize: '15px', lineHeight: '26px' }}>Создать занятие</Typography>
-                      <AddIcon />
-                    </Button>
-                  </>
-                ) : (
-                  <TeacherEmpty />
-                )}
-
-              </>
+                </>
               )}
             </TabPanel>
             <TabPanel value={value} index={1}>
@@ -180,7 +181,9 @@ const MyLessonsPage = () => {
                     </Button>
                   </>
                 ) : (
-                  <StudentEpmty />
+                  <Box sx={{ maxWidth: '440px', margin: '0 auto' }}>
+                    <StudentEpmty />
+                  </Box>
                 )}
 
               </>
