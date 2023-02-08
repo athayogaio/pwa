@@ -19,7 +19,7 @@ class UserRegisterRequest(UnimplementedSerializer):
 
 class UserConfirmRegisterRequest(UnimplementedSerializer):
     email = serializers.EmailField()
-    register_confirm_token = serializers.CharField(max_length=128)
+    register_confirm_code = serializers.CharField(max_length=128)
 
 
 class UserLoginRequest(UnimplementedSerializer):
