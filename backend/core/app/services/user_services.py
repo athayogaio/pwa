@@ -39,6 +39,7 @@ class UserRegisterConfirm:
         if self.data["register_confirm_code"] != user.register_confirm_code:
             raise AuthenticationFailed("Codes don't match")
         user.is_active = True
+        user.register_confirm_code = None
         self.repository.store(user=user)
         token_data = get_tokens_for_user(user)
         return user, token_data
@@ -74,7 +75,9 @@ class UserRegister:
         ).send()
 
     def register(self) -> None:
-        confirm_code = "".join(str(random.randint(0, 9)) for _ in range(6))
+        confirm_code = "".join(
+            random.choices("0123456789", k=settings.CONFIRMATION_TOKEN_LENGTH)
+        )
         self._send_confirmation_mail(confirm_code=confirm_code)
         self.user.register_confirm_code = confirm_code
         self.repository.store(self.user)

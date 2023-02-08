@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -19,7 +20,10 @@ class UserRegisterRequest(UnimplementedSerializer):
 
 class UserConfirmRegisterRequest(UnimplementedSerializer):
     email = serializers.EmailField()
-    register_confirm_code = serializers.CharField(max_length=6, min_length=6)
+    register_confirm_code = serializers.CharField(
+        max_length=settings.CONFIRMATION_TOKEN_LENGTH,
+        min_length=settings.CONFIRMATION_TOKEN_LENGTH,
+    )
 
 
 class UserLoginRequest(UnimplementedSerializer):
