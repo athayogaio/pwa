@@ -42,15 +42,16 @@ const SignUpConfirm = () => {
         </Typography>
         <PinInput
           values={values}
-          autoFocus="true"
+          autoFocus
           placeholder=""
-          showState="false"
+          showState={false}
           validBorderColor="rgb(13,110,253)"
           containerStyle={{ paddingLeft: '20px' }}
           inputStyle={{
-            height: '60px', width: '40px', fontSize: '32px', fontWeight: '500px', marginRight: '20px',
+            height: '56px', width: '44px', fontSize: '32px', fontWeight: '500px', marginRight: '24px', borderRadius: '4px',
           }}
           onChange={(value, index, values) => setValues(values)}
+          onComplete={() => console.log(values)}
         />
         <Typography
           color="text.secondary"
