@@ -47,7 +47,6 @@ const ScheduleLessons = () => {
       <LayoutContainer>
         <Box
           sx={{
-            backgroundColor: 'red',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
