@@ -71,7 +71,6 @@ class BaseCourse(TimeStampedModel):
     lesson_participants_limit = models.IntegerField(
         "Лимит количества участников онлайн-урока",
         validators=(MinValueValidator(limit_value=1),),
-        default=100,
         blank=True,
         null=True,
     )

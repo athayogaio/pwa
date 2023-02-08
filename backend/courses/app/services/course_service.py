@@ -62,8 +62,9 @@ class CourseCreator:
         base_course.level = list(self._data["level"])
         base_course.teacher = self._user
         if base_course.course_type == CourseTypes.ONLINE:
-            if limit := self._data["lesson_participants_limit"]:
-                base_course.lesson_participants_limit = limit
+            base_course.lesson_participants_limit = self._data.get(
+                "lesson_participants_limit", settings.MAX_ONLINE_PARTICIPANTS
+            )
         else:
             base_course.lesson_participants_limit = None
         return base_course
