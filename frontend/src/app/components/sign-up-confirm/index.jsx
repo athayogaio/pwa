@@ -1,45 +1,78 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
+import { PinInput } from 'react-input-pin-code';
 import FooterSupport from '../footer-support';
 import instructionConfirm from '../../../assets/public/instruction_confirm.png';
 
-const SignUpConfirm = () => (
-  <Box
-    sx={{
-      width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', px: '42px',
-    }}
-  >
-    <Box sx={{
-      maxWidth: '552px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-    }}
+const SignUpConfirm = () => {
+  const [values, setValues] = React.useState(['', '', '', '', '', '']);
+  return (
+    <Box
+      sx={{
+        width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', px: '42px',
+      }}
     >
-      <Box sx={{ mb: '48px' }}>
-        <img src={instructionConfirm} alt="pass-recovery-email" />
-      </Box>
-      <Typography
-        variant="h4"
-        sx={{
-          fontSize: '24px', lineheight: '120%', textAlign: 'center', mb: '37px',
-        }}
+      <Box sx={{
+        maxWidth: '552px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+      }}
       >
-        Подтвердите электронную почту
-      </Typography>
-      <Typography color="text.secondary" sx={{ fontSize: '18px', textAlign: 'center', mb: '16px' }}>
-        Ссылка на подтверждение регистрации отправлена на указанный электронный адрес.
-        Следуйте инструкциям в письме.
-      </Typography>
-      <Typography color="text.secondary" sx={{ fontSize: '18px', textAlign: 'center' }}>
-        Для изменения данных вы можете вернуться к
-        {' '}
-        <Typography component={Link} to="/register" color="primary" sx={{ fontSize: '18px', textDecoration: 'none' }}>
-          Регистрации
+        <Box sx={{ mb: '24px' }}>
+          <img src={instructionConfirm} alt="pass-recovery-email" />
+        </Box>
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: 'center', fontWeight: '500',
+          }}
+        >
+          Подтвердите
         </Typography>
-      </Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: 'center', fontWeight: '500', mb: '24px',
+          }}
+        >
+          электронную почту
+        </Typography>
+        <Typography sx={{ fontSize: '18px', textAlign: 'center', mb: '24px' }}>
+          Код для подтверждения регистрации отправлен на указанную электронную почту,
+          Введите его в поле подтверждения
+        </Typography>
+        <PinInput
+          values={values}
+          autoFocus="true"
+          placeholder=""
+          showState="false"
+          validBorderColor="rgb(13,110,253)"
+          containerStyle={{ paddingLeft: '20px' }}
+          inputStyle={{
+            height: '60px', width: '40px', fontSize: '32px', fontWeight: '500px', marginRight: '20px',
+          }}
+          onChange={(value, index, values) => setValues(values)}
+        />
+        <Typography
+          color="text.secondary"
+          variant="body1"
+          sx={{
+            textAlign: 'center', mb: '40px', mt: '24px',
+          }}
+        >
+          Получить код повторно можно через 56 сек.
+        </Typography>
+        <Typography color="text.secondary" variant="body1" sx={{ textAlign: 'center', maxWidth: '380px', mb: '24px' }}>
+          Неверно внесли адрес электронной почты? Вернуться к
+          {' '}
+          <Typography component={Link} to="/register" color="primary" variant="body1" sx={{ textDecoration: 'none' }}>
+            Регистрации
+          </Typography>
+        </Typography>
+      </Box>
+      <Box position="absolute" bottom="24px">
+        <FooterSupport />
+      </Box>
     </Box>
-    <Box position="absolute" bottom="31px">
-      <FooterSupport />
-    </Box>
-  </Box>
-);
+  );
+};
 export default SignUpConfirm;
