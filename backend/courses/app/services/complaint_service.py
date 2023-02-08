@@ -24,7 +24,7 @@ class LessonComplaintWork:
 
         lesson = self.lesson_repository.find_by_id(id_=self._data["lesson_id"])
         if not lesson:
-            raise NotFound(f"Undefined course with id {self._data['lesson_id']}")
+            raise NotFound(f"Undefined lesson with id {self._data['lesson_id']}")
         complaint.lesson = lesson
         return complaint
 
@@ -47,7 +47,8 @@ class DecisionFeedback:
             raise NotFound(f"Undefined decision with pk {self._data['decision']}")
 
         decision.decision_rate = self._data['star_rating']
-        decision.feedback = False
-        decision.save()
+        decision.feedback = True
+
+        self.repository.store(decision)
 
         return decision

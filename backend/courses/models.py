@@ -346,7 +346,7 @@ class LessonComplaint(TimeStampedModel):
 class ComplaintDecision(TimeStampedModel):
     complaint = models.ForeignKey(LessonComplaint, verbose_name="жалоба", on_delete=models.SET_NULL, null=True)
     decision = models.TextField("Содержание")
-    feedback = models.BooleanField(default=True)
+    feedback = models.BooleanField(default=False)
     decision_rate = models.IntegerField("Оценка решения", default=5,
                                         validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5))
                                         )

@@ -95,8 +95,8 @@ urlpatterns = [
     path("questions/<int:pk>/answers/", CourseAnswerListHandler.as_view()),
     path("questions/<int:pk>/answers/create/", CourseAnswerCreateHandler.as_view()),
     path("answers/<int:pk>/remove/", CourseAnswerRemoveHandler.as_view()),
-    path("Complaint/create", LessonComplaintHandler.as_view()),
-    path("Complaint/retrive/", ComplaintRetriveHandler.as_view()),
-    path("Complaint/retriveDecision/", ComplaintDecisionHandler.as_view()),
-    path("Complaint/Feedback/", DecisionRateFeedbackHandler.as_view()),
+    path("complaint/create", LessonComplaintHandler.as_view()),
+    path("complaint/retrive/", ComplaintRetriveHandler.as_view()),
+    path("complaint/retrive/decision/", ComplaintDecisionHandler.as_view()),
+    path("complaint/feedback/", DecisionRateFeedbackHandler.as_view()),
 ]

@@ -16,25 +16,14 @@ class ComplaintResource(ModelSerializer):
         ]
 
 
-class ComplaintResource(ModelSerializer):
-    class Meta:
-        model = LessonComplaint
-        fields = [
-            "id",
-            "reviewed",
-            "category",
-            "title",
-            "content",
-            "lesson",
-        ]
-
-
-class СomplaintDecisionResource(ModelSerializer):
+class ComplaintDecisionResource(ModelSerializer):
     complaint = ComplaintResource()
+
     class Meta:
         model = ComplaintDecision
         fields = [
             "id",
-            "complaint_id",
+            "updated_at",
+            "decision",
             "complaint",
         ]

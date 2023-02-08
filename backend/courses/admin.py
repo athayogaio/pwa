@@ -2,8 +2,10 @@
 from django import forms
 from django.contrib import admin
 from django.db import models
+from django.db.models import QuerySet
 from django_json_widget.widgets import JSONEditorWidget
 
+from .app.repositories.complaint_repository import LessonComplaintRepository
 from .models import (
     BaseCourse,
     Course,
@@ -224,12 +226,18 @@ class LessonComplaintAdmin(admin.ModelAdmin):
     actions = ["mark_reviewed", "mark_decision"]
 
     @admin.action(description="Пометить жалобу как прочитанную")
-    def mark_reviewed(self, request, queryset):
-        queryset.update(reviewed=True)
+    def mark_reviewed(self, request, queryset: QuerySet[LessonComplaint]):
+        repository = LessonComplaintRepository()
+        for complaint in queryset:
+            complaint.reviewed = True
+            repository.store(complaint)
 
     @admin.action(description="Решение написано")
-    def mark_decision(self, request, queryset):
-        queryset.update(decision=True)
+    def mark_decision(self, request, queryset: QuerySet[LessonComplaint]):
+        repository = LessonComplaintRepository()
+        for complaint in queryset:
+            complaint.decision = True
+            repository.store(complaint)
 
 
 @admin.register(ComplaintDecision)
@@ -239,6 +247,8 @@ class ComplaintDecisionAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
         "decision",
+        "feedback",
+        "decision_rate",
         "complaint_id",
     )
 

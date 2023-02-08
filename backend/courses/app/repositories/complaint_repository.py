@@ -11,15 +11,15 @@ class LessonComplaintRepository(BaseRepository):
     def store(self, complaint: LessonComplaint) -> None:
         complaint.save()
 
-    def find(self, user: User) -> QuerySet[LessonComplaint]:
+    def find_by_user(self, user: User) -> QuerySet[LessonComplaint]:
         return self.model.objects.filter(decision=False, author=user.id)
 
 
 class ComplaintDecisionRepository(BaseRepository):
     model = ComplaintDecision
 
-    def find(self, user: User) -> QuerySet[ComplaintDecision]:
-        return self.model.objects.filter(complaint__author=user.id, feedback=True)
+    def find_by_user(self, user: User) -> QuerySet[ComplaintDecision]:
+        return self.model.objects.filter(complaint__author=user.id, feedback=False)
 
     def find_by_id(self, _id: int, ) -> ComplaintDecision:
         return self.model.objects.filter(id=_id).first()

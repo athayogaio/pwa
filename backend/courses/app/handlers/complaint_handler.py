@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from core.app.framework.handlers import GenericHandler, Handler
 from core.app.framework.pagination import Pagination
 from courses.app.http.requests.complaint_request import LessonComplaintRequest, FeedbackDecision
-from courses.app.http.resources.complaint_resources import ComplaintResource, СomplaintDecisionResource
+from courses.app.http.resources.complaint_resources import ComplaintResource, ComplaintDecisionResource
 from courses.app.repositories.complaint_repository import LessonComplaintRepository, ComplaintDecisionRepository
 from courses.app.services.complaint_service import LessonComplaintWork, DecisionFeedback
 
@@ -31,7 +31,7 @@ class ComplaintRetriveHandler(Handler):
     def get(
             self, request: Request, *args: Any, **kwargs: Any
     ) -> Response:
-        complaint = self.repository.find(user=request.user)
+        complaint = self.repository.find_by_user(user=request.user)
         if not complaint:
             return Response({"data": "You dont have complaint"})
         return Response(Pagination(
@@ -46,11 +46,11 @@ class ComplaintDecisionHandler(Handler):
     def get(
             self, request: Request, *args: Any, **kwargs: Any
     ) -> Response:
-        decision = self.repository.find(user=request.user)
+        decision = self.repository.find_by_user(user=request.user)
         if not decision:
             return Response({"data": "You dont have decision for now"})
         return Response(Pagination(
-            data=decision, request=request, resource=СomplaintDecisionResource
+            data=decision, request=request, resource=ComplaintDecisionResource
         ).paginate())
 
 
