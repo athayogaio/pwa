@@ -60,8 +60,8 @@ class TeacherPublicProfileResource(ModelSerializer):
         fields = ["id", "questionnaire"]
 
 
-class UserDetailedProfile(ModelSerializer):
-    public_teacher_profiles = TeacherPrivateProfileResource(many=True, allow_null=True)
+class UserDetailedProfileResource(ModelSerializer):
+    teacher_profiles = TeacherPrivateProfileResource(many=True, allow_null=True)
     rate = serializers.DecimalField(
         default=0, max_digits=None, decimal_places=3, coerce_to_string=False
     )
@@ -76,10 +76,12 @@ class UserDetailedProfile(ModelSerializer):
             "email",
             "about",
             "avatar",
-            "public_teacher_profiles",
+            "teacher_profiles",
             "gender",
             "birthday",
+            "rate",
             "hide_birthday",
+            "roles",
         ]
 
 
@@ -109,4 +111,5 @@ class UserResource(ModelSerializer):
             "rate",
             "gender",
             "birthday",
+            "roles",
         ]

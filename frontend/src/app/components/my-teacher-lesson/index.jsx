@@ -29,7 +29,6 @@ const MyTeacherLesson = ({
     const endTime = new Date(Date.parse(endDate));
     return !((endTime - today));
   };
-  console.log(status, isEnded());
 
   const handleCloseModal = () => setOpenModal(false);
   const openMenu = Boolean(anchorEl);

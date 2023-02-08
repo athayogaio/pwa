@@ -42,7 +42,9 @@ class UserRepository(BaseRepository):
             query = self.fetch_relations(queryset=query)
         return query.first()
 
-    def fetch_relations(self, queryset: QuerySet[User]) -> QuerySet[User]:
+    def fetch_relations(
+        self, queryset: QuerySet[User], user: Optional[User] = None
+    ) -> QuerySet[User]:
         """
         Append attributes to each user in queryset: \n
         - **public_teacher_profiles**: All teacher profiles with `ACCEPTED` status

@@ -17,7 +17,10 @@ from core.app.http.requests.user_requests import (
     UserSendPwdResetMailRequest,
     UserProfileUpdateRequest,
 )
-from core.app.http.resources.user_resources import UserResource, UserDetailedProfile
+from core.app.http.resources.user_resources import (
+    UserResource,
+    UserDetailedProfileResource,
+)
 from core.app.repositories.user_repository import UserRepository
 from core.app.services.user_services import (
     UserRegister,
@@ -113,7 +116,7 @@ class LoggedUserProfileHandler(Handler):
 
     def get(self, *args: Any, **kwargs: Any) -> Response:
         user = self.repository.find_by_id(id_=self.request.user.id, fetch_rels=True)
-        return Response({"data": UserDetailedProfile(user).data})
+        return Response({"data": UserDetailedProfileResource(user).data})
 
 
 class UserProfileHandler(Handler):

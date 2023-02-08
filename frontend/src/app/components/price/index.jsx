@@ -60,7 +60,7 @@ const Price = ({
               {`${el.num * price || quantity * price} ₽`}
             </Typography>
             <Typography color="primary" fontSize="32px" fontWeight="700">
-              {`${el.num * price * 0.85 || quantity * price * 0.85} ₽`}
+              {`${Math.ceil(el.num * price * 0.85) || Math.ceil(quantity * price * 0.85)} ₽`}
             </Typography>
           </Stack>
         ) : ( // без скидок

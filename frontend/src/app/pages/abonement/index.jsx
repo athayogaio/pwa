@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Button, Typography, Stack,
+  Button, Typography, Stack, Box, Backdrop, CircularProgress,
 } from '@mui/material';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import getLessonSlice from '../../core/slices/lesson/getLesson';
@@ -15,7 +15,7 @@ const AbonementPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { lesson, errorMessage } = useSelector(state => state.lesson);
+  const { lesson, errorMessage, isLoading } = useSelector(state => state.lesson);
   const { price } = lesson?.data || 0;
   const [amount, setAmount] = useState(0);
 
@@ -48,8 +48,16 @@ const AbonementPage = () => {
           {errorMessage}
         </Typography>
         )}
+        {isLoading && (
+        <Backdrop
+          sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+        >
+          <CircularProgress />
+        </Backdrop>
+        )}
         {price > 0 && (
-          <>
+          <Box sx={{ margin: '0 auto' }} display="flex" alignItems="center" flexDirection="column">
             <Typography fontSize="24px" fontWeight="500">
               &quot;
               {lesson.data.base_course.name}
@@ -75,7 +83,7 @@ const AbonementPage = () => {
             </Stack>
             {array.map(el => (<Price key={el.id} el={el} price={price} setAmount={setAmount} amount={amount} />
             ))}
-          </>
+          </Box>
         )}
 
         <Stack direction="row" justifyContent="flex-end" width="100%">
