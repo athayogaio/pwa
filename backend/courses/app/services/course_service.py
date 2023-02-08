@@ -65,8 +65,6 @@ class CourseCreator:
             base_course.lesson_participants_limit = self._data.get(
                 "lesson_participants_limit", settings.MAX_ONLINE_PARTICIPANTS
             )
-        else:
-            base_course.lesson_participants_limit = None
         return base_course
 
     def _course(self, base_course: BaseCourse) -> Course:
