@@ -54,7 +54,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to="user_avatars/", blank=True)
     roles = models.JSONField(default=user_default_roles)
     register_confirm_code = models.CharField(
-        _("register confirm code"), max_length=10, blank=True, null=True
+        _("register confirm code"), max_length=6, blank=True, null=True
     )
     pwd_reset_token = models.CharField(
         _("pwd reset token"), max_length=300, blank=True, null=True
