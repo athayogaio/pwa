@@ -5,6 +5,12 @@ from courses.app.handlers.comment_handlers import (
     CourseCommentCreateHandler,
     CourseCommentRemoveHandler,
 )
+from courses.app.handlers.complaint_handler import (
+    LessonComplaintHandler,
+    ComplaintRetriveHandler,
+    ComplaintDecisionHandler,
+    DecisionRateFeedbackHandler
+)
 from courses.app.handlers.course_handlers import (
     CourseFilterHandler,
     CourseCreateHandler,
@@ -89,4 +95,8 @@ urlpatterns = [
     path("questions/<int:pk>/answers/", CourseAnswerListHandler.as_view()),
     path("questions/<int:pk>/answers/create/", CourseAnswerCreateHandler.as_view()),
     path("answers/<int:pk>/remove/", CourseAnswerRemoveHandler.as_view()),
+    path("Complaint/create", LessonComplaintHandler.as_view()),
+    path("Complaint/retrive/", ComplaintRetriveHandler.as_view()),
+    path("Complaint/retriveDecision/", ComplaintDecisionHandler.as_view()),
+    path("Complaint/Feedback/", DecisionRateFeedbackHandler.as_view()),
 ]
