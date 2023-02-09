@@ -17,7 +17,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import EmojiFlagsOutlinedIcon from '@mui/icons-material/EmojiFlagsOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
-import './style.scss';
+//import './style.scss';
 
 const MyTeacherLesson = ({
   title, endDate, id, status,
@@ -64,22 +64,24 @@ const MyTeacherLesson = ({
     },
   };
   return (
-    <Box style={{
-      padding: '20px 24px 20px 30px',
-      position: 'relative',
-      borderRadius: '16px',
-      width: '480px',
-      marginRight: '24px',
-      marginBottom: '24px',
-      zIndex: '-15',
-      border: '1px solid #d9d9d9',
-      //background: `center / cover no-repeat url(${ticket})`,
-      //filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
-      boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px',
-    }}
+    <Box
+      style={{
+        padding: '20px 14px 20px 30px',
+        //position: 'relative',
+        borderRadius: '16px',
+        width: '40%',
+        //width: '480px',
+        //marginRight: '24px',
+        marginBottom: '24px',
+        //zIndex: '-15',
+        //       border: '1px solid #d9d9d9',
+        //backgroundColor: 'red',
+        background: `center / cover no-repeat url(${ticket})`,
+        filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
+        //boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px',
+      }}
+      className="box_wrapper"
     >
-      <div className='top_element'></div>
-      <div className='bottom_element'></div>
       <MoreHorizOutlinedIcon
         color="disabled"
         sx={{ position: 'absolute', top: '10px', right: '20px' }}
@@ -138,11 +140,8 @@ const MyTeacherLesson = ({
         </Box>
       </Modal>
       {((status === 'PUBLISHED' && isEnded() === false) || status === 'MODERATION') && (
-      <Stack
-        direction="row"
-        spacing={2}
-      >
-        <Grid container direction="column" gap="16px" width="207%">
+      <Grid container direction="row">
+        <Grid item container direction="column" gap="16px" width="64%">
           <Box>
             <Typography
               variant="h6"
@@ -191,9 +190,9 @@ const MyTeacherLesson = ({
             </Typography>
           </Grid>
         </Grid>
-        <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
+        <Divider orientation="vertical" flexItem sx={{ width: '1%', marginRight: '3%', borderStyle: 'dashed', position: 'relative' }} />
 
-        <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
+        <Grid item container width="32%" direction="column" gap="6px" alignItems="center" justifyContent="space-between">
           {status === 'PUBLISHED' && (
             <>
               <Stack spacing={1} direction="column" alignItems="center">
@@ -230,7 +229,7 @@ const MyTeacherLesson = ({
           )}
 
         </Grid>
-      </Stack>
+      </Grid>
       )}
       {(status === 'DRAFT' || status === 'CANCELED') && (
         <Stack

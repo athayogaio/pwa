@@ -87,11 +87,12 @@ const MyLessonsPage = () => {
                       <Stack
                         direction="row"
                         sx={{
-                          padding: '0 29px',
+                          //padding: '0 29px',
                           maxWidth: '100%',
                           maxHeight: '100%',
                           alignItems: 'center',
                           justifyContent: 'center',
+                          columnGap: '2%',
                           flexWrap: 'wrap',
                         // outline: '1px solid blue',
                         }}
