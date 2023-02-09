@@ -39,9 +39,11 @@ const SignUp = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    localStorage.setItem('userEmail', data.get('email'));
-    localStorage.setItem('userPass', data.get('password'));
-    context.register({ email: data.get('email'), password: data.get('password') });
+    const email = data.get('email');
+    const password = data.get('password');
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userPass', password);
+    context.register({ email, password }, () => navigate('/register-confirm'));
   };
 
   return (
