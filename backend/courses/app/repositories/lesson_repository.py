@@ -13,7 +13,7 @@ class LessonRepository(BaseRepository):
     model = Lesson
 
     def fetch_relations(self, lessons: QuerySet[Lesson]) -> QuerySet[Lesson]:
-        return lessons.select_related("course").annotate(
+        return lessons.select_related("course__base_course").annotate(
             end_at=F("start_at") + F("course__duration"),
             rate_mean=Avg("stars__star_rating"),
         )
