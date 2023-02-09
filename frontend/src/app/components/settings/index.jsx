@@ -41,7 +41,7 @@ const Settings = () => {
 
   return (
     <>
-      <Header title="Настройки" withBackBtn />
+      <Header title="Настройки" />
       <LayoutContainer>
         <Stack
           direction="column"

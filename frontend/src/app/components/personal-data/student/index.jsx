@@ -11,6 +11,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import patchPersonalDataSlice from '../../../core/slices/personal-data/patchPersonalData';
+import DeleteAccount from '../delete-account';
 
 const PersonDataStudent = () => {
   const fontStyle = {
@@ -28,17 +29,22 @@ const PersonDataStudent = () => {
   const [srcAvatar, setSrcAvatar] = useState('');
 
   const [isSaved, setIsSaved] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
     first_name: '',
     last_name: '',
     about: '',
-    avatar: '',
+    avatar: null,
     background: '',
-    birthday: '',
+    birthday: null,
     gender: '',
     hide_birthday: false,
   });
+
+  const handleClickOpen = boolenValue => {
+    setOpen(boolenValue);
+  };
 
   const handleChangeAnswer = prop => event => {
     setUserInfo({ ...userInfo, [prop]: event.target.value });
@@ -99,31 +105,30 @@ const PersonDataStudent = () => {
 
   return (
     <Box sx={{
-      height: '100%', maxWidth: '952px', width: '100%', pt: '40px',
+      height: '100%', maxWidth: '952px', width: '100%', py: '12px',
     }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <Typography sx={{ fontSize: { xs: '16px', sm: '18px' }, fontWeight: 500 }}>Личные данные</Typography>
         <Box>
           {srcBack
             ? (
               <Box
-                height="223px"
                 sx={{
                   backgroundImage: `url(${srcBack})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   width: '100%',
-                  height: '223px',
-                  borderRadius: '10px 10px 0px 0px',
-                  mb: '8px',
+                  height: { xs: '120px', md: '168px' },
+                  borderRadius: '8px 8px 0px 0px',
                 }}
                 alt="img-back"
               />
             )
             : (
               <Box sx={{
-                backgroundColor: '#EEEEEE', height: '223px', borderRadius: '10px 10px 0px 0px', mb: '8px',
+                backgroundColor: '#EEEEEE', height: { xs: '120px', md: '168px' }, borderRadius: '8px 8px 0px 0px',
               }}
               />
             )}
@@ -136,8 +141,8 @@ const PersonDataStudent = () => {
               variant="text"
               sx={{
                 p: '4px 5px',
-                mt: { xs: '-37px', md: '0' },
-                mr: { xs: '12px', md: '0' },
+                mt: '0',
+                mr: '0',
               }}
             >
               Изменить фон
@@ -149,9 +154,9 @@ const PersonDataStudent = () => {
               <Avatar
                 sx={{
                   backgroundColor: '#fff',
-                  width: '124px',
-                  height: '124px',
-                  marginTop: '-122px',
+                  width: { md: '124px', xs: '95px' },
+                  height: { md: '124px', xs: '95px' },
+                  marginTop: { md: '-120px', xs: '-80px' },
                   mx: 'auto',
                   marginBottom: '8px',
                   border: '2px solid #fff',
@@ -169,7 +174,7 @@ const PersonDataStudent = () => {
                 sx={{
                   width: { md: '124px', xs: '95px' },
                   height: { md: '124px', xs: '95px' },
-                  marginTop: { md: '-122px', xs: '-61px' },
+                  marginTop: { md: '-120px', xs: '-80px' },
                   mx: 'auto',
                   mb: '8px',
                   border: '2px solid #fff',
@@ -260,9 +265,11 @@ const PersonDataStudent = () => {
               <Button
                 size="large"
                 variant="text"
+                color="error"
                 sx={{
-                  color: '#D32F2F', p: '4px 5px', width: { xs: '100%', sm: '160px' }, mb: '16px',
+                  p: '4px 5px', fontSize: '14px',
                 }}
+                onClick={() => handleClickOpen(true)}
               >
                 удалить аккаунт
               </Button>
@@ -270,7 +277,7 @@ const PersonDataStudent = () => {
                 size="large"
                 variant="contained"
                 sx={{
-                  p: '6px 16px', fontSize: '14px', width: { xs: '100%', sm: '120px' }, mb: '16px',
+                  p: '6px 16px', fontSize: '14px', mb: { xs: '16px', sm: 0 },
                 }}
                 onClick={handleSubmit}
               >
@@ -279,6 +286,7 @@ const PersonDataStudent = () => {
             </Box>
           </Grid>
         </Grid>
+        {open && <DeleteAccount handleClickOpen={handleClickOpen} />}
       </Box>
       { isSaved && (
       <Box sx={{
