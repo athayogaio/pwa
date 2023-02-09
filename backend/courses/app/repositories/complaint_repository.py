@@ -16,7 +16,7 @@ class LessonComplaintRepository(BaseRepository):
     def find_by_user(self, user: User) -> QuerySet[LessonComplaint]:
         return self.model.objects.filter(decision=False, author=user.id)
 
-    def bulk_update(self, objs: QuerySet, fields: List[str]) -> None:
+    def bulk_update(self, objs: QuerySet[LessonComplaint], fields: List[str]) -> None:
         self.model.objects.bulk_update(objs=objs, fields=fields)
 
 
@@ -26,8 +26,8 @@ class ComplaintDecisionRepository(BaseRepository):
     def find_by_user(self, user: User) -> QuerySet[ComplaintDecision]:
         return self.model.objects.filter(complaint__author=user.id, feedback=False)
 
-    def find_by_id(self, id: int, ) -> ComplaintDecision:
-        return self.model.objects.filter(id=id).first()
+    def find_by_id(self, id_: int, ) -> ComplaintDecision:
+        return self.model.objects.filter(id=id_).first()
 
     def store(self, decision: ComplaintDecision) -> None:
         decision.save()
