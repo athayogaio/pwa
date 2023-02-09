@@ -4,6 +4,7 @@ from functools import cached_property
 from typing import Tuple
 
 from django.conf import settings
+from django.core.cache import cache
 from rest_framework.exceptions import (
     ValidationError,
     AuthenticationFailed,
@@ -53,9 +54,14 @@ class UserRegister:
 
     @cached_property
     def user(self) -> User:
-        user = User()
-        if self.repository.find_by_email(self.data["email"]):
+        user = self.repository.find_by_email(self.data["email"])
+        if user and user.is_active:
             raise ValidationError("User with this email already exists")
+        if cache.get(self.data["email"]):
+            cache.set(self.data["email"], True, 55)
+            raise PermissionDenied("Too many requests per minute")
+        cache.set(self.data["email"], True, 55)
+        user = user if user else User()
         user.username = user.email = self.data["email"]
         user.set_password(self.data["password"])
         user.is_active = False
