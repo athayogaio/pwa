@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import {Box} from '@mui/material';
 import Header from '../../components/header';
 import LayoutContainer from '../../components/layout-container';
 import PersonDataTeacher from '../../components/personal-data/teacher';

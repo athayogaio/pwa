@@ -7,7 +7,7 @@ from core.models import (
     User,
     QuestionnaireTeacher,
     TeacherProfileDB,
-    UserBillingInfoEU,
+    LegalUserBillingInfoEU,
 )
 
 
@@ -29,7 +29,7 @@ class QuestionnaireTeacherResource(ModelSerializer):
 
 class UserBillingInfoResource(ModelSerializer):
     class Meta:
-        model = UserBillingInfoEU
+        model = LegalUserBillingInfoEU
         fields = [
             "id",
             "organization",

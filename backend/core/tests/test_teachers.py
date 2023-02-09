@@ -9,8 +9,11 @@ from rest_framework.exceptions import ValidationError
 
 from core.app.aggregates.teacher_profile_aggregate import TeacherProfileAggregate
 from core.app.aggregates.types import TeacherProfileCreateContext
-from core.app.services.types import QuestionnaireTeacherData, TeacherBillingInfoData
-from core.models import GenderTypes, UserRoles
+from core.app.services.types import (
+    QuestionnaireTeacherData,
+    TeacherLegalBillingInfoData,
+)
+from core.models import GenderTypes, UserRoles, UserBillingType
 from core.seeders.user_seeder import UserSeeder
 
 
@@ -47,9 +50,9 @@ def fake_questionnaire_teacher_data() -> QuestionnaireTeacherData:
     )
 
 
-def generate_user_billing_info_ru_request() -> TeacherBillingInfoData:
+def generate_user_billing_info_ru_request() -> TeacherLegalBillingInfoData:
     fake = Faker("ru-RU")
-    return TeacherBillingInfoData(
+    return TeacherLegalBillingInfoData(
         organization=fake.company(),
         bank=fake.company(),
         organization_address=fake.address(),
@@ -76,6 +79,7 @@ def test_teacher_profile_create() -> None:
         ctx=TeacherProfileCreateContext(
             questionnaire_data=fake_questionnaire_teacher_data(),
             billing_data=generate_user_billing_info_ru_request(),
+            billing_type=UserBillingType.LEGAL_USER,
         )
     )
     assert profile.id is not None
