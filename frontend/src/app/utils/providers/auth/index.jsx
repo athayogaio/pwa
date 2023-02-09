@@ -1,11 +1,11 @@
 import React, {
   createContext, useEffect, useMemo, useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearMessage } from '../../../core/slices/message';
 import loginSlice from '../../../core/slices/auth/login';
 import registerSlice from '../../../core/slices/auth/register';
+import registerConfirmSlice from '../../../core/slices/auth/verify-email/registerConfirm';
 import logoutSlice from '../../../core/slices/auth/logout';
 
 export const AuthContext = createContext(null);
@@ -22,6 +22,19 @@ const AuthProvider = ({ children }) => {
   const register = ({ email, password }, callback) => {
     setIsLoading(true);
     dispatch(registerSlice({ email, password }))
+      .unwrap()
+      .then(callback)
+      .catch(() => {
+        setIsLoading(false);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const registerConfirm = ({ email, token }, callback) => {
+    setIsLoading(true);
+    dispatch(registerConfirmSlice({ email, token }))
       .unwrap()
       .then(callback)
       .catch(() => {
@@ -50,7 +63,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const value = useMemo(() => ({
-    user, isLoggedIn, isLoading, login, register, logout, tokens,
+    user, isLoggedIn, isLoading, login, register, logout, tokens, registerConfirm,
   }), [user, tokens]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
