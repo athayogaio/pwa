@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import { PinInput } from 'react-input-pin-code';
 import FooterSupport from '../footer-support';
+import { AuthContext } from '../../utils/providers/auth';
 import instructionConfirm from '../../../assets/public/instruction_confirm.png';
 
 const SignUpConfirm = () => {
   const [values, setValues] = React.useState(['', '', '', '', '', '']);
+  const [seconds, setSeconds] = useState(60);
+  const context = useContext(AuthContext);
+  const handleClick = () => {
+    const email = localStorage.userEmail;
+    const password = localStorage.userPass;
+    context.register({ email, password });
+  };
   return (
     <Box
       sx={{
@@ -42,7 +50,14 @@ const SignUpConfirm = () => {
         <Typography sx={{ fontSize: '18px', textAlign: 'center', mb: '24px' }}>
           Вы можете запросить повторную отправку проверочного кодана указанную электронную почту
         </Typography>
-        <Button variant="contained" size="large" sx={{ paddingLeft: '126px', paddingRight: '126px', mb: '40px' }}>Отправить код</Button>
+        <Button
+          variant="contained"
+          size="large"
+          sx={{ paddingLeft: '126px', paddingRight: '126px', mb: '40px' }}
+          onClick={handleClick}
+        >
+          Отправить код
+        </Button>
         {/* <Typography sx={{ fontSize: '18px', textAlign: 'center', mb: '24px' }}>
           Код для подтверждения регистрации отправлен на указанную электронную почту,
           Введите его в поле подтверждения
