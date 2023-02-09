@@ -25,8 +25,8 @@ const SignUp = () => {
   const [click, setClick] = useState(0);
   const [captchaKey, setCaptchaKey] = useState('');
 
-  const ATHA_YOGA_RECAPTCHA_SITE_KEY = '6Lfzkl8kAAAAAJDkbH2DIw6vMwU8KSMVA3Mv60CP';
-  const ATHA_YOGA_RECAPTCHA_SECRET_KEY = '6Lfzkl8kAAAAAJm5ltqgqAy2MO2VhdqYHgLQWEHu';
+  const ATHA_YOGA_RECAPTCHA_SITE_KEY = '6LfG0WYkAAAAABW_coUyWSIcf_TcJ1IcwrfhLyxJ';
+  const ATHA_YOGA_RECAPTCHA_SECRET_KEY = '6LfG0WYkAAAAAG-ZR6m5Cb1clo0YGzbxa2zfKoUN';
 
   const disabledButton = () => {
     if (click >= 5 && !captchaKey) return true;
