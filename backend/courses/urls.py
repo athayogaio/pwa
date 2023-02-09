@@ -18,7 +18,7 @@ from courses.app.handlers.course_handlers import (
     CourseEnrollHandler,
     CourseDeleteHandler,
     CourseStatusChangeHandler,
-    CourseArchivingHandler,
+    CourseArchivingHandler, ImCoursesRetrieveHandler,
 )
 from courses.app.handlers.lesson_enrolled_users_handlers import (
     ActivationLessonEnrolledUser,
@@ -60,6 +60,7 @@ urlpatterns = [
     path("<int:course_pk>/archiving/", CourseArchivingHandler.as_view()),
     path("im/participated-lessons/", UserLessonsParticipatedHandler.as_view()),
     path("im/enrolled-lessons/", UserLessonsEnrolledHandler.as_view()),
+    path("im/courses/", ImCoursesRetrieveHandler.as_view()),
     path("favorites/", FavoriteCourseListHandler.as_view()),
     path("favorites/add/", FavoriteCourseAddHandler.as_view()),
     path("favorites/remove/", FavoriteCourseRemoveHandler.as_view()),

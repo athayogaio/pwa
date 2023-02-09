@@ -9,6 +9,7 @@ import favorites from '../slices/favorites';
 import resetpass from '../slices/pass-recovery';
 import resetpassconfirm from '../slices/reset-pass-confirm';
 import verifyEmail from '../slices/auth/verify-email';
+import personalData from '../slices/personal-data';
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     resetpass,
     resetpassconfirm,
     verifyEmail,
+    personalData,
   },
 });
 

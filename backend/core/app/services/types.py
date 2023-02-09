@@ -16,7 +16,7 @@ class UserRegisterData(TypedDict):
 
 class UserRegisterConfirmData(TypedDict):
     email: str
-    register_confirm_token: str
+    register_confirm_code: str
 
 
 class UserLoginData(TypedDict):

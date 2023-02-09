@@ -30,6 +30,7 @@ class BaseCourseAdmin(admin.ModelAdmin):
         "level",
         "complexity",
         "teacher",
+        "lesson_participants_limit",
     )
     list_filter = ("created_at", "updated_at")
     raw_id_fields = ("favorites",)

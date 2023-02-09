@@ -33,6 +33,7 @@ class CourseCreateData(TypedDict):
     price: float
     complexity: CourseComplexities
     lessons: Optional[List[LessonCreateData]]
+    lesson_participants_limit: Optional[int]
     is_draft: bool
 
 

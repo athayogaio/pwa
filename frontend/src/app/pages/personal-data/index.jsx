@@ -7,12 +7,15 @@ import PersonDataStudent from '../../components/personal-data/student';
 
 const PersonDataPage = () => {
   const userDataLocal = (JSON.parse(localStorage.getItem('user'))).user;
+
   return (
     <>
       <Header withBackBtn />
       <LayoutContainer>
         <Box display="flex" justifyContent="center">
-          {userDataLocal.public_teacher_profiles ? <PersonDataTeacher /> : <PersonDataStudent />}
+          {userDataLocal.public_teacher_profiles.length !== 0
+            ? <PersonDataTeacher />
+            : <PersonDataStudent />}
         </Box>
       </LayoutContainer>
     </>
@@ -20,5 +23,3 @@ const PersonDataPage = () => {
 };
 
 export default PersonDataPage;
-
-// фон который сейчас - есть, но не подтягивается на стр person-data

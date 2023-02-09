@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Box, Typography, Avatar, Button, Grid, TextField, FormControl, RadioGroup, Radio,
   FormControlLabel, InputAdornment, Checkbox,
@@ -7,6 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
+import patchPersonalDataSlice from '../../../core/slices/personal-data/patchPersonalData';
 
 const PersonDataTeacher = () => {
   const fontStyle = {
@@ -14,6 +16,8 @@ const PersonDataTeacher = () => {
       fontSize: '16px',
     },
   };
+
+  const dispatch = useDispatch();
 
   const userDataLocal = (JSON.parse(localStorage.getItem('user'))).user;
 
@@ -23,17 +27,17 @@ const PersonDataTeacher = () => {
   const [imageAvatar, setImageAvatar] = useState(null);
   const [srcAvatar, setSrcAvatar] = useState('');
 
-  const [checked, setChecked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
-  // Дописать значения, когда будет готов бэк
   const [userInfo, setUserInfo] = useState({
-    about_me: '',
-    data_is_hidden: checked,
+    about: '',
+    avatar: '',
+    background: '',
+    hide_birthday: false,
   });
 
   const handleChange = event => {
-    setChecked(event.target.checked);
+    setUserInfo({ ...userInfo, hide_birthday: event.target.checked });
   };
 
   const handleChangeAnswer = prop => event => {
@@ -78,6 +82,15 @@ const PersonDataTeacher = () => {
     }
   }, [imageAvatar]);
 
+  const handleSubmit = () => {
+    setIsSaved(true);
+    dispatch(patchPersonalDataSlice({
+      ...userInfo,
+      avatar: imageAvatar,
+      background: imageBack,
+    }));
+  };
+
   return (
     <Box sx={{
       height: '100%', maxWidth: '952px', width: '100%', py: '40px',
@@ -99,13 +112,17 @@ const PersonDataTeacher = () => {
                   backgroundPosition: 'center',
                   width: '100%',
                   height: '223px',
+                  borderRadius: '10px 10px 0px 0px',
                   mb: '8px',
                 }}
                 alt="img-back"
               />
             )
             : (
-              <Box sx={{ backgroundColor: '#EEEEEE', height: '223px', mb: '8px' }} />
+              <Box sx={{
+                backgroundColor: '#EEEEEE', height: '223px', borderRadius: '10px 10px 0px 0px', mb: '8px',
+              }}
+              />
             )}
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             <input type="file" id="fileBack" multiple={false} accept="image/*" style={{ display: 'none' }} onChange={handleFileBack} />
@@ -178,7 +195,7 @@ const PersonDataTeacher = () => {
               fullWidth
               required
               disabled
-              id="name"
+              id="first_name"
               label="Имя"
               defaultValue={userDataLocal.first_name}
             />
@@ -188,7 +205,7 @@ const PersonDataTeacher = () => {
               fullWidth
               required
               disabled
-              id="surname"
+              id="last_name"
               label="Фамилия"
               defaultValue={userDataLocal.last_name}
             />
@@ -214,7 +231,7 @@ const PersonDataTeacher = () => {
               <FormControlLabel
                 control={(
                   <Checkbox
-                    checked={checked}
+                    checked={userInfo.hide_birthday}
                     onChange={handleChange}
                     inputProps={{ 'aria-label': 'controlled' }}
                     sx={{ p: '16px' }}
@@ -255,9 +272,9 @@ const PersonDataTeacher = () => {
               fullWidth
               multiline
               label="О себе"
-              id="about-me"
+              id="about"
               rows={4}
-              onChange={handleChangeAnswer('about_me')}
+              onChange={handleChangeAnswer('about')}
             />
           </Grid>
           <Grid item md sm xs>
@@ -273,7 +290,7 @@ const PersonDataTeacher = () => {
                 size="large"
                 variant="contained"
                 sx={{ p: '6px 16px', fontSize: '14px' }}
-                onClick={() => setIsSaved(true)}
+                onClick={handleSubmit}
               >
                 сохранить
               </Button>

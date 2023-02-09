@@ -5,10 +5,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Typography, Box, Grid } from '@mui/material';
 import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
@@ -16,8 +14,8 @@ import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
 import { scheduleChipContent } from '../../utils/scheduleServices';
 
 const LessonCard = ({
-  title, description, price, level, id, favorite, isParticipant, comments, rate, votes, duration, schedule,
-
+  title, description, price, level, id, favorite,
+  comments, rate, votes, duration, schedule,
 }) => {
   const navigate = useNavigate();
   const levels = {

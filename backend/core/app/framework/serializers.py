@@ -20,6 +20,6 @@ class PasswordField(serializers.RegexField):
         super().__init__(
             min_length=10,
             max_length=128,
-            regex=r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{10,128}$",
+            regex=r"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]|.*[!@\-#$%^&*(),.?\":{}|<>]).{10,}$",
             **kwargs
         )

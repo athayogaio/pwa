@@ -28,6 +28,7 @@ import ResetPasswordPage from './pages/reset-password';
 import RegisterConfirmPage from './pages/auth/register-confirm';
 import VerifyEmail from './components/verify-email';
 import PersonDataPage from './pages/personal-data';
+import TeacherStatusPage from './pages/teacher-status';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -99,7 +100,7 @@ const App = () => {
           <Route path="recovery-password" element={<PasswordRecoveryPage />} />
           <Route path="instruction-recovery-password" element={<InstructionRecoveryPage />} />
           <Route path="reset-password/:token" element={<ResetPasswordPage />} />
-          <Route path="verify-email/:token" element={<VerifyEmail />} />
+          <Route path="verify-email/token/:token" element={<VerifyEmail />} />
           <Route path="*" element={<ErrorPage />} />
           <Route element={auth.isLoggedIn ? <Outlet /> : <Navigate replace to="/" />}>
             <Route path="search-lessons" element={<SearchLessonsPage />} />
@@ -110,6 +111,7 @@ const App = () => {
             <Route path="create-lesson" element={<CreateLessonPage />} />
             <Route path="lesson-details/:id" element={<LessonDetailsPage />} />
             <Route path="teacher-form" element={<TeacherFormPage />} />
+            <Route path="teacher-status" element={<TeacherStatusPage />} />
             <Route path="favorites" element={<FavoritesPage />} />
             <Route path="abonement/:id" element={<AbonementPage />} />
             <Route path="payment-success/:id" element={<PaymentSuccessPage />} />
