@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Box, Typography, Avatar, Button, Grid, TextField, FormControl, RadioGroup, Radio,
-  FormControlLabel, InputAdornment, Stack,
+  FormControlLabel, Stack,
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -9,6 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
+import patchPersonalDataSlice from '../../../core/slices/personal-data/patchPersonalData';
 
 const PersonDataStudent = () => {
   const fontStyle = {
@@ -16,6 +18,8 @@ const PersonDataStudent = () => {
       fontSize: '16px',
     },
   };
+
+  const dispatch = useDispatch();
 
   const [imageBack, setImageBack] = useState(null);
   const [srcBack, setSrcBack] = useState('');
@@ -25,13 +29,15 @@ const PersonDataStudent = () => {
 
   const [isSaved, setIsSaved] = useState(false);
 
-  // Дописать значения, когда будет готов бэк
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    surname: '',
-    date_of_birth: 'null',
+    first_name: '',
+    last_name: '',
+    about: '',
+    avatar: '',
+    background: '',
+    birthday: '',
     gender: '',
-    about_me: '',
+    hide_birthday: false,
   });
 
   const handleChangeAnswer = prop => event => {
@@ -39,7 +45,7 @@ const PersonDataStudent = () => {
   };
 
   const handleChangeDate = newValue => {
-    setUserInfo({ ...userInfo, date_of_birth: newValue });
+    setUserInfo({ ...userInfo, birthday: newValue });
   };
 
   const handleFileBack = e => {
@@ -80,6 +86,17 @@ const PersonDataStudent = () => {
     }
   }, [imageAvatar]);
 
+  const handleSubmit = () => {
+    const birthdayData = userInfo.birthday;
+    setIsSaved(true);
+    dispatch(patchPersonalDataSlice({
+      ...userInfo,
+      avatar: imageAvatar,
+      background: imageBack,
+      birthday: birthdayData ? `${birthdayData.$y}-${birthdayData.$M + 1}-${birthdayData.$D}` : null,
+    }));
+  };
+
   return (
     <Box sx={{
       height: '100%', maxWidth: '952px', width: '100%', pt: '40px',
@@ -98,13 +115,17 @@ const PersonDataStudent = () => {
                   backgroundPosition: 'center',
                   width: '100%',
                   height: '223px',
+                  borderRadius: '10px 10px 0px 0px',
                   mb: '8px',
                 }}
                 alt="img-back"
               />
             )
             : (
-              <Box sx={{ backgroundColor: '#EEEEEE', height: '223px', mb: '8px' }} />
+              <Box sx={{
+                backgroundColor: '#EEEEEE', height: '223px', borderRadius: '10px 10px 0px 0px', mb: '8px',
+              }}
+              />
             )}
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             <input type="file" id="fileBack" multiple={false} accept="image/*" style={{ display: 'none' }} onChange={handleFileBack} />
@@ -175,17 +196,17 @@ const PersonDataStudent = () => {
           <Grid item md={6} sm={12} xs={12}>
             <TextField
               fullWidth
-              id="name"
+              id="first_name"
               label="Имя"
-              onChange={handleChangeAnswer('name')}
+              onChange={handleChangeAnswer('first_name')}
             />
           </Grid>
           <Grid item md={6} sm={12} xs={12}>
             <TextField
               fullWidth
-              id="surname"
+              id="last_name"
               label="Фамилия"
-              onChange={handleChangeAnswer('surname')}
+              onChange={handleChangeAnswer('last_name')}
             />
           </Grid>
           <Grid item container justifyContent="space-between">
@@ -195,7 +216,7 @@ const PersonDataStudent = () => {
                   <DesktopDatePicker
                     label="День рождения"
                     inputFormat="DD.MM.YYYY"
-                    value={userInfo.date_of_birth}
+                    value={userInfo.birthday}
                     onChange={handleChangeDate}
                     renderInput={params => <TextField {...params} error={false} />}
                     components={{
@@ -229,9 +250,9 @@ const PersonDataStudent = () => {
               fullWidth
               multiline
               label="О себе"
-              id="about-me"
+              id="about"
               rows={4}
-              onChange={handleChangeAnswer('about_me')}
+              onChange={handleChangeAnswer('about')}
             />
           </Grid>
           <Grid item md sm xs>
@@ -251,7 +272,7 @@ const PersonDataStudent = () => {
                 sx={{
                   p: '6px 16px', fontSize: '14px', width: { xs: '100%', sm: '120px' }, mb: '16px',
                 }}
-                onClick={() => setIsSaved(true)}
+                onClick={handleSubmit}
               >
                 сохранить
               </Button>

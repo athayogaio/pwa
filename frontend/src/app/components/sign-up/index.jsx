@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -19,14 +21,34 @@ const SignUp = () => {
     password: '',
     showPassword: false,
   });
+  const [IP, setIP] = useState('');
+  const [click, setClick] = useState(0);
+  const [captchaKey, setCaptchaKey] = useState('');
+
+  const ATHA_YOGA_RECAPTCHA_SITE_KEY = '6Lfzkl8kAAAAAJDkbH2DIw6vMwU8KSMVA3Mv60CP';
+  const ATHA_YOGA_RECAPTCHA_SECRET_KEY = '6Lfzkl8kAAAAAJm5ltqgqAy2MO2VhdqYHgLQWEHu';
+
+  const disabledButton = () => {
+    if (click >= 5 && !captchaKey) return true;
+    return false;
+  };
+
+  const onChange = value => setCaptchaKey(value);
 
   const context = useContext(AuthContext);
   const navigate = useNavigate();
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
 
+  const getIP = async () => {
+    const res = await axios.get('https://geolocation-db.com/json/');
+    console.log(res.data);
+    setIP(res.data.IPv4);
+  };
+
   useEffect(() => {
     dispatch(clearMessage());
+    getIP();
   }, []);
 
   const handleClickShowPassword = () => {
@@ -103,6 +125,8 @@ const SignUp = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            onClick={() => setClick(click + 1)}
+            disabled={disabledButton()}
           >
             Зарегистрироваться
           </Button>
@@ -122,6 +146,15 @@ const SignUp = () => {
                 Войти
               </Typography>
             </Grid>
+            {click >= 5
+              ? (
+                <ReCAPTCHA
+                  sitekey={ATHA_YOGA_RECAPTCHA_SITE_KEY}
+                  onChange={onChange}
+                  type="image"
+                />
+              )
+              : ''}
           </Grid>
         </Box>
         <div style={{

@@ -27,6 +27,8 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 READING_SPEED = 180  # words per min.
+MAX_ONLINE_PARTICIPANTS = 100
+CONFIRMATION_TOKEN_LENGTH = 6
 
 # Application definition
 

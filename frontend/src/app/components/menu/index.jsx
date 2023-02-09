@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import menuLogo from '../../../assets/public/menu_logo.svg';
 
-const Menu = ({ auth, menuItems }) => {
+const Menu = ({ auth, menuItems, prev }) => {
   const menuItemStyle = {
     minHeight: '36px',
     '& .MuiTypography-root': {
@@ -31,21 +31,6 @@ const Menu = ({ auth, menuItems }) => {
       color: 'common.white',
     },
   };
-
-  const currentUrl = useLocation();
-  const [prev, setPrev] = useState('');
-  const menuPath = ['search-lessons', 'favorites', 'my-lessons', 'calendar', 'profile'];
-
-  useEffect(() => {
-    menuPath.map(el => {
-      if (currentUrl.pathname.includes(el)) {
-        setPrev(currentUrl.pathname);
-      } else if (currentUrl.pathname.includes('settings')) {
-        setPrev('');
-      }
-      return null;
-    });
-  }, [currentUrl]);
 
   return (
     <Box sx={{ width: '100%', height: '100vh', backgroundColor: 'grey.A100' }}>
