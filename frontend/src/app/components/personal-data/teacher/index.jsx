@@ -9,6 +9,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import patchPersonalDataSlice from '../../../core/slices/personal-data/patchPersonalData';
+import DeleteAccount from '../delete-account';
 
 const PersonDataTeacher = () => {
   const fontStyle = {
@@ -28,6 +29,7 @@ const PersonDataTeacher = () => {
   const [srcAvatar, setSrcAvatar] = useState('');
 
   const [isSaved, setIsSaved] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
     about: '',
@@ -35,6 +37,10 @@ const PersonDataTeacher = () => {
     background: '',
     hide_birthday: false,
   });
+
+  const handleClickOpen = boolenValue => {
+    setOpen(boolenValue);
+  };
 
   const handleChange = event => {
     setUserInfo({ ...userInfo, hide_birthday: event.target.checked });
@@ -93,10 +99,11 @@ const PersonDataTeacher = () => {
 
   return (
     <Box sx={{
-      height: '100%', maxWidth: '952px', width: '100%', py: '40px',
+      height: '100%', maxWidth: '952px', width: '100%', py: '12px',
     }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <Typography sx={{ fontSize: { xs: '16px', sm: '18px' }, fontWeight: 500 }}>Личные данные</Typography>
         <Typography color="text.secondary">
           Обязательные поля *
         </Typography>
@@ -104,23 +111,21 @@ const PersonDataTeacher = () => {
           {srcBack
             ? (
               <Box
-                height="223px"
                 sx={{
                   backgroundImage: `url(${srcBack})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   width: '100%',
-                  height: '223px',
-                  borderRadius: '10px 10px 0px 0px',
-                  mb: '8px',
+                  height: { xs: '120px', md: '168px' },
+                  borderRadius: '8px 8px 0px 0px',
                 }}
                 alt="img-back"
               />
             )
             : (
               <Box sx={{
-                backgroundColor: '#EEEEEE', height: '223px', borderRadius: '10px 10px 0px 0px', mb: '8px',
+                backgroundColor: '#EEEEEE', height: { xs: '120px', md: '168px' }, borderRadius: '8px 8px 0px 0px',
               }}
               />
             )}
@@ -133,8 +138,8 @@ const PersonDataTeacher = () => {
               variant="text"
               sx={{
                 p: '4px 5px',
-                mt: { xs: '-37px', md: '0' },
-                mr: { xs: '12px', md: '0' },
+                mt: '0',
+                mr: '0',
               }}
             >
               Изменить фон
@@ -146,9 +151,9 @@ const PersonDataTeacher = () => {
               <Avatar
                 sx={{
                   backgroundColor: '#fff',
-                  width: '124px',
-                  height: '124px',
-                  marginTop: '-122px',
+                  width: { md: '124px', xs: '95px' },
+                  height: { md: '124px', xs: '95px' },
+                  marginTop: { md: '-120px', xs: '-80px' },
                   mx: 'auto',
                   marginBottom: '8px',
                   border: '2px solid #fff',
@@ -166,7 +171,7 @@ const PersonDataTeacher = () => {
                 sx={{
                   width: { md: '124px', xs: '95px' },
                   height: { md: '124px', xs: '95px' },
-                  marginTop: { md: '-122px', xs: '-61px' },
+                  marginTop: { md: '-120px', xs: '-80px' },
                   mx: 'auto',
                   mb: '8px',
                   border: '2px solid #fff',
@@ -278,18 +283,20 @@ const PersonDataTeacher = () => {
             />
           </Grid>
           <Grid item md sm xs>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: { xs: 'column-reverse', sm: 'row' } }}>
               <Button
                 size="large"
                 variant="text"
-                sx={{ color: '#D32F2F', p: '4px 5px' }}
+                color="error"
+                sx={{ p: '4px 5px', fontSize: '14px' }}
+                onClick={() => handleClickOpen(true)}
               >
                 удалить аккаунт
               </Button>
               <Button
                 size="large"
                 variant="contained"
-                sx={{ p: '6px 16px', fontSize: '14px' }}
+                sx={{ p: '6px 16px', fontSize: '14px', mb: { xs: '16px', sm: 0 } }}
                 onClick={handleSubmit}
               >
                 сохранить
@@ -297,10 +304,12 @@ const PersonDataTeacher = () => {
             </Box>
           </Grid>
         </Grid>
+        {open && <DeleteAccount handleClickOpen={handleClickOpen} />}
       </Box>
       { isSaved && (
       <Box sx={{
-        width: '292px',
+        maxWidth: '292px',
+        width: '100%',
         height: '48px',
         position: 'fixed',
         right: '16px',
