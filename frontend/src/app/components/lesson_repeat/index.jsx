@@ -1,31 +1,31 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {dateRange, getDay} from './helper';
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import {TimePicker} from '@mui/x-date-pickers/TimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Radio,
-    RadioGroup,
-    Select,
-    TextField,
-    Typography,
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Typography,
 } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { dateRange, getDay } from './helper';
 
 const OnceLesson = ({
-  date, time, setLessonData, lessonData, errorTime, errorDate, pointForAdaptiveToSM
+  date, time, setLessonData, lessonData, errorTime, errorDate, pointForAdaptiveToSM,
 }) => {
   const setDate = newValue => {
     setLessonData({
@@ -49,33 +49,38 @@ const OnceLesson = ({
         id="lesson_date"
         minDate={dayjs(Date())}
         onChange={newValue => setDate(newValue)}
-        renderInput={params => <TextField 
-          {...params}
-          sx={{ width: pointForAdaptiveToSM ? '49%' : '35%' }}
-          required
-          error={ !!errorDate }
-          helperText={errorDate}
-        />}
+        renderInput={params => (
+          <TextField
+            {...params}
+            sx={{ width: pointForAdaptiveToSM ? '49%' : '35%' }}
+            required
+            error={!!errorDate}
+            helperText={errorDate}
+          />
+        )}
       />
       <TimePicker
         label="Время"
         value={time}
         id="lesson_time"
         onChange={newValue => setTime(newValue)}
-        renderInput={params => <TextField
-          {...params}
-          sx={{ width: pointForAdaptiveToSM ? '49%' : '35%' }}
-          required
-          error={ !!errorTime }
-          helperText={errorTime}
-        />}
+        renderInput={params => (
+          <TextField
+            {...params}
+            sx={{ width: pointForAdaptiveToSM ? '49%' : '35%' }}
+            required
+            error={!!errorTime}
+            helperText={errorTime}
+          />
+        )}
       />
     </Grid>
   );
 };
 
 const RegularLessons = ({
-  start_datetime, deadline_datetime, lessonData, setLessonData, errorStartDate, errorFinishDate, errorLessons, pointForAdaptiveToSM
+  start_datetime, deadline_datetime, lessonData, setLessonData, errorStartDate, errorFinishDate,
+  errorLessons, pointForAdaptiveToSM,
 }) => {
   const [regularLessonDay, setRegularLessonDay] = useState('');
   const [redularLessonTime, setRegularLessonTime] = useState(null);
@@ -122,7 +127,7 @@ const RegularLessons = ({
           value={start_datetime}
           minDate={dayjs(Date())}
           onChange={newValue => setStartDate(newValue)}
-          renderInput={params => <TextField {...params} sx={{ width: pointForAdaptiveToSM ? '48%' : '35%' }} required error={ !!errorStartDate } helperText={errorStartDate}/>}
+          renderInput={params => <TextField {...params} sx={{ width: pointForAdaptiveToSM ? '48%' : '35%' }} required error={!!errorStartDate} helperText={errorStartDate} />}
         />
         <DatePicker
           label="Окончание"
@@ -131,7 +136,7 @@ const RegularLessons = ({
           minDate={start_datetime}
           maxDate={dayjs(start_datetime).add(2, 'month')}
           onChange={newValue => setFinishDate(newValue)}
-          renderInput={params => <TextField {...params} sx={{ width: pointForAdaptiveToSM ? '48%' : '35%' }} required error={ !!errorFinishDate } helperText={errorFinishDate}/>}
+          renderInput={params => <TextField {...params} sx={{ width: pointForAdaptiveToSM ? '48%' : '35%' }} required error={!!errorFinishDate} helperText={errorFinishDate} />}
         />
         <Typography
           variant="modal"
@@ -182,7 +187,7 @@ const RegularLessons = ({
           id="regular_lesson_time"
           sx={{ width: pointForAdaptiveToSM ? '100%' : '30%' }}
           onChange={newValue => setRegularLessonTime(newValue)}
-          renderInput={params => <TextField sx={{marginBottom: pointForAdaptiveToSM ? '5%' : ''}} {...params} error={!!errorLessons} helperText={errorLessons}/>}
+          renderInput={params => <TextField sx={{ marginBottom: pointForAdaptiveToSM ? '5%' : '' }} {...params} error={!!errorLessons} helperText={errorLessons} />}
         />
 
         <Button
@@ -205,9 +210,12 @@ const RegularLessons = ({
             }}
             >
               <Box sx={{
-                width: pointForAdaptiveToSM ? '100%' : '10%', display: 'flex', justifyContent: pointForAdaptiveToSM ? 'flex-start' : 'space-around',
-                columnGap: pointForAdaptiveToSM ? '2%' : ''
-              }}>
+                width: pointForAdaptiveToSM ? '100%' : '10%',
+                display: 'flex',
+                justifyContent: pointForAdaptiveToSM ? 'flex-start' : 'space-around',
+                columnGap: pointForAdaptiveToSM ? '2%' : '',
+              }}
+              >
                 <DateRangeOutlinedIcon sx={{ color: '#0D6EFD', marginRight: '5px' }} />
                 <Typography variant="modal" sx={{ fontSize: '16px', display: 'inline-block', minWidth: '100px' }}>{getDay(lesson.weekday)}</Typography>
                 <AccessTimeIcon sx={{ color: '#0D6EFD', marginLeft: '25px', marginRight: '5px' }} />
@@ -225,65 +233,67 @@ const RegularLessons = ({
   );
 };
 
-const RepeatLessons = ({ update, lessonData, setLessonData, errorDateForOnceLesson, errorTimeForOnceLesson, errorMessage, errorStartForRegularLesson, errorFinishForRegularLesson, errorLessons }) => {
+const RepeatLessons = ({
+  update, lessonData, setLessonData, errorDateForOnceLesson, errorTimeForOnceLesson, errorMessage, errorStartForRegularLesson, errorFinishForRegularLesson, errorLessons,
+}) => {
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
-  
+
   return (
-  <>
-    <Grid item sx={{ height: pointForAdaptiveToSM ? '4%' : '6%', flexDirection: pointForAdaptiveToSM ? 'column' : 'row'}}>
-      <FormControl sx={{ width: '100%', paddingLeft: '2%' }}>
-        <RadioGroup
-          row
-          aria-labelledby="lesson-repeat-label"
-          name="lesson-repeat-radio-buttons-group"
-          defaultValue="once"
-          sx={{ columnGap: '5%' }}
-        >
-          <FormControlLabel
-            onChange={update}
-            value="once"
-            name="repeat"
-            control={<Radio />}
-            label={<Typography variant="modal" sx={{ fontSize: '16px', color: '#212121', minWidth: '90px' }}>Разовое</Typography>}
+    <>
+      <Grid item sx={{ height: pointForAdaptiveToSM ? '4%' : '6%', flexDirection: pointForAdaptiveToSM ? 'column' : 'row' }}>
+        <FormControl sx={{ width: '100%', paddingLeft: '2%' }}>
+          <RadioGroup
+            row
+            aria-labelledby="lesson-repeat-label"
+            name="lesson-repeat-radio-buttons-group"
+            defaultValue="once"
+            sx={{ columnGap: '5%' }}
+          >
+            <FormControlLabel
+              onChange={update}
+              value="once"
+              name="repeat"
+              control={<Radio />}
+              label={<Typography variant="modal" sx={{ fontSize: '16px', color: '#212121', minWidth: '90px' }}>Разовое</Typography>}
+            />
+            <FormControlLabel
+              onChange={update}
+              name="repeat"
+              value="regular"
+              control={<Radio />}
+              label={<Typography variant="modal" sx={{ fontSize: '16px', color: '#212121' }}>Регулярное</Typography>}
+            />
+          </RadioGroup>
+        </FormControl>
+      </Grid>
+      {lessonData.repeat === 'once'
+        ? (
+          <OnceLesson
+            date={lessonData.dateForOnceLesson}
+            time={lessonData.timeForOnceLesson}
+            lessonData={lessonData}
+            setLessonData={setLessonData}
+            errorTime={errorTimeForOnceLesson}
+            errorDate={errorDateForOnceLesson}
+            error={errorMessage}
+            pointForAdaptiveToSM={pointForAdaptiveToSM}
           />
-          <FormControlLabel
-            onChange={update}
-            name="repeat"
-            value="regular"
-            control={<Radio />}
-            label={<Typography variant="modal" sx={{ fontSize: '16px', color: '#212121' }}>Регулярное</Typography>}
+        )
+        : (
+          <RegularLessons
+            start_datetime={lessonData.startDateForRegularLesson}
+            deadline_datetime={lessonData.finishDateForRegularLesson}
+            lessonData={lessonData}
+            setLessonData={setLessonData}
+            error={errorMessage}
+            errorStartDate={errorStartForRegularLesson}
+            errorFinishDate={errorFinishForRegularLesson}
+            errorLessons={errorLessons}
+            pointForAdaptiveToSM={pointForAdaptiveToSM}
           />
-        </RadioGroup>
-      </FormControl>
-    </Grid>
-    {lessonData.repeat === 'once'
-      ? (
-        <OnceLesson
-          date={lessonData.dateForOnceLesson}
-          time={lessonData.timeForOnceLesson}
-          lessonData={lessonData}
-          setLessonData={setLessonData}
-          errorTime={errorTimeForOnceLesson}
-          errorDate={errorDateForOnceLesson}
-          error={errorMessage}
-          pointForAdaptiveToSM={pointForAdaptiveToSM}
-        />
-      )
-      : (
-        <RegularLessons
-          start_datetime={lessonData.startDateForRegularLesson}
-          deadline_datetime={lessonData.finishDateForRegularLesson}
-          lessonData={lessonData}
-          setLessonData={setLessonData}
-          error={errorMessage}
-          errorStartDate={errorStartForRegularLesson}
-          errorFinishDate={errorFinishForRegularLesson}
-          errorLessons={errorLessons}
-          pointForAdaptiveToSM={pointForAdaptiveToSM}
-        />
-      )}
-  </>
-);
-      };
+        )}
+    </>
+  );
+};
 
 export default RepeatLessons;

@@ -16,15 +16,20 @@ import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import EmojiFlagsOutlinedIcon from '@mui/icons-material/EmojiFlagsOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import ticket from '../../../assets/public/ticket.svg';
-//import './style.scss';
+// import './style.scss';
 
 const MyTeacherLesson = ({
   title, endDate, id, status,
 }) => {
-  const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
+  // const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
+  const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = React.useState(false);
+
+  const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
+
   const isEnded = () => {
     const today = new Date();
     const endTime = new Date(Date.parse(endDate));
@@ -66,25 +71,28 @@ const MyTeacherLesson = ({
   return (
     <Box
       style={{
-        padding: '20px 14px 20px 30px',
-        //position: 'relative',
+        padding: pointForAdaptiveToSM ? '15px 5px 12px 15px' : '30px 0 30px 20px',
+        // position: 'relative',
         borderRadius: '16px',
-        width: '40%',
-        //width: '480px',
-        //marginRight: '24px',
+        width: pointForAdaptiveToSM ? '100%' : '40%',
+        // width: '480px',
+        // marginRight: '24px',
         marginBottom: '24px',
-        //zIndex: '-15',
-        //       border: '1px solid #d9d9d9',
-        //backgroundColor: 'red',
+        // zIndex: '-15',
+        borderLeft: '1px solid #d9d9d9',
+        borderRight: '1px solid #d9d9d9',
+        // backgroundColor: 'red',
         background: `center / cover no-repeat url(${ticket})`,
         filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
-        //boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px',
+        // boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px',
       }}
       className="box_wrapper"
     >
       <MoreHorizOutlinedIcon
         color="disabled"
-        sx={{ position: 'absolute', top: '10px', right: '20px' }}
+        sx={{
+          position: 'absolute', top: '10px', right: pointForAdaptiveToSM ? '10px' : '20px', cursor: 'pointer',
+        }}
         id="basic-button"
         aria-controls={openMenu ? 'basic-menu' : undefined}
         aria-haspopup="true"
@@ -139,15 +147,16 @@ const MyTeacherLesson = ({
           </Stack>
         </Box>
       </Modal>
+
       {((status === 'PUBLISHED' && isEnded() === false) || status === 'MODERATION') && (
       <Grid container direction="row">
-        <Grid item container direction="column" gap="16px" width="64%">
+        <Grid item container direction="column" width="65%" sx={{ rowGap: pointForAdaptiveToSM ? '12px' : '16px' }}>
           <Box>
             <Typography
               variant="h6"
               paragraph
               sx={{
-                fontSize: '18px',
+                fontSize: pointForAdaptiveToSM ? '16px' : '18px',
                 maxWidth: '271px',
                 height: '43px',
                 mb: '0',
@@ -162,7 +171,7 @@ const MyTeacherLesson = ({
             </Typography>
           </Box>
           <Grid container direction="column">
-            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '13px', mb: '7px' }}>
+            <Typography variant="caption" color="text.secondary" sx={{ fontSize: pointForAdaptiveToSM ? '12px' : '14px', mb: '7px' }}>
               Ближайшее занятие:
             </Typography>
             <Grid container>
@@ -171,14 +180,14 @@ const MyTeacherLesson = ({
                 size="small"
                 sx={{ transform: 'translateY(-2px)', mr: '6px' }}
               />
-              <Typography variant="body1" sx={{ mr: '13px' }}>
+              <Typography variant="body1" sx={{ fontSize: pointForAdaptiveToSM ? '12px' : '14px', mr: '13px' }}>
                 Пн, 26 дек
               </Typography>
               <AccessTimeIcon
                 color="primary"
                 sx={{ transform: 'translateY(-2px)', mr: '6px' }}
               />
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ fontSize: pointForAdaptiveToSM ? '12px' : '14px' }}>
                 14:00 - 15:30
               </Typography>
             </Grid>
@@ -190,23 +199,26 @@ const MyTeacherLesson = ({
             </Typography>
           </Grid>
         </Grid>
-        <Divider orientation="vertical" flexItem sx={{ width: '1%', marginRight: '3%', borderStyle: 'dashed', position: 'relative' }} />
 
-        <Grid item container width="32%" direction="column" gap="6px" alignItems="center" justifyContent="space-between">
+        <Grid container item alignItems="center" justifyContent="center" width="4%">
+          <Divider orientation="vertical" sx={{ width: '1%', borderStyle: 'dashed', position: 'relative' }} />
+        </Grid>
+
+        <Grid item container width="31%" direction="column" gap="6px" alignItems="center" sx={{ justifyContent: pointForAdaptiveToSM ? 'flexStart' : 'space-between' }}>
           {status === 'PUBLISHED' && (
             <>
               <Stack spacing={1} direction="column" alignItems="center">
-                <CheckCircleOutlineOutlinedIcon fontSize="large" sx={{ mt: '30px', color: '#4CAF50' }} />
+                <CheckCircleOutlineOutlinedIcon fontSize="large" sx={{ mt: pointForAdaptiveToSM ? '20px' : '30px', color: '#4CAF50' }} />
 
-                <Typography variant="body1" sx={{ fontWeight: '500', fontSize: '16px', color: '#4CAF50' }}>
+                <Typography variant="body1" sx={{ fontWeight: '500', fontSize: pointForAdaptiveToSM ? '14px' : '16px', color: '#4CAF50' }}>
                   Активно
                 </Typography>
               </Stack>
               <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1" color="text.secondary" sx={{ fontSize: pointForAdaptiveToSM ? '12px' : '1rem' }}>
                   Дата окончания:
                 </Typography>
-                <Typography color="primary" variant="body1" sx={{ fontWeight: '500' }}>
+                <Typography color="primary" variant="body1" sx={{ fontWeight: '500', color: 'black', fontSize: pointForAdaptiveToSM ? '12px' : '1rem' }}>
                   {prepareEndDate(endDate)}
                 </Typography>
               </Grid>

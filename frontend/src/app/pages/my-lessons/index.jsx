@@ -15,6 +15,7 @@ import MyLessonsEmpty from '../../components/my_lessons_empty';
 import MyTeacherLesson from '../../components/my-teacher-lesson';
 import TeacherEmpty from '../../components/my_lessons_empty/teacher';
 import StudentEpmty from '../../components/my_lessons_empty/student';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const TabPanel = props => {
   const {
@@ -47,6 +48,8 @@ const MyLessonsPage = () => {
   const { isLoading, errorMessage } = useSelector(state => state.tickets);
   const [value, setValue] = React.useState(0);
 
+  const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -67,12 +70,12 @@ const MyLessonsPage = () => {
         }}
         >
           <Box sx={{
-            display: 'flex', justifyContent: 'center', ml: '34px', mb: '11vh',
+            display: 'flex', justifyContent: 'center', ml: pointForAdaptiveToSM ? '0px' : '34px', mb: pointForAdaptiveToSM ? '5%' : '11vh',
           }}
           >
             <Tabs value={value} onChange={handleChange} centered>
               <Tab label="Преподаватель" {...labelProps(0)} sx={{ width: '156px' }} />
-              <Tab label="Ученик" {...labelProps(1)} sx={{ width: '156px' }} />
+              <Tab label="Участник" {...labelProps(1)} sx={{ width: '156px' }} />
             </Tabs>
           </Box>
           <Box sx={{
