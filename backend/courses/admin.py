@@ -230,14 +230,14 @@ class LessonComplaintAdmin(admin.ModelAdmin):
         repository = LessonComplaintRepository()
         for complaint in queryset:
             complaint.reviewed = True
-            repository.store(complaint)
+        repository.bulk_update(objs=queryset, fields=["reviewed"])
 
     @admin.action(description="Решение написано")
     def mark_decision(self, request, queryset: QuerySet[LessonComplaint]):
         repository = LessonComplaintRepository()
         for complaint in queryset:
             complaint.decision = True
-            repository.store(complaint)
+        repository.bulk_update(objs=queryset, fields=["decision"])
 
 
 @admin.register(ComplaintDecision)

@@ -42,7 +42,7 @@ class DecisionFeedback:
         self._data = data
 
     def update(self) -> ComplaintDecision:
-        decision = self.repository.find_by_id(_id=self._data["decision"])
+        decision = self.repository.find_by_id(id=self._data["decision"])
         if not decision:
             raise NotFound(f"Undefined decision with pk {self._data['decision']}")
 

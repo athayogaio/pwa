@@ -1,3 +1,5 @@
+from typing import Any, List
+
 from django.db.models import QuerySet
 
 from core.app.repositories.base_repository import BaseRepository
@@ -14,6 +16,9 @@ class LessonComplaintRepository(BaseRepository):
     def find_by_user(self, user: User) -> QuerySet[LessonComplaint]:
         return self.model.objects.filter(decision=False, author=user.id)
 
+    def bulk_update(self, objs: QuerySet, fields: List[str]) -> None:
+        self.model.objects.bulk_update(objs=objs, fields=fields)
+
 
 class ComplaintDecisionRepository(BaseRepository):
     model = ComplaintDecision
@@ -21,8 +26,8 @@ class ComplaintDecisionRepository(BaseRepository):
     def find_by_user(self, user: User) -> QuerySet[ComplaintDecision]:
         return self.model.objects.filter(complaint__author=user.id, feedback=False)
 
-    def find_by_id(self, _id: int, ) -> ComplaintDecision:
-        return self.model.objects.filter(id=_id).first()
+    def find_by_id(self, id: int, ) -> ComplaintDecision:
+        return self.model.objects.filter(id=id).first()
 
     def store(self, decision: ComplaintDecision) -> None:
         decision.save()
