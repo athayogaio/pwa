@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {
   createContext, useEffect, useMemo, useState,
 } from 'react';
@@ -32,9 +33,9 @@ const AuthProvider = ({ children }) => {
       });
   };
 
-  const registerConfirm = ({ email, token }, callback) => {
+  const registerConfirm = ({ email, register_confirm_code }, callback) => {
     setIsLoading(true);
-    dispatch(registerConfirmSlice({ email, token }))
+    dispatch(registerConfirmSlice({ email, register_confirm_code }))
       .unwrap()
       .then(callback)
       .catch(() => {

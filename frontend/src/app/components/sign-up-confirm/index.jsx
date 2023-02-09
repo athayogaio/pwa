@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { PinInput } from 'react-input-pin-code';
 import FooterSupport from '../footer-support';
 import { AuthContext } from '../../utils/providers/auth';
@@ -11,6 +13,7 @@ const SignUpConfirm = () => {
   const [seconds, setSeconds] = useState(60);
   const [isSend, setIsSend] = useState(false);
   const [isTimeEnd, setIsTimeEnd] = useState(false);
+  const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
   const context = useContext(AuthContext);
   const handleClick = () => {
     const email = localStorage.userEmail;
@@ -45,31 +48,45 @@ const SignUpConfirm = () => {
         maxWidth: '552px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
       }}
       >
-        <Box sx={{ mb: '24px' }}>
-          <img src={instructionConfirm} alt="pass-recovery-email" />
+        <Box sx={{
+          mb: '24px',
+
+        }}
+        >
+          <img
+            src={instructionConfirm}
+            alt="pass-recovery-email"
+            style={{
+              width: pointForAdaptiveToSM ? '186px' : '278px',
+              height: pointForAdaptiveToSM ? '153px' : '229px',
+            }}
+          />
         </Box>
         <Typography
-          variant="h3"
           sx={{
-            textAlign: 'center', fontWeight: '500',
+            textAlign: 'center',
+            fontWeight: pointForAdaptiveToSM ? '600' : '500',
+            fontSize: pointForAdaptiveToSM ? '16px' : '42px',
           }}
         >
           Подтвердите
         </Typography>
         <Typography
-          variant="h3"
           sx={{
-            textAlign: 'center', fontWeight: '500', mb: '24px',
+            textAlign: 'center',
+            fontWeight: pointForAdaptiveToSM ? '600' : '500',
+            fontSize: pointForAdaptiveToSM ? '16px' : '42px',
+            mb: '24px',
           }}
         >
           электронную почту
         </Typography>
         {isTimeEnd && (
           <>
-            <Typography sx={{ fontSize: '18px', textAlign: 'center', mb: '8px' }} color="error">
+            <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '8px' }} color="error">
               Время ожидания ввода кода истекло
             </Typography>
-            <Typography sx={{ fontSize: '18px', textAlign: 'center', mb: '24px' }}>
+            <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '24px' }}>
               Вы можете запросить повторную отправку проверочного кодана указанную электронную почту
             </Typography>
             <Button
@@ -84,7 +101,7 @@ const SignUpConfirm = () => {
         )}
         {!isTimeEnd && (
         <>
-          <Typography sx={{ fontSize: '18px', textAlign: 'center', mb: '24px' }}>
+          <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '24px' }}>
             Код для подтверждения регистрации отправлен на указанную электронную почту,
             Введите его в поле подтверждения
           </Typography>
@@ -94,9 +111,14 @@ const SignUpConfirm = () => {
             placeholder=""
             showState={false}
             validBorderColor="rgb(13,110,253)"
-            containerStyle={{ paddingLeft: '20px' }}
+            containerStyle={{ paddingLeft: pointForAdaptiveToSM ? '16px' : '24px' }}
             inputStyle={{
-              height: '56px', width: '44px', fontSize: '32px', fontWeight: '500px', marginRight: '24px', borderRadius: '4px',
+              height: pointForAdaptiveToSM ? '50px' : '56px',
+              width: pointForAdaptiveToSM ? '39px' : '44px',
+              fontSize: '32px',
+              fontWeight: '500px',
+              marginRight: pointForAdaptiveToSM ? '16px' : '24px',
+              borderRadius: '4px',
             }}
             onChange={(value, index, values) => setValues(values)}
             onComplete={handleTokenPass}
