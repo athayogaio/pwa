@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { PinInput } from 'react-input-pin-code';
+import PinInput from '../pin-input/index';
 import FooterSupport from '../footer-support';
 import { AuthContext } from '../../utils/providers/auth';
 import instructionConfirm from '../../../assets/public/instruction_confirm.png';
@@ -108,18 +107,6 @@ const SignUpConfirm = () => {
           <PinInput
             values={values}
             autoFocus
-            placeholder=""
-            showState={false}
-            validBorderColor="rgb(13,110,253)"
-            containerStyle={{ paddingLeft: pointForAdaptiveToSM ? '16px' : '24px' }}
-            inputStyle={{
-              height: pointForAdaptiveToSM ? '50px' : '56px',
-              width: pointForAdaptiveToSM ? '39px' : '44px',
-              fontSize: '32px',
-              fontWeight: '500px',
-              marginRight: pointForAdaptiveToSM ? '16px' : '24px',
-              borderRadius: '4px',
-            }}
             onChange={(value, index, values) => setValues(values)}
             onComplete={handleTokenPass}
           />
