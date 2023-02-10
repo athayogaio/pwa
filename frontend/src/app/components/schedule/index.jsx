@@ -42,18 +42,20 @@ const ScheduleLessons = () => {
   });
 
   return (
-    <LayoutContainer>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Header title="Календарь" />
-        {lessonsData}
-      </Box>
-    </LayoutContainer>
+    <>
+      <Header title="Календарь" />
+      <LayoutContainer>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {lessonsData}
+        </Box>
+      </LayoutContainer>
+    </>
   );
 };
 

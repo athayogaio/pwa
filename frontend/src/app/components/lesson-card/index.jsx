@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Typography, Box, Grid } from '@mui/material';
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {Box, Grid, Typography} from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,7 +11,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
 import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
-import { scheduleChipContent } from '../../utils/scheduleServices';
+import {scheduleChipContent} from '../../utils/scheduleServices';
 
 const LessonCard = ({
   title, description, price, level, id, favorite,

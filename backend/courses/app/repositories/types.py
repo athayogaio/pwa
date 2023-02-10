@@ -7,6 +7,12 @@ from courses.models import CourseComplexities
 class CourseFilterData(TypedDict, total=False):
     query: Optional[str]
     complexity: Optional[CourseComplexities]
-    start_datetime: Optional[datetime.datetime]
     day: Optional[int]
+    start_datetime: Optional[datetime.datetime]
+    end_datetime: Optional[datetime.datetime]
+
+
+class LessonFilterData(TypedDict, total=False):
+    enrolled: Optional[bool]
+    start_datetime: Optional[datetime.datetime]
     end_datetime: Optional[datetime.datetime]

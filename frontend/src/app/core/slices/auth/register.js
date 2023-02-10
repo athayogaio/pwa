@@ -16,7 +16,7 @@ const registerSlice = createAsyncThunk(
       const message = error.response.data.errors;
       thunkAPI.dispatch(setMessage(message));
 
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error.response.data.status_code);
     }
   },
 );

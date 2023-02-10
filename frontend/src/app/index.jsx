@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  Navigate, Outlet, Route, Routes,
-} from 'react-router-dom';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import {Navigate, Outlet, Route, Routes,} from 'react-router-dom';
+import {CssBaseline, ThemeProvider} from '@mui/material';
+import {createTheme} from '@mui/material/styles';
 import WelcomePage from './pages/welcome';
 import LoginPage from './pages/auth/login';
 import RegisterPage from './pages/auth/register';
