@@ -41,7 +41,7 @@ class TeacherProfileCreateHandler(GenericHandler, ABC):
 class TeacherProfileAddBillingHandler(GenericHandler, ABC):
     billing_type: UserBillingType
 
-    def post(self, *args: Any, **kwargs: Any) -> Response:
+    def put(self, *args: Any, **kwargs: Any) -> Response:
         data = self.serializer_class(
             data=self.request.data,
             context=TeacherProfileCreateReqContext(region=self.request.user.region),
