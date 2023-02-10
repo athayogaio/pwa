@@ -18,7 +18,7 @@ import EmojiFlagsOutlinedIcon from '@mui/icons-material/EmojiFlagsOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ticket from '../../../assets/public/ticket.svg';
-// import './style.scss';
+import './style.scss';
 
 const MyTeacherLesson = ({
   title, endDate, id, status,
@@ -72,7 +72,7 @@ const MyTeacherLesson = ({
     <Box
       style={{
         padding: pointForAdaptiveToSM ? '15px 5px 12px 15px' : '30px 0 30px 20px',
-        // position: 'relative',
+        position: 'relative',
         borderRadius: '16px',
         width: pointForAdaptiveToSM ? '100%' : '40%',
         // width: '480px',
@@ -82,12 +82,13 @@ const MyTeacherLesson = ({
         borderLeft: '1px solid #d9d9d9',
         borderRight: '1px solid #d9d9d9',
         // backgroundColor: 'red',
-        background: `center / cover no-repeat url(${ticket})`,
-        filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
-        // boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px',
+        // background: `center / cover no-repeat url(${ticket})`,
+        // filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
+        boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px',
       }}
-      className="box_wrapper"
     >
+      <div className="top_element"></div>
+      <div className="bottom_element"></div>
       <MoreHorizOutlinedIcon
         color="disabled"
         sx={{
