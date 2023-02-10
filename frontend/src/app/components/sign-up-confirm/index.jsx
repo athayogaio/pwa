@@ -150,7 +150,7 @@ const SignUpConfirm = () => {
           </Typography>
         </Typography>
       </div>
-      <FooterSupport style={{ mb: '32px' }} />
+      <FooterSupport />
     </Container>
   );
 };
