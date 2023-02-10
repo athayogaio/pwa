@@ -69,26 +69,22 @@ const MyTeacherLesson = ({
     },
   };
   return (
-    <Box
-      style={{
-        padding: pointForAdaptiveToSM ? '15px 5px 12px 15px' : '30px 0 30px 20px',
-        position: 'relative',
-        borderRadius: '16px',
-        width: pointForAdaptiveToSM ? '100%' : '40%',
-        // width: '480px',
-        // marginRight: '24px',
-        marginBottom: '24px',
-        // zIndex: '-15',
-        borderLeft: '1px solid #d9d9d9',
-        borderRight: '1px solid #d9d9d9',
-        // backgroundColor: 'red',
-        // background: `center / cover no-repeat url(${ticket})`,
-        // filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
-        boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px',
-      }}
+    <Box style={{
+      padding: '20px 24px 20px 30px',
+      position: 'relative',
+      borderRadius: '16px',
+      width: '480px',
+      marginRight: '24px',
+      marginBottom: '24px',
+      zIndex: '-15',
+      border: '1px solid #d9d9d9',
+      //background: `center / cover no-repeat url(${ticket})`,
+      //filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
+      boxShadow: 'rgb(0 0 0 / 10%) 0px 6px 8px 0px, rgb(0 0 0 / 4%) 0px 0px 0px 0px',
+    }}
     >
-      <div className="top_element"></div>
-      <div className="bottom_element"></div>
+      <div className='top_element'></div>
+      <div className='bottom_element'></div>
       <MoreHorizOutlinedIcon
         color="disabled"
         sx={{
