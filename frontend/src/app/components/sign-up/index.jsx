@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -21,17 +21,10 @@ const SignUp = () => {
     password: '',
     showPassword: false,
   });
-  const [IP, setIP] = useState('');
-  const [click, setClick] = useState(0);
   const [captchaKey, setCaptchaKey] = useState('');
-
-  const ATHA_YOGA_RECAPTCHA_SITE_KEY = '6Lfzkl8kAAAAAJDkbH2DIw6vMwU8KSMVA3Mv60CP';
-  const ATHA_YOGA_RECAPTCHA_SECRET_KEY = '6Lfzkl8kAAAAAJm5ltqgqAy2MO2VhdqYHgLQWEHu';
-
-  const disabledButton = () => {
-    if (click >= 5 && !captchaKey) return true;
-    return false;
-  };
+  const { errorCode } = useSelector(state => state.auth);
+  console.log(3333, errorCode);
+  const ATHA_YOGA_RECAPTCHA_SITE_KEY = '6LfG0WYkAAAAABW_coUyWSIcf_TcJ1IcwrfhLyxJ';
 
   const onChange = value => setCaptchaKey(value);
 
@@ -40,15 +33,8 @@ const SignUp = () => {
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
 
-  const getIP = async () => {
-    const res = await axios.get('https://geolocation-db.com/json/');
-    console.log(res.data);
-    setIP(res.data.IPv4);
-  };
-
   useEffect(() => {
     dispatch(clearMessage());
-    getIP();
   }, []);
 
   const handleClickShowPassword = () => {
@@ -61,52 +47,73 @@ const SignUp = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    localStorage.setItem('userEmail', data.get('email'));
-    localStorage.setItem('userPass', data.get('password'));
-    context.register({ email: data.get('email'), password: data.get('password') });
+    const email = data.get('email');
+    const password = data.get('password');
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userPass', password);
+    context.register({ email, password }, () => navigate('/register-confirm'));
   };
 
   return (
-    <Container sx={{ height: '100%' }} component="main" maxWidth="xs">
-      <Box
-        sx={{
+    <Container
+      sx={{
+        height: '100%',
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+      component="main"
+    >
+      <div
+        style={{
           height: '100%',
+          minHeight: 'fit-content',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
           justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Typography component="h1" variant="h4" fontWeight="500" sx={{ mb: 3 }}>
           Регистрация
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            sx={{ mb: 2 }}
-            margin="normal"
-            fullWidth
-            id="email"
-            label="Электронная почта"
-            placeholder="E-mail"
-            name="email"
-            autoComplete="email"
-            error={!!message?.invalid?.email || !!message?.invalid?.[0]}
-            helperText={message?.invalid?.email || message?.invalid?.[0]}
-            autoFocus
-          />
-          <TextField
-            sx={{ mb: 2 }}
-            fullWidth
-            label="Пароль"
-            name="password"
-            placeholder="Пароль"
-            id="password"
-            autoComplete="current-password"
-            type={values.showPassword ? 'text' : 'password'}
-            error={!!message?.invalid?.password || !!message?.authentication_failed}
-            helperText={message?.invalid?.password}
-            InputProps={{
-              endAdornment:
+        <Paper
+          elevation={0}
+          variant="outlined"
+          sx={{
+            p: '10px 30px',
+            borderRadius: '16px',
+            width: '449px',
+          }}
+        >
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              sx={{ mb: 2 }}
+              margin="normal"
+              fullWidth
+              id="email"
+              label="Электронная почта"
+              placeholder="E-mail"
+              name="email"
+              autoComplete="email"
+              error={!!message?.invalid?.email || !!message?.invalid?.[0]}
+              helperText={message?.invalid?.email || message?.invalid?.[0]}
+              autoFocus
+            />
+            <TextField
+              sx={{ mb: 2 }}
+              fullWidth
+              label="Пароль"
+              name="password"
+              placeholder="Пароль"
+              id="password"
+              autoComplete="current-password"
+              type={values.showPassword ? 'text' : 'password'}
+              error={!!message?.invalid?.password || !!message?.authentication_failed}
+              helperText={message?.invalid?.password}
+              InputProps={{
+                endAdornment:
                 (
                   <InputAdornment position="end">
                     <IconButton
@@ -117,26 +124,20 @@ const SignUp = () => {
                     </IconButton>
                   </InputAdornment>
                 ),
-            }}
-          />
-          <Button
-            type="submit"
-            size="large"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={() => setClick(click + 1)}
-            disabled={disabledButton()}
-          >
-            Зарегистрироваться
-          </Button>
-          <Grid container spacing={1} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography variant="body2">
-                Уже есть аккаунт?
-              </Typography>
-            </Grid>
-            <Grid item>
+              }}
+            />
+            <Button
+              type="submit"
+              size="large"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Зарегистрироваться
+            </Button>
+            <Typography variant="body2" align="center" sx={{ mb: 2 }}>
+              Уже есть аккаунт?
+              {' '}
               <Typography
                 component={Link}
                 to="/login"
@@ -145,48 +146,49 @@ const SignUp = () => {
               >
                 Войти
               </Typography>
-            </Grid>
-            {click >= 5
-              ? (
-                <ReCAPTCHA
-                  sitekey={ATHA_YOGA_RECAPTCHA_SITE_KEY}
-                  onChange={onChange}
-                  type="image"
-                />
-              )
-              : ''}
-          </Grid>
-        </Box>
-        <div style={{
-          position: 'absolute',
-          bottom: '32px',
+            </Typography>
+          </Box>
+        </Paper>
+
+        {errorCode === 429
+        && (
+        <ReCAPTCHA
+          sitekey={ATHA_YOGA_RECAPTCHA_SITE_KEY}
+          onChange={onChange}
+          type="image"
+          style={{ margin: '27px auto 0 0' }}
+        />
+        )}
+      </div>
+
+      <Typography
+        variant="caption"
+        sx={{
+          mt: '32px',
+          mb: '32px',
           textAlign: 'center',
-          maxWidth: '668px',
-          lineHeight: 0.1,
+          maxWidth: '670px',
         }}
+      >
+        {'Нажимая на кнопку «Зарегистрироваться», вы принимаете условия '}
+        <Typography
+          component={Link}
+          variant="caption"
+          to="#" // @todo
+          sx={{ textDecoration: 'none' }}
         >
-          <Typography variant="caption">
-            {'Нажимая на кнопку «Зарегистрироваться», вы принимаете условия '}
-            <Typography
-              component={Link}
-              variant="caption"
-              to="#"
-              sx={{ textDecoration: 'none' }}
-            >
-              Пользовательского соглашения
-            </Typography>
-            {' и '}
-            <Typography
-              component={Link}
-              variant="caption"
-              to="#"
-              sx={{ textDecoration: 'none' }}
-            >
-              Политики конфиденциальности
-            </Typography>
-          </Typography>
-        </div>
-      </Box>
+          Пользовательского соглашения
+        </Typography>
+        {' и '}
+        <Typography
+          component={Link}
+          variant="caption"
+          to="#" // @todo
+          sx={{ textDecoration: 'none' }}
+        >
+          Политики конфиденциальности
+        </Typography>
+      </Typography>
     </Container>
   );
 };

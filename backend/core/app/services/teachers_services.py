@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from functools import cached_property
 from typing import Type
 
@@ -7,19 +8,31 @@ from core.app.repositories.teacher_profile_repository import TeacherProfileRepos
 from core.app.repositories.teachers_questionnaire_repository import (
     QuestionnaireTeacherRepository,
 )
-from core.app.repositories.user_billing_info_repository import UserBillingInfoRepository
+from core.app.repositories.user_billing_info_repository import (
+    UserLegalBillingInfoRepository,
+    UserIndividualBillingInfoRepository,
+)
 from core.app.repositories.user_repository import UserRepository
-from core.app.services.types import QuestionnaireTeacherData, TeacherBillingInfoData
+from core.app.services.types import (
+    QuestionnaireTeacherData,
+    TeacherLegalBillingInfoData,
+    TeacherIndividualBillingInfoData,
+    TeacherBillingDataCreateType,
+)
 from core.models import (
     User,
     QuestionnaireTeacher,
     UserRoles,
     Attachment,
     UserRegions,
-    UserBillingInfoEU,
-    BillingInfoModelType,
+    LegalUserBillingInfoEU,
+    LegalBillingInfoModelType,
     TeacherProfileDB,
     TeacherProfileStatuses,
+    IndividualUserBillingInfoRU,
+    IndividualUserBillingInfoEU,
+    IndividualBillingInfoModelType,
+    BillingInfoModelType,
 )
 
 
@@ -62,21 +75,32 @@ class QuestionnaireTeacherRegister:
         return self.questionnaire
 
 
-class TeacherBillingInfoCreate:
-    def __init__(self, user: User, data: TeacherBillingInfoData):
-        self.repository = UserBillingInfoRepository()
+class TeacherBillingInfoCreate(ABC):
+    def __init__(self, user: User, data: TeacherBillingDataCreateType):
         self._user = user
         self._data = data
 
-    def _billing_info_model(self) -> Type[BillingInfoModelType]:
-        if self._user.region == UserRegions.RU.value:
-            return UserBillingInfoEU
-        return UserBillingInfoEU
+    @abstractmethod
+    def create(self) -> BillingInfoModelType:
+        raise NotImplementedError
+
+
+class TeacherLegalBillingInfoCreate(TeacherBillingInfoCreate):
+    _data: TeacherLegalBillingInfoData
+
+    def __init__(self, user: User, data: TeacherLegalBillingInfoData):
+        super().__init__(user, data)
+        self.repository = UserLegalBillingInfoRepository()
 
     @property
-    def billing_info(self) -> BillingInfoModelType:
-        model = self._billing_info_model()
-        new_billing_info = model()
+    def billing_info_model(self) -> Type[LegalBillingInfoModelType]:
+        if self._user.region == UserRegions.RU.value:
+            return LegalUserBillingInfoEU
+        return LegalUserBillingInfoEU
+
+    @property
+    def billing_info(self) -> LegalBillingInfoModelType:
+        new_billing_info = self.billing_info_model()
         new_billing_info.organization = self._data["organization"]
         new_billing_info.bic = self._data["bic"]
         new_billing_info.bank = self._data["bank"]
@@ -85,37 +109,60 @@ class TeacherBillingInfoCreate:
         new_billing_info.correspondent_account = self._data["correspondent_account"]
         new_billing_info.prc = self._data["prc"]
         new_billing_info.account_number = self._data["account_number"]
-        new_billing_info.user = self._user
         return new_billing_info
 
-    def create(self) -> BillingInfoModelType:
+    def create(self) -> LegalBillingInfoModelType:
         billing_info = self.billing_info
         self.repository.store(obj=billing_info)
         return billing_info
 
 
-class TeacherProfileCreate:
+class TeacherIndividualBillingInfoCreate(TeacherBillingInfoCreate):
+    _data: TeacherIndividualBillingInfoData
+
+    def __init__(self, user: User, data: TeacherIndividualBillingInfoData):
+        super().__init__(user, data)
+        self.repository = UserIndividualBillingInfoRepository()
+
+    @property
+    def billing_info_model(self) -> Type[IndividualBillingInfoModelType]:
+        if self._user.region == UserRegions.RU.value:
+            return IndividualUserBillingInfoRU
+        return IndividualUserBillingInfoEU
+
+    @property
+    def billing_info(self) -> LegalBillingInfoModelType:
+        new_billing_info = self.billing_info_model()
+        new_billing_info.recipient = self._data["recipient"]
+        new_billing_info.bic = self._data["bic"]
+        new_billing_info.inn = self._data["inn"]
+        new_billing_info.account_number = self._data["account_number"]
+        return new_billing_info
+
+    def create(self) -> LegalBillingInfoModelType:
+        billing_info = self.billing_info
+        self.repository.store(obj=billing_info)
+        return billing_info
+
+
+class TeacherProfileStore:
     def __init__(
         self,
         user: User,
         questionnaire: QuestionnaireTeacher,
-        billing_info: BillingInfoModelType,
     ):
         self.repository = TeacherProfileRepository()
         self._user = user
         self._questionnaire = questionnaire
-        self._billing_info = billing_info
 
     @cached_property
     def profile(self) -> TeacherProfileDB:
         profile = TeacherProfileDB()
         profile.user = self._user
         profile.questionnaire = self._questionnaire
-        profile.billing_info_content_type = self._billing_info.polymorphic_ctype
-        profile.billing_info_obj_id = self._billing_info.id
         return profile
 
-    def create(self) -> TeacherProfileDB:
+    def store(self) -> TeacherProfileDB:
         self.repository.store(obj=self.profile)
         return self.profile
 

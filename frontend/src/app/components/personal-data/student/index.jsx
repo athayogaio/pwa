@@ -11,7 +11,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import patchPersonalDataSlice from '../../../core/slices/personal-data/patchPersonalData';
-import DeleteAccount from '../delete-account';
+import DeleteAccount from '../delete-account/index';
 
 const PersonDataStudent = () => {
   const fontStyle = {

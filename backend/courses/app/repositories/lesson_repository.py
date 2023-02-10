@@ -2,19 +2,25 @@ import datetime
 from typing import List, Optional
 
 from django.db.models import QuerySet, F, Q, Avg
+from django.db.models.expressions import CombinedExpression
 from django.utils.timezone import now
 
 from core.app.repositories.base_repository import BaseRepository
 from core.models import User
+from courses.app.repositories.types import LessonFilterData
 from courses.models import Lesson, LessonRatingStar
 
 
 class LessonRepository(BaseRepository):
     model = Lesson
 
+    @property
+    def end_at_query(self) -> CombinedExpression:
+        return F("start_at") + F("course__duration")
+
     def fetch_relations(self, lessons: QuerySet[Lesson]) -> QuerySet[Lesson]:
-        return lessons.select_related("course").annotate(
-            end_at=F("start_at") + F("course__duration"),
+        return lessons.select_related("course__base_course").annotate(
+            end_at=self.end_at_query,
             rate_mean=Avg("stars__star_rating"),
         )
 
@@ -71,7 +77,7 @@ class LessonRepository(BaseRepository):
         self, start_at: datetime.datetime, end_at: datetime.datetime
     ) -> Optional[Lesson]:
         return (
-            self.model.objects.annotate(end_time=F("start_at") + F("course__duration"))
+            self.model.objects.annotate(end_time=self.end_at_query)
             .filter(start_at__lt=end_at, end_time__gte=start_at)
             .first()
         )
@@ -80,3 +86,19 @@ class LessonRepository(BaseRepository):
         return self.model.objects.filter(pk=lesson.id).values_list(
             "participants__email", flat=True
         )
+
+    def filter(self, data: LessonFilterData, user: User) -> QuerySet[Lesson]:
+        query = self.model.objects.all().annotate(end_at=self.end_at_query)
+        filter_query = Q()
+        if data.get("enrolled"):
+            filter_query &= Q(enrolled_users__id=user.id)
+        else:
+            filter_query &= Q(participants__id=user.id)
+
+        if data.get("start_datetime"):
+            filter_query &= Q(start_at__gte=data["start_datetime"])
+
+        if data.get("end_datetime"):
+            filter_query &= Q(end_at__lte=data["end_datetime"])
+
+        return query.filter(filter_query)
