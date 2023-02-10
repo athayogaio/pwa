@@ -3,7 +3,9 @@ import {
   Box, Typography, FormControl, FormControlLabel, Radio, RadioGroup, Grid, TextField, Button,
 } from '@mui/material';
 
-const InfoChange = ({ individual, recipient, acc, inn, bic, fillInfo }) => {
+const InfoChange = ({
+  isIndividualValue, recipient, acc, inn, bic, fillInfo,
+}) => {
   const [billingInfo, setBillingInfo] = useState({
     recipient,
     acc,
@@ -11,7 +13,8 @@ const InfoChange = ({ individual, recipient, acc, inn, bic, fillInfo }) => {
     bic,
   });
 
-  const [isIndividual, setIsIndividual] = useState(individual);
+  const [isIndividual, setIsIndividual] = useState(isIndividualValue);
+  console.log(isIndividual);
 
   const handleChange = inputName => e => {
     const regex = /^[0-9\b]+$/;
@@ -39,7 +42,7 @@ const InfoChange = ({ individual, recipient, acc, inn, bic, fillInfo }) => {
         <Grid item xs={12}>
           <FormControl>
             <RadioGroup
-              defaultValue="individual"
+              value={isIndividual ? 'individual' : 'legal'}
               onChange={() => setIsIndividual(!isIndividual)}
               sx={{ flexDirection: { xs: 'column', sm: 'row' }, '& .MuiTypography-root': { fontSize: '16px' } }}
             >
