@@ -50,7 +50,7 @@ const menuItemStyle = {
   '& .MuiSvgIcon-root': {
     width: '24px',
     height: '24px',
-  }
+  },
 };
 
 const menuItemOtherStyle = {

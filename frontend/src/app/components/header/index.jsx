@@ -124,7 +124,12 @@ const Header = ({ title, withBackBtn = false }) => {
               anchorEl={anchorEl}
               open={openMenu}
               onClose={handleMenuClose}
-              sx={{ top: '12px' }}
+              sx={{
+                top: '12px',
+                '& .MuiPaper-root': {
+                  boxShadow: '0px 4px 10px rgba(33, 33, 33, 0.25)',
+                },
+              }}
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}

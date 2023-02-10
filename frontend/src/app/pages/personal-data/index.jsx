@@ -5,7 +5,7 @@ import LayoutContainer from '../../components/layout-container';
 import PersonDataTeacher from '../../components/personal-data/teacher';
 import PersonDataStudent from '../../components/personal-data/student';
 
-const PersonDataPage = () => {
+const PersonalDataPage = () => {
   const userDataLocal = (JSON.parse(localStorage.getItem('user'))).user;
 
   return (
@@ -22,4 +22,4 @@ const PersonDataPage = () => {
   );
 };
 
-export default PersonDataPage;
+export default PersonalDataPage;
