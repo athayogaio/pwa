@@ -106,7 +106,6 @@ const SignUpConfirm = () => {
           </Typography>
           <PinInput
             values={values}
-            autoFocus
             onChange={(value, index, values) => setValues(values)}
             onComplete={handleTokenPass}
           />

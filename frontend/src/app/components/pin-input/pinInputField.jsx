@@ -103,7 +103,6 @@ const PinInputField = ({
   const handleKeyDown = e => {
     if (e.key === 'Backspace' && values[index] === '' && index > 0) {
       const prevInput = inputRef.current.previousElementSibling.firstChild;
-      console.log(prevInput);
 
       if (prevInput instanceof HTMLInputElement) {
         prevInput.focus();
@@ -130,10 +129,10 @@ const PinInputField = ({
 
   // auto-focus on mount
   useEffect(() => {
-    if (autoFocus && index === 0) {
-      inputRef.current.focus();
+    if (index === 0) {
+      inputRef.current.firstChild.focus();
     }
-  }, [autoFocus, index]);
+  }, [index]);
 
   return (
     <OutlinedInput
@@ -145,8 +144,8 @@ const PinInputField = ({
         marginRight: pointForAdaptiveToSM ? '16px' : '24px',
         borderRadius: '4px',
       }}
+      type="number"
       ref={inputRef}
-      type={mask ? 'password' : 'text'}
       aria-required={required}
       autoComplete={autoComplete}
       disabled={disabled}
