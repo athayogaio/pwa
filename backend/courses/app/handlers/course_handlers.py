@@ -23,7 +23,7 @@ from courses.app.http.requests.course_requests import (
 from courses.app.http.resources.context import BaseCourseResourceContext
 from courses.app.http.resources.course_resources import (
     CourseResource,
-    CourseCardResource,
+    CourseCardResource, ShortImCourseResourse,
 )
 from courses.app.repositories.course_repository import CourseRepository
 from courses.app.repositories.transaction_repository import TicketTransactionRepository
@@ -227,7 +227,7 @@ class CourseStatusChangeHandler(GenericHandler):
     serializer_class = ChangeCourseStateRequest
 
     def put(
-        self, request: Request, course_pk: int, *args: Any, **kwargs: Any
+            self, request: Request, course_pk: int, *args: Any, **kwargs: Any
     ) -> Response:
         data = self.serializer_class(data=self.request.data)
         data.is_valid(raise_exception=True)
@@ -257,3 +257,17 @@ class CourseArchivingHandler(GenericHandler):
         ).archive()
 
         return Response(status=status.HTTP_200_OK)
+
+
+@permission_classes([IsTeacher])
+class ImCoursesRetrieveHandler(Handler):
+    def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        repository = CourseRepository(user=request.user)
+
+        courses = repository.find_by_teacher(user=request.user)
+
+        return Response(
+            Pagination(
+                data=courses, request=request, resource=ShortImCourseResourse
+            ).paginate()
+        )

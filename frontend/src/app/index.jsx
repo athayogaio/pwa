@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  Navigate, Outlet, Route, Routes,
-} from 'react-router-dom';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import {Navigate, Outlet, Route, Routes,} from 'react-router-dom';
+import {CssBaseline, ThemeProvider} from '@mui/material';
+import {createTheme} from '@mui/material/styles';
 import WelcomePage from './pages/welcome';
 import LoginPage from './pages/auth/login';
 import RegisterPage from './pages/auth/register';
@@ -27,14 +25,16 @@ import InstructionRecoveryPage from './pages/instruction-recovery';
 import ResetPasswordPage from './pages/reset-password';
 import RegisterConfirmPage from './pages/auth/register-confirm';
 import VerifyEmail from './components/verify-email';
-import PersonDataPage from './pages/personal-data';
+import PersonalDataPage from './pages/personal-data';
 import TeacherStatusPage from './pages/teacher-status';
+import BillingInfoPage from './pages/billing-info';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './theme/style.scss';
+import './'
 import PaymentSuccessPage from './pages/payment-success';
 import PaymentFailedPage from './pages/payment-failed';
 
@@ -46,6 +46,7 @@ const theme = createTheme({
     text: {
       primary: '#212121',
       secondary: '#616161',
+      disabled: '#BDBDBD',
     },
   },
   typography: {
@@ -116,7 +117,8 @@ const App = () => {
             <Route path="abonement/:id" element={<AbonementPage />} />
             <Route path="payment-success/:id" element={<PaymentSuccessPage />} />
             <Route path="payment-failed/:id" element={<PaymentFailedPage />} />
-            <Route path="person-data" element={<PersonDataPage />} />
+            <Route path="personal-data" element={<PersonalDataPage />} />
+            <Route path="billing-info" element={<BillingInfoPage />} />
           </Route>
         </Route>
       </Routes>

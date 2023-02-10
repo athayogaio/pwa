@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -69,28 +69,6 @@ const Menu = ({ auth, menuItems, prev }) => {
           </MenuItem>
         ))}
       </MenuList>
-
-      <Typography
-        component={Link}
-        variant="body2"
-        color="text.secondary"
-        to="/"
-        sx={{
-          textDecoration: 'none', position: 'absolute', bottom: '50px', left: '20px',
-        }}
-      >
-        О проекте
-      </Typography>
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        onClick={auth.logout}
-        sx={{
-          position: 'absolute', bottom: '20px', left: '20px', cursor: 'pointer',
-        }}
-      >
-        Выход
-      </Typography>
     </Box>
   );
 };

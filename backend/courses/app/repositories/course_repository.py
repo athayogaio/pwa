@@ -31,6 +31,9 @@ class CourseRepository(BaseRepository):
     def store(self, course: Course) -> None:
         course.save()
 
+    def find_by_teacher(self, user: User) -> QuerySet[Course]:
+        return self.model.objects.filter(base_course__teacher_id=user)
+
     def find_by_id(
         self, id_: int, raise_exception: bool = False, fetch_rels: bool = False
     ) -> Optional[Course]:

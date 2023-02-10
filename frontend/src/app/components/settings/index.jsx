@@ -1,8 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Paper, Typography, Stack,
-} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
+import {Paper, Stack, Typography,} from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -41,22 +39,22 @@ const Settings = () => {
 
   return (
     <>
-      <Header title="Настройки" withBackBtn />
+      <Header title="Настройки" />
       <LayoutContainer>
         <Stack
           direction="column"
           spacing={2}
           sx={{
             margin: '32px auto',
-            width: '80%',
+            width: { xs: '100%', md: '80%' },
             maxWidth: '944px',
           }}
         >
-          <Wpapper link="/person-data" text="Личные данные">
+          <Wpapper link="/personal-data" text="Личные данные">
             <PersonOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
           </Wpapper>
 
-          <Wpapper link text="Платежи и карты">
+          <Wpapper link="/billing-info" text="Платежи и карты">
             <CreditCardIcon sx={{ color: '#9E9E9E' }} />
           </Wpapper>
 

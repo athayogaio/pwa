@@ -1,3 +1,4 @@
+import random
 import uuid
 from functools import cached_property
 from typing import Tuple
@@ -35,9 +36,10 @@ class UserRegisterConfirm:
         user = self.repository.find_by_email(self.data["email"], fetch_rels=True)
         if not user:
             raise PermissionDenied("User with this email does not exist")
-        if self.data["register_confirm_token"] != user.register_confirm_token:
-            raise AuthenticationFailed("Tokens don't match")
+        if self.data["register_confirm_code"] != user.register_confirm_code:
+            raise AuthenticationFailed("Codes don't match")
         user.is_active = True
+        user.register_confirm_code = None
         self.repository.store(user=user)
         token_data = get_tokens_for_user(user)
         return user, token_data
@@ -59,13 +61,13 @@ class UserRegister:
         user.is_active = False
         return user
 
-    def _send_confirmation_mail(self, token: str) -> None:
+    def _send_confirmation_mail(self, confirm_code: str) -> None:
         SimpleEmailTextService(
             data=TextMailData(
                 subject="Регистрация в Atha.Yoga",
                 message=f"Дорогой пользователь, для завершения процедуры регистрации на платформе Atha.Yoga, "
-                f"пожалуйста, перейдите по следующей "
-                f"ссылке:\n{settings.SITE_URL}/verify-email/token/{token}/.\n"
+                f"пожалуйста, введите следующий "
+                f"код:\n{confirm_code}.\n"
                 f"Если Вы не регистрировались на платформе, просто проигнорируйте это письмо."
                 f"\nС уважением и заботой,\nкоманда ATHAYOGA.",
                 receivers=[self.user.email],
@@ -73,9 +75,11 @@ class UserRegister:
         ).send()
 
     def register(self) -> None:
-        register_confirm_token = str(uuid.uuid4())
-        self._send_confirmation_mail(token=register_confirm_token)
-        self.user.register_confirm_token = register_confirm_token
+        confirm_code = "".join(
+            random.choices("0123456789", k=settings.CONFIRMATION_TOKEN_LENGTH)
+        )
+        self._send_confirmation_mail(confirm_code=confirm_code)
+        self.user.register_confirm_code = confirm_code
         self.repository.store(self.user)
 
 
