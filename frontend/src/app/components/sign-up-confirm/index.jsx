@@ -132,7 +132,7 @@ const SignUpConfirm = () => {
           </Typography>
         </Typography>
       </Box>
-      <Box position="absolute" bottom="24px">
+      <Box>
         <FooterSupport />
       </Box>
     </Box>
