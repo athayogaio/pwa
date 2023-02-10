@@ -7,7 +7,7 @@ import logoutSlice from './logout';
 
 const initialState = user
   ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+  : { isLoggedIn: false, user: null, errorCode: null };
 
 const authSlice = createSlice({
   name: 'auth',
@@ -18,8 +18,9 @@ const authSlice = createSlice({
       state.user = action.payload.data.user;
       state.tokens = action.payload.data.tokens;
     },
-    [registerSlice.rejected]: state => {
+    [registerSlice.rejected]: (state, action) => {
       state.isLoggedIn = false;
+      state.errorCode = action.payload;
     },
     [loginSlice.fulfilled]: (state, action) => {
       state.isLoggedIn = true;

@@ -1,8 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Paper, Typography, Stack,
-} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
+import {Paper, Stack, Typography,} from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -41,7 +39,7 @@ const Settings = () => {
 
   return (
     <>
-      <Header title="Настройки" withBackBtn />
+      <Header title="Настройки" />
       <LayoutContainer>
         <Stack
           direction="column"

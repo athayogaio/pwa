@@ -9,6 +9,8 @@ from courses.models import Course, Lesson, BaseCourse, LessonRatingStar
 
 
 class DetailedLessonCourseResource(ModelSerializer):
+    name = serializers.CharField(source="base_course.name")
+
     class Meta:
         model = Course
         fields = ["id", "name"]
