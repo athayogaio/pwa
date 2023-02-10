@@ -32,6 +32,17 @@ class UserLegalBillingInfoEURequest(UnimplementedSerializer):
     account_number = serializers.CharField(max_length=50)
 
 
+class CommonLegalBillingInfoRequest(UnimplementedSerializer):
+    organization = serializers.CharField(max_length=255)
+    bic = serializers.CharField(max_length=50)
+    bank = serializers.CharField(max_length=50)
+    organization_address = serializers.CharField(max_length=255)
+    inn = serializers.CharField(max_length=50)
+    correspondent_account = serializers.CharField(max_length=50)
+    prc = serializers.CharField(max_length=50)
+    account_number = serializers.CharField(max_length=50)
+
+
 class UserLegalBillingInfoRURequest(UnimplementedSerializer):
     organization = serializers.CharField(max_length=255)
     bank = serializers.CharField(max_length=50)
@@ -63,31 +74,32 @@ class UserIndividualBillingInfoEURequest(UnimplementedSerializer):
     account_number = serializers.CharField(max_length=50)
 
 
+class CommonIndividualBillingInfoRequest(UnimplementedSerializer):
+    recipient = serializers.CharField(max_length=255)
+    bic = serializers.CharField(max_length=50)
+    inn = serializers.CharField(max_length=50)
+    account_number = serializers.CharField(max_length=50)
+
+
 class TeacherProfileCreateReqContext(TypedDict):
     region: UserRegions
 
 
-class LegalTeacherProfileCreateRequest(UnimplementedSerializer):
+class TeacherProfileCreateRequest(UnimplementedSerializer):
     questionnaire = QuestionnaireTeacherRequest()
 
-    def _billing_info_request(
-        self, region: UserRegions
-    ) -> Type[Union[UserLegalBillingInfoRURequest, UserLegalBillingInfoEURequest,]]:
-        if region == UserRegions.RU:
-            return UserLegalBillingInfoRURequest
-        return UserLegalBillingInfoEURequest
 
-    def get_fields(self) -> dict:
-        fields = super().get_fields()
+class IndividualBillingInfoCreateRequest(UnimplementedSerializer):
+    billing_info = CommonIndividualBillingInfoRequest()
+
+    def validate_billing_info(self, data: dict) -> dict:
         context: TeacherProfileCreateReqContext = self.context
-        fields["billing_info"] = self._billing_info_request(
+        request_cls = self._billing_info_request(
             region=context.get("region", UserRegions.RU),
-        )()
-        return fields
-
-
-class IndividualTeacherProfileCreateRequest(UnimplementedSerializer):
-    questionnaire = QuestionnaireTeacherRequest()
+        )
+        billing_info_data = request_cls(data=data)
+        billing_info_data.is_valid(raise_exception=True)
+        return billing_info_data.validated_data
 
     def _billing_info_request(
         self, region: UserRegions
@@ -101,10 +113,13 @@ class IndividualTeacherProfileCreateRequest(UnimplementedSerializer):
             return UserIndividualBillingInfoRURequest
         return UserIndividualBillingInfoEURequest
 
-    def get_fields(self) -> dict:
-        fields = super().get_fields()
-        context: TeacherProfileCreateReqContext = self.context
-        fields["billing_info"] = self._billing_info_request(
-            region=context.get("region", UserRegions.RU),
-        )()
-        return fields
+
+class LegalBillingInfoCreateRequest(IndividualBillingInfoCreateRequest):
+    billing_info = CommonLegalBillingInfoRequest()
+
+    def _billing_info_request(
+        self, region: UserRegions
+    ) -> Type[Union[UserLegalBillingInfoRURequest, UserLegalBillingInfoEURequest,]]:
+        if region == UserRegions.RU:
+            return UserLegalBillingInfoRURequest
+        return UserLegalBillingInfoEURequest

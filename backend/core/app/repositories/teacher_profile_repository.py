@@ -1,3 +1,5 @@
+from typing import Optional
+
 from core.app.repositories.base_repository import BaseRepository
 from core.models import User, TeacherProfileDB, TeacherProfileStatuses
 
@@ -16,3 +18,6 @@ class TeacherProfileRepository(BaseRepository):
                 TeacherProfileStatuses.ACCEPTED,
             ],
         )
+
+    def find_last_by_user(self, user: User) -> Optional[TeacherProfileDB]:
+        return self.model.objects.filter(user_id=user.id).last()

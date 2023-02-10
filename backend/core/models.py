@@ -265,8 +265,10 @@ class TeacherProfileDB(TimeStampedModel):
     )
     questionnaire = models.OneToOneField(QuestionnaireTeacher, on_delete=models.CASCADE)
 
-    billing_info_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    billing_info_obj_id = models.PositiveIntegerField()
+    billing_info_content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True
+    )
+    billing_info_obj_id = models.PositiveIntegerField(null=True)
     billing_info = GenericForeignKey("billing_info_content_type", "billing_info_obj_id")
 
     status = models.CharField(

@@ -13,7 +13,7 @@ from core.app.services.types import (
     QuestionnaireTeacherData,
     TeacherLegalBillingInfoData,
 )
-from core.models import GenderTypes, UserRoles, UserBillingType
+from core.models import GenderTypes, UserRoles
 from core.seeders.user_seeder import UserSeeder
 
 
@@ -78,8 +78,6 @@ def test_teacher_profile_create() -> None:
     profile = profile_aggregate.create(
         ctx=TeacherProfileCreateContext(
             questionnaire_data=fake_questionnaire_teacher_data(),
-            billing_data=generate_user_billing_info_ru_request(),
-            billing_type=UserBillingType.LEGAL_USER,
         )
     )
     assert profile.id is not None

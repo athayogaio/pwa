@@ -145,28 +145,24 @@ class TeacherIndividualBillingInfoCreate(TeacherBillingInfoCreate):
         return billing_info
 
 
-class TeacherProfileCreate:
+class TeacherProfileStore:
     def __init__(
         self,
         user: User,
         questionnaire: QuestionnaireTeacher,
-        billing_info: LegalBillingInfoModelType,
     ):
         self.repository = TeacherProfileRepository()
         self._user = user
         self._questionnaire = questionnaire
-        self._billing_info = billing_info
 
     @cached_property
     def profile(self) -> TeacherProfileDB:
         profile = TeacherProfileDB()
         profile.user = self._user
         profile.questionnaire = self._questionnaire
-        profile.billing_info_content_type = self._billing_info.polymorphic_ctype
-        profile.billing_info_obj_id = self._billing_info.id
         return profile
 
-    def create(self) -> TeacherProfileDB:
+    def store(self) -> TeacherProfileDB:
         self.repository.store(obj=self.profile)
         return self.profile
 
