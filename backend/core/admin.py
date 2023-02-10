@@ -36,7 +36,7 @@ class UserAdmin(admin.ModelAdmin):
         "about",
         "avatar",
         "roles",
-        "register_confirm_token",
+        "register_confirm_code",
         "pwd_reset_token",
         "sys_rate",
         "background",

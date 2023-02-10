@@ -12,7 +12,7 @@ const LayoutContainer = ({ children }) => {
       sx={matches ? {
         overflow: 'auto', maxHeight: 'calc(100% - 64px)', minWidth: '100%', padding: '20px',
       } : {
-        overflow: 'auto', maxHeight: 'calc(100% - 40px)', minWidth: '100%', padding: '20px',
+        overflow: 'auto', maxHeight: 'calc(100% - 56px)', minWidth: '100%', padding: '20px',
       }}
     >
       {children}

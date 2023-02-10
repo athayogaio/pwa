@@ -14,6 +14,7 @@ from courses.app.http.requests.course_requests import CourseTicketUseRequest
 from courses.app.http.requests.lesson_requests import (
     LessonRescheduleRequest,
     LessonRateRequest,
+    LessonFilterRequest,
 )
 from courses.app.http.resources.course_resources import (
     LessonResource,
@@ -102,36 +103,20 @@ class LessonListHandler(Handler):
 
 
 @permission_classes([IsAuthenticated])
-class UserLessonsParticipatedHandler(Handler):
+class UserLessonsFilterHandler(GenericHandler):
     repository = LessonRepository()
+    serializer_class = LessonFilterRequest
 
-    def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+    def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        data = self.serializer_class(data=request.data, partial=True)
+        data.is_valid(raise_exception=True)
+
         lessons = OrderedQuerySet(
             queryset=self.repository.fetch_relations(
-                self.repository.find_user_participant(
-                    user_id=request.user.id, skip_past=True
-                )
+                self.repository.filter(user=request.user, data=data.validated_data)
             )
         ).order_by(columns=["start_at"])
-        return Response(
-            Pagination(
-                data=lessons, request=request, resource=LessonDetailResource
-            ).paginate()
-        )
 
-
-@permission_classes([IsAuthenticated])
-class UserLessonsEnrolledHandler(Handler):
-    repository = LessonRepository()
-
-    def get(self, request: Request, *args: Any, **kwargs: Any) -> Response:
-        lessons = OrderedQuerySet(
-            queryset=self.repository.fetch_relations(
-                self.repository.find_user_enrolled(
-                    user_id=request.user.id, skip_past=True
-                )
-            )
-        ).order_by(columns=["start_at"])
         return Response(
             Pagination(
                 data=lessons, request=request, resource=LessonDetailResource

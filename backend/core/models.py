@@ -51,6 +51,7 @@ def user_default_roles() -> List[Union[UserRoles, str]]:
 
 class UserRegions(models.TextChoices):
     RU = "RU"
+    EU = "EU"
 
 
 class GenderTypes(models.TextChoices):
@@ -68,8 +69,8 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to="user_avatars/", blank=True)
     background = models.ImageField(upload_to="user_avatars/", blank=True)
     roles = models.JSONField(default=user_default_roles)
-    register_confirm_token = models.CharField(
-        _("register confirm token"), max_length=300, blank=True, null=True
+    register_confirm_code = models.CharField(
+        _("register confirm code"), max_length=128, blank=True, null=True
     )
     pwd_reset_token = models.CharField(
         _("pwd reset token"), max_length=300, blank=True, null=True
@@ -81,6 +82,9 @@ class User(AbstractUser):
     hide_birthday = models.BooleanField(default=False)
     sys_rate = models.FloatField(
         default=0, validators=[MaxValueValidator(5), MinValueValidator(0)]
+    )
+    region = models.CharField(
+        max_length=10, choices=UserRegions.choices, default=UserRegions.RU
     )
     rate_mean: Optional[float] = None
 
@@ -170,22 +174,13 @@ class BillingInfoRegexes(Enum):
     CORRESPONDENT_ACCOUNT_RU = r"^\d{20}$"
 
 
-class UserBillingInfo(PolymorphicModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class LegalUserBillingInfo(PolymorphicModel):
     organization = models.CharField(max_length=255)
     bank = models.CharField(max_length=255)
     organization_address = models.CharField(max_length=255)
 
 
-class UserBillingInfoEU(UserBillingInfo):
-    inn = models.CharField("ИНН", max_length=50)
-    correspondent_account = models.CharField("Корреспондентский счет", max_length=50)
-    prc = models.CharField("КПП", max_length=50)
-    bic = models.CharField(max_length=50)
-    account_number = models.CharField("Номер счета", max_length=50)
-
-
-class UserBillingInfoRU(UserBillingInfo):
+class LegalUserBillingInfoRU(LegalUserBillingInfo):
     inn = models.CharField(
         "ИНН",
         max_length=10,
@@ -211,13 +206,54 @@ class UserBillingInfoRU(UserBillingInfo):
     account_number = models.CharField("Номер счета", max_length=30)
 
 
-BillingInfoModelType = Union[UserBillingInfoEU, UserBillingInfoEU]
+class LegalUserBillingInfoEU(LegalUserBillingInfo):
+    inn = models.CharField("ИНН", max_length=50)
+    correspondent_account = models.CharField("Корреспондентский счет", max_length=50)
+    prc = models.CharField("КПП", max_length=50)
+    bic = models.CharField(max_length=50)
+    account_number = models.CharField("Номер счета", max_length=50)
+
+
+class IndividualUserBillingInfo(PolymorphicModel):
+    recipient = models.CharField(max_length=255)
+
+
+class IndividualUserBillingInfoRU(IndividualUserBillingInfo):
+    inn = models.CharField(
+        "ИНН",
+        max_length=10,
+        validators=[RegexValidator(regex=BillingInfoRegexes.INN_RU.value)],
+    )
+    account_number = models.CharField("Счет", max_length=20)
+    bic = models.CharField(
+        "БИК",
+        max_length=50,
+        validators=[RegexValidator(regex=BillingInfoRegexes.BIC_RU.value)],
+    )
+
+
+class IndividualUserBillingInfoEU(IndividualUserBillingInfo):
+    inn = models.CharField("ИНН", max_length=10)
+    account_number = models.CharField("Счет", max_length=30)
+    bic = models.CharField(max_length=50)
+
+
+LegalBillingInfoModelType = Union[LegalUserBillingInfoEU, LegalUserBillingInfoEU]
+IndividualBillingInfoModelType = Union[
+    IndividualUserBillingInfoRU, IndividualUserBillingInfoEU
+]
+BillingInfoModelType = Union[LegalBillingInfoModelType, IndividualBillingInfoModelType]
 
 
 class TeacherProfileStatuses(models.TextChoices):
     MODERATION = "MODERATION"
     ACCEPTED = "ACCEPTED"
     DECLINED = "DECLINED"
+
+
+class UserBillingType(models.TextChoices):
+    LEGAL_USER = "LEGAL_USER"
+    INDIVIDUAL_USER = "INDIVIDUAL_USER"
 
 
 class TeacherProfileDB(TimeStampedModel):
@@ -229,8 +265,10 @@ class TeacherProfileDB(TimeStampedModel):
     )
     questionnaire = models.OneToOneField(QuestionnaireTeacher, on_delete=models.CASCADE)
 
-    billing_info_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    billing_info_obj_id = models.PositiveIntegerField()
+    billing_info_content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True
+    )
+    billing_info_obj_id = models.PositiveIntegerField(null=True)
     billing_info = GenericForeignKey("billing_info_content_type", "billing_info_obj_id")
 
     status = models.CharField(

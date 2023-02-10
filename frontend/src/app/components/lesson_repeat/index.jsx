@@ -79,8 +79,7 @@ const OnceLesson = ({
 };
 
 const RegularLessons = ({
-  start_datetime, deadline_datetime, lessonData, setLessonData, errorStartDate, errorFinishDate,
-  errorLessons, pointForAdaptiveToSM,
+  start_datetime, deadline_datetime, lessonData, setLessonData, errorStartDate, errorFinishDate, errorLessons, pointForAdaptiveToSM,
 }) => {
   const [regularLessonDay, setRegularLessonDay] = useState('');
   const [redularLessonTime, setRegularLessonTime] = useState(null);

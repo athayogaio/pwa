@@ -1,9 +1,21 @@
 from core.app.repositories.base_repository import BaseRepository
-from core.models import UserBillingInfo, BillingInfoModelType
+from core.models import (
+    LegalUserBillingInfo,
+    LegalBillingInfoModelType,
+    IndividualUserBillingInfo,
+    IndividualBillingInfoModelType,
+)
 
 
-class UserBillingInfoRepository(BaseRepository):
-    model = UserBillingInfo
+class UserLegalBillingInfoRepository(BaseRepository):
+    model = LegalUserBillingInfo
 
-    def store(self, obj: BillingInfoModelType) -> None:
+    def store(self, obj: LegalBillingInfoModelType) -> None:
+        obj.save()
+
+
+class UserIndividualBillingInfoRepository(BaseRepository):
+    model = IndividualUserBillingInfo
+
+    def store(self, obj: IndividualBillingInfoModelType) -> None:
         obj.save()

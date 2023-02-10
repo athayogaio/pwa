@@ -57,6 +57,7 @@ class CourseCreateRequest(UnimplementedSerializer):
     price = serializers.IntegerField(min_value=0)
     lessons = LessonCreateRequest(many=True, allow_null=True)
     is_draft = serializers.BooleanField(default=False)
+    lesson_participants_limit = serializers.IntegerField(min_value=1, required=False)
 
     def validate(self, attrs: dict) -> dict:
         if (

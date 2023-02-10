@@ -68,6 +68,12 @@ class BaseCourse(TimeStampedModel):
     favorites = models.ManyToManyField(
         User, related_name="favorite_courses", verbose_name="Избранное", blank=True
     )
+    lesson_participants_limit = models.IntegerField(
+        "Лимит количества участников онлайн-урока",
+        validators=(MinValueValidator(limit_value=1),),
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Базовый курс"
