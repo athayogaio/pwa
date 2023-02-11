@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Container } from '@mui/system';
 import PinInput from '../pin-input/index';
 import FooterSupport from '../footer-support';
 import { AuthContext } from '../../utils/providers/auth';
@@ -38,17 +39,28 @@ const SignUpConfirm = () => {
   }, [seconds]);
 
   return (
-    <Box
+    <Container
       sx={{
-        width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', px: '42px',
+        height: '100%',
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
+      component="main"
     >
-      <Box sx={{
-        maxWidth: '552px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-      }}
+      <div
+        style={{
+          height: '100%',
+          minHeight: 'fit-content',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Box sx={{
-          mb: '24px',
+          mb: '20px',
 
         }}
         >
@@ -75,7 +87,7 @@ const SignUpConfirm = () => {
             textAlign: 'center',
             fontWeight: pointForAdaptiveToSM ? '600' : '500',
             fontSize: pointForAdaptiveToSM ? '16px' : '42px',
-            mb: '24px',
+            mb: '20px',
           }}
         >
           электронную почту
@@ -85,13 +97,16 @@ const SignUpConfirm = () => {
             <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '8px' }} color="error">
               Время ожидания ввода кода истекло
             </Typography>
-            <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '24px' }}>
+            <Typography sx={{
+              fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '20px', maxWidth: '340px',
+            }}
+            >
               Вы можете запросить повторную отправку проверочного кодана указанную электронную почту
             </Typography>
             <Button
               variant="contained"
               size="large"
-              sx={{ paddingLeft: '126px', paddingRight: '126px', mb: '40px' }}
+              sx={{ paddingLeft: '126px', paddingRight: '126px', mb: '35px' }}
               onClick={handleClick}
             >
               Отправить код
@@ -99,43 +114,44 @@ const SignUpConfirm = () => {
           </>
         )}
         {!isTimeEnd && (
-        <>
-          <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '24px' }}>
-            Код для подтверждения регистрации отправлен на указанную электронную почту,
-            Введите его в поле подтверждения
-          </Typography>
-          <PinInput
-            values={values}
-            onChange={(value, index, values) => setValues(values)}
-            onComplete={handleTokenPass}
-          />
-          <Typography
-            color="text.secondary"
-            variant="body1"
-            sx={{
-              textAlign: 'center', mb: '40px', mt: '24px',
+          <>
+            <Typography sx={{
+              fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '20px', maxWidth: '390px',
             }}
-          >
-            Получить код повторно можно через
-            {' '}
-            {seconds}
-            {' '}
-            сек.
-          </Typography>
-        </>
+            >
+              Код для подтверждения регистрации отправлен на указанную электронную почту,
+              Введите его в поле подтверждения
+            </Typography>
+            <PinInput
+              values={values}
+              onChange={(value, index, values) => setValues(values)}
+              onComplete={handleTokenPass}
+            />
+            <Typography
+              color="text.secondary"
+              variant="body1"
+              sx={{
+                textAlign: 'center', mb: '35px', mt: '20px',
+              }}
+            >
+              Получить код повторно можно через
+              {' '}
+              {seconds}
+              {' '}
+              сек.
+            </Typography>
+          </>
         )}
-        <Typography color="text.secondary" variant="body1" sx={{ textAlign: 'center', maxWidth: '350px', mb: '24px' }}>
+        <Typography color="text.secondary" variant="body1" sx={{ textAlign: 'center', maxWidth: '350px', mb: '20px' }}>
           Неверно внесли адрес электронной почты? Вернуться к
           {' '}
           <Typography component={Link} to="/register" color="primary" variant="body1" sx={{ textDecoration: 'none' }}>
             Регистрации
           </Typography>
         </Typography>
-      </Box>
-      <Box position="absolute" bottom="24px">
-        <FooterSupport />
-      </Box>
-    </Box>
+      </div>
+      <FooterSupport />
+    </Container>
   );
 };
 export default SignUpConfirm;
