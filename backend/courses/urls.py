@@ -9,7 +9,7 @@ from courses.app.handlers.complaint_handler import (
     LessonComplaintHandler,
     ComplaintRetriveHandler,
     ComplaintDecisionHandler,
-    DecisionRateFeedbackHandler
+    DecisionRateFeedbackHandler,
 )
 from courses.app.handlers.course_handlers import (
     CourseFilterHandler,
@@ -57,7 +57,7 @@ from courses.app.handlers.ticket_handlers import TicketListHandler
 urlpatterns = [
     path("", CourseCreateHandler.as_view()),
     path("<int:pk>/", CourseRetrieveHandler.as_view()),
-    path("<int:pk>/change-status", CourseStatusChangeHandler.as_view()),
+    path("<int:course_pk>/change-status", CourseStatusChangeHandler.as_view()),
     path("<int:pk>/update/", BaseCourseUpdateHandler.as_view()),
     path("filter/", CourseFilterHandler.as_view()),
     path("lessons/<int:lesson_id>/rate/", LessonRateHandler.as_view()),
