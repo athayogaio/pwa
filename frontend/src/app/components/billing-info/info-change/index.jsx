@@ -68,7 +68,6 @@ const InfoChange = ({
             inputProps={{ style: { textTransform: 'uppercase' } }}
             onChange={handleChangeInfo('recipient')}
             value={billingInfo.recipient}
-            autoFocus
           />
         </Grid>
         <Grid item xs={12} md={6}>
