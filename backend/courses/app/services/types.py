@@ -42,6 +42,8 @@ class CourseUpdateData(TypedDict):
     course_type: CourseTypes
     level: CourseLevels
     complexity: CourseComplexities
+    price: float
+    payment: CoursePaymentTypes
 
 
 class LessonComplaintData(TypedDict):
