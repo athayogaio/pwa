@@ -6,15 +6,14 @@ import {
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CloseIcon from '@mui/icons-material/Close';
 import patchPersonalDataSlice from '../../../core/slices/personal-data/patchPersonalData';
 import DeleteAccount from '../delete-account/index';
+import { setAlertProps } from '../../../core/slices/alert-notification';
 
 const PersonDataTeacher = () => {
   const fontStyle = {
     '& .MuiTypography-root': {
-      fontSize: '16px',
+      fontSize: '15px',
     },
   };
 
@@ -28,7 +27,6 @@ const PersonDataTeacher = () => {
   const [imageAvatar, setImageAvatar] = useState(null);
   const [srcAvatar, setSrcAvatar] = useState('');
 
-  const [isSaved, setIsSaved] = useState(false);
   const [open, setOpen] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
@@ -89,7 +87,12 @@ const PersonDataTeacher = () => {
   }, [imageAvatar]);
 
   const handleSubmit = () => {
-    setIsSaved(true);
+    dispatch(setAlertProps({
+      display: true,
+      status: 'success',
+      title: 'Ваши данные сохранены',
+    }));
+
     dispatch(patchPersonalDataSlice({
       ...userInfo,
       avatar: imageAvatar,
@@ -306,27 +309,6 @@ const PersonDataTeacher = () => {
         </Grid>
         {open && <DeleteAccount handleClickOpen={handleClickOpen} />}
       </Box>
-      { isSaved && (
-      <Box sx={{
-        maxWidth: '292px',
-        width: '100%',
-        height: '48px',
-        position: 'fixed',
-        right: '16px',
-        top: '80px',
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), #2E7D32',
-      }}
-      >
-        <CheckCircleOutlineIcon fontSize="small" sx={{ color: '#2E7D32' }} />
-        <Typography sx={{ fontWeight: '500' }}>
-          Ваши данные сохранены
-        </Typography>
-        <CloseIcon fontSize="small" sx={{ mt: '-8px', cursor: 'pointer' }} onClick={() => setIsSaved(false)} />
-      </Box>
-      )}
     </Box>
   );
 };

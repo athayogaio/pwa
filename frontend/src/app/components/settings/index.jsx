@@ -62,7 +62,7 @@ const Settings = () => {
             <SchoolOutlinedIcon sx={{ color: '#9E9E9E' }} />
           </Wpapper>
 
-          <Wpapper link text="Помощь">
+          <Wpapper link="/support" text="Помощь">
             <HelpOutlineOutlinedIcon sx={{ color: '#9E9E9E' }} />
           </Wpapper>
 
