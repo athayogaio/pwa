@@ -1,107 +1,91 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Box, Button, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Container } from '@mui/system';
 import PinInput from '../pin-input/index';
 import FooterSupport from '../footer-support';
 import { AuthContext } from '../../utils/providers/auth';
 import instructionConfirm from '../../../assets/public/instruction_confirm.png';
+import { clearErrorMessage } from '../../core/slices/auth/verify-email';
 
 const SignUpConfirm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [values, setValues] = React.useState(['', '', '', '', '', '']);
-  const [seconds, setSeconds] = useState(60);
-  const [isSend, setIsSend] = useState(false);
   const [isTimeEnd, setIsTimeEnd] = useState(false);
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
   const context = useContext(AuthContext);
+
   const handleClick = () => {
     const email = localStorage.userEmail;
     const password = localStorage.userPass;
     context.register({ email, password });
+    dispatch(clearErrorMessage());
+    setIsTimeEnd(false);
   };
 
-  const handleTokenPass = () => {
-    const token = values.join('');
+  const handleConfirm = () => {
+    const confirmCode = values.join('');
     const email = localStorage.userEmail;
-    console.log(token);
-    context.registerConfirm({ email, register_confirm_code: token });
-    setIsSend(true);
+    context.registerConfirm({ email, confirmCode }, () => navigate('/my-lessons'));
+    setValues(['', '', '', '', '', '']);
   };
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (isSend) return;
-      if (seconds > 0) setSeconds(seconds - 1);
-      if (seconds === 0) setIsTimeEnd(true);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [seconds]);
 
   return (
-    <Container
-      sx={{
+    <div
+      style={{
         height: '100%',
-        overflow: 'auto',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
-      component="main"
     >
       <div
         style={{
           height: '100%',
-          minHeight: 'fit-content',
+          maxWidth: '500px',
+          minHeight: pointForAdaptiveToSM ? '800px' : '650px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
-        <Box sx={{
-          mb: '20px',
-
-        }}
-        >
-          <img
-            src={instructionConfirm}
-            alt="pass-recovery-email"
-            style={{
-              width: pointForAdaptiveToSM ? '186px' : '278px',
-              height: pointForAdaptiveToSM ? '153px' : '229px',
-            }}
-          />
-        </Box>
+        <img
+          src={instructionConfirm}
+          alt="pass-recovery-email"
+          style={{
+            width: pointForAdaptiveToSM ? '186px' : '278px',
+          }}
+        />
         <Typography
           sx={{
             textAlign: 'center',
             fontWeight: pointForAdaptiveToSM ? '600' : '500',
             fontSize: pointForAdaptiveToSM ? '16px' : '42px',
+            width: pointForAdaptiveToSM ? '186px' : '500px',
+            margin: '20px auto 20px',
           }}
         >
-          Подтвердите
+          Подтвердите электронную почту
         </Typography>
-        <Typography
-          sx={{
-            textAlign: 'center',
-            fontWeight: pointForAdaptiveToSM ? '600' : '500',
-            fontSize: pointForAdaptiveToSM ? '16px' : '42px',
-            mb: '20px',
-          }}
-        >
-          электронную почту
-        </Typography>
-        {isTimeEnd && (
+        {isTimeEnd ? (
           <>
             <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '8px' }} color="error">
               Время ожидания ввода кода истекло
             </Typography>
             <Typography sx={{
-              fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '20px', maxWidth: '340px',
+              fontSize: pointForAdaptiveToSM ? '14px' : '18px',
+              textAlign: 'center',
+              margin: '0 auto 20px',
+              maxWidth: '340px',
             }}
             >
-              Вы можете запросить повторную отправку проверочного кодана указанную электронную почту
+              Вы можете запросить повторную отправку проверочного кода
+              <br />
+              на указанную электронную почту
             </Typography>
             <Button
               variant="contained"
@@ -112,37 +96,24 @@ const SignUpConfirm = () => {
               Отправить код
             </Button>
           </>
-        )}
-        {!isTimeEnd && (
+        ) : (
           <>
             <Typography sx={{
-              fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '20px', maxWidth: '390px',
+              fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', margin: '0 auto 20px', maxWidth: '390px',
             }}
             >
               Код для подтверждения регистрации отправлен на указанную электронную почту,
-              Введите его в поле подтверждения
+              введите его в поле подтверждения
             </Typography>
             <PinInput
               values={values}
               onChange={(value, index, values) => setValues(values)}
-              onComplete={handleTokenPass}
+              onComplete={handleConfirm}
+              setIsTimeEnd={setIsTimeEnd}
             />
-            <Typography
-              color="text.secondary"
-              variant="body1"
-              sx={{
-                textAlign: 'center', mb: '35px', mt: '20px',
-              }}
-            >
-              Получить код повторно можно через
-              {' '}
-              {seconds}
-              {' '}
-              сек.
-            </Typography>
           </>
         )}
-        <Typography color="text.secondary" variant="body1" sx={{ textAlign: 'center', maxWidth: '350px', mb: '20px' }}>
+        <Typography color="text.secondary" variant="body1" sx={{ textAlign: 'center', maxWidth: '350px', margin: '0 auto' }}>
           Неверно внесли адрес электронной почты? Вернуться к
           {' '}
           <Typography component={Link} to="/register" color="primary" variant="body1" sx={{ textDecoration: 'none' }}>
@@ -151,7 +122,7 @@ const SignUpConfirm = () => {
         </Typography>
       </div>
       <FooterSupport />
-    </Container>
+    </div>
   );
 };
 export default SignUpConfirm;

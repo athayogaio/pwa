@@ -18,7 +18,7 @@ const VerifyEmail = () => {
 
   useEffect(() => {
     dispatch(clearMessage());
-    dispatch(registerConfirmSlice({ email, register_confirm_token: token }));
+    dispatch(registerConfirmSlice({ email, confirmCode: token }));
   }, []);
 
   if (message === 'Success') {
