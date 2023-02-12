@@ -328,3 +328,35 @@ class LessonRatingStar(models.Model):
     class Meta:
         verbose_name = "Оценка урока"
         verbose_name_plural = "Оценки урока"
+
+
+class ComplaintsCategories(models.TextChoices):
+    COMPLAINT1 = "COMPLAINT1"
+    COMPLAINT2 = "COMPLAINT2"
+
+
+class LessonComplaint(TimeStampedModel):
+    reviewed = models.BooleanField(default=False)
+    decision = models.BooleanField(default=False)
+    category = models.CharField("Категория жалобы", max_length=30, choices=ComplaintsCategories.choices)
+    title = models.CharField("Заголовок", max_length=100)
+    content = models.TextField("Содержание")
+    lesson = models.ForeignKey(Lesson, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        verbose_name = "Жалоба на занятие"
+        verbose_name_plural = "Жалобы по занятиям"
+
+
+class ComplaintDecision(TimeStampedModel):
+    complaint = models.ForeignKey(LessonComplaint, verbose_name="жалоба", on_delete=models.SET_NULL, null=True)
+    decision = models.TextField("Содержание")
+    feedback = models.BooleanField(default=False)
+    decision_rate = models.IntegerField("Оценка решения", default=5,
+                                        validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5))
+                                        )
+
+    class Meta:
+        verbose_name = "Решение на жалобу"
+        verbose_name_plural = "Решения по жалобам"

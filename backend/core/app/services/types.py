@@ -111,10 +111,7 @@ class UserProfileUpdateData(TypedDict, total=False):
 class TeacherLegalBillingInfoData(TypedDict):
     organization: str
     bic: str
-    bank: str
-    organization_address: str
     inn: str
-    correspondent_account: str
     prc: str
     account_number: str
 

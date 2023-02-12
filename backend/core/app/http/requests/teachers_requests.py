@@ -24,10 +24,7 @@ class QuestionnaireTeacherRequest(UnimplementedSerializer):
 class UserLegalBillingInfoEURequest(UnimplementedSerializer):
     organization = serializers.CharField(max_length=255)
     bic = serializers.CharField(max_length=50)
-    bank = serializers.CharField(max_length=50)
-    organization_address = serializers.CharField(max_length=255)
     inn = serializers.CharField(max_length=50)
-    correspondent_account = serializers.CharField(max_length=50)
     prc = serializers.CharField(max_length=50)
     account_number = serializers.CharField(max_length=50)
 
@@ -45,14 +42,9 @@ class CommonLegalBillingInfoRequest(UnimplementedSerializer):
 
 class UserLegalBillingInfoRURequest(UnimplementedSerializer):
     organization = serializers.CharField(max_length=255)
-    bank = serializers.CharField(max_length=50)
-    organization_address = serializers.CharField(max_length=255)
     bic = serializers.RegexField(regex=BillingInfoRegexes.BIC_RU.value)
     inn = serializers.RegexField(regex=BillingInfoRegexes.INN_RU.value)
-    correspondent_account = serializers.RegexField(
-        regex=BillingInfoRegexes.CORRESPONDENT_ACCOUNT_RU.value
-    )
-    prc = serializers.RegexField(regex=BillingInfoRegexes.PRC_RU.value)
+    prc = serializers.CharField()
     account_number = serializers.RegexField(
         regex=BillingInfoRegexes.ACCOUNT_NUMBER_RU.value
     )

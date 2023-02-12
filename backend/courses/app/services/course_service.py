@@ -82,7 +82,8 @@ class CourseCreator:
         course.start_datetime = self._data["start_datetime"]
         course.deadline_datetime = self._data["deadline_datetime"]
         course.payment = self._data["payment"]
-        course.price = self._data["price"]
+        if CoursePaymentTypes(course.payment) == CoursePaymentTypes.PAYMENT:
+            course.price = self._data["price"]
         if self._data["is_draft"]:
             course.status = CourseStatuses.DRAFT
         course.schedule = [
@@ -142,26 +143,47 @@ class CourseCreator:
 
 
 class BaseCourseUpdator:
-    repository = BaseCourseRepository()
-
     def __init__(self, user: User, pk: int, data: CourseUpdateData):
+        self.repository = CourseRepository()
+        self.base_course_repos = BaseCourseRepository()
         self._pk = pk
         self._user = user
         self._data = data
 
-    def update(self) -> BaseCourse:
-        base_course = self.repository.find_by_id_teacher(
-            id_=self._pk, teacher_id=self._user.id
-        )
-        if not base_course:
-            raise NotFound(f"Undefined base_course with pk {self._pk}")
+    @cached_property
+    def course(self) -> Course:
+        course = self.repository.find_by_id(id_=self._pk, raise_exception=True)
+        if course.base_course.teacher_id != self._user.id:
+            raise PermissionDenied("You can update only created courses")
+        return course
+
+    def _update_base_course(self) -> None:
+        base_course = self.course.base_course
         setup_resource_attributes(
             instance=base_course,
             validated_data=self._data,
-            fields=list(CourseUpdateData.__annotations__.keys()),
+            fields=[
+                "description",
+                "course_type",
+                "level",
+                "complexity",
+            ],
         )
-        self.repository.store(base_course=base_course)
-        return base_course
+        self.base_course_repos.store(base_course=base_course)
+
+    def _update_course(self) -> None:
+        if self.course.status != CourseStatuses.DRAFT:
+            return
+        self.course.payment = self._data.get("payment", self.course.payment)
+        if CoursePaymentTypes(self.course.payment) == CoursePaymentTypes.PAYMENT:
+            self.course.price = self._data.get("price", self.course.price)
+        self.repository.store(course=self.course)
+
+    def update(self) -> Course:
+        with UnitOfWork():
+            self._update_base_course()
+            self._update_course()
+        return self.course
 
 
 class UserFavoriteCourses:

@@ -5,6 +5,12 @@ from courses.app.handlers.comment_handlers import (
     CourseCommentCreateHandler,
     CourseCommentRemoveHandler,
 )
+from courses.app.handlers.complaint_handler import (
+    LessonComplaintHandler,
+    ComplaintRetriveHandler,
+    ComplaintDecisionHandler,
+    DecisionRateFeedbackHandler,
+)
 from courses.app.handlers.course_handlers import (
     CourseFilterHandler,
     CourseCreateHandler,
@@ -51,7 +57,7 @@ from courses.app.handlers.ticket_handlers import TicketListHandler
 urlpatterns = [
     path("", CourseCreateHandler.as_view()),
     path("<int:pk>/", CourseRetrieveHandler.as_view()),
-    path("<int:pk>/change-status", CourseStatusChangeHandler.as_view()),
+    path("<int:course_pk>/change-status", CourseStatusChangeHandler.as_view()),
     path("<int:pk>/update/", BaseCourseUpdateHandler.as_view()),
     path("filter/", CourseFilterHandler.as_view()),
     path("lessons/<int:lesson_id>/rate/", LessonRateHandler.as_view()),
@@ -89,4 +95,8 @@ urlpatterns = [
     path("questions/<int:pk>/answers/", CourseAnswerListHandler.as_view()),
     path("questions/<int:pk>/answers/create/", CourseAnswerCreateHandler.as_view()),
     path("answers/<int:pk>/remove/", CourseAnswerRemoveHandler.as_view()),
+    path("complaint/create", LessonComplaintHandler.as_view()),
+    path("complaint/retrive/", ComplaintRetriveHandler.as_view()),
+    path("complaint/retrive/decision/", ComplaintDecisionHandler.as_view()),
+    path("complaint/feedback/", DecisionRateFeedbackHandler.as_view()),
 ]

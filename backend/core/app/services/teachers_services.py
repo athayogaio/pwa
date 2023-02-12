@@ -103,10 +103,7 @@ class TeacherLegalBillingInfoCreate(TeacherBillingInfoCreate):
         new_billing_info = self.billing_info_model()
         new_billing_info.organization = self._data["organization"]
         new_billing_info.bic = self._data["bic"]
-        new_billing_info.bank = self._data["bank"]
-        new_billing_info.organization_address = self._data["organization_address"]
         new_billing_info.inn = self._data["inn"]
-        new_billing_info.correspondent_account = self._data["correspondent_account"]
         new_billing_info.prc = self._data["prc"]
         new_billing_info.account_number = self._data["account_number"]
         return new_billing_info
