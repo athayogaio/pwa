@@ -7,6 +7,7 @@ import LessonCard from '../../components/lesson-card';
 import getFavoritesSlice from '../../core/slices/favorites/getFavorites';
 import Header from '../../components/header';
 import LayoutContainer from '../../components/layout-container';
+import StudentEpmty from '../../components/my_lessons_empty/student';
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const FavoritesPage = () => {
 
   useEffect(() => {
     dispatch(getFavoritesSlice());
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
@@ -33,24 +34,41 @@ const FavoritesPage = () => {
             {`Error: ${errorMessage.errors.not_found[0]}`}
           </Typography>
         )}
-        <Box
-          maxWidth="984px"
-        >
-          {!isLoading && Array.isArray(favoritesLessons) && (
-            favoritesLessons?.length > 0
-              ? (
-                favoritesLessons?.map(lesson => (
-                  <LessonCard
-                    key={lesson.id}
-                    id={lesson.base_course.id}
-                    title={lesson.base_course.name}
-                    description={lesson.base_course.description}
-                    price={lesson.price}
-                    level={lesson.base_course.level}
-                    favorite={lesson.favorite}
-                  />
-                ))) : ('Ничего не найдено')
-          )}
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ maxWidth: '984px', width: '100%' }}>
+            {!isLoading && Array.isArray(favoritesLessons) && (
+              favoritesLessons?.length > 0
+                ? (
+                  favoritesLessons?.map(lesson => (
+                    <LessonCard
+                      key={lesson.id}
+                      id={lesson.id}
+                      title={lesson.base_course.name}
+                      description={lesson.base_course.description}
+                      price={lesson.price}
+                      level={lesson.base_course.level}
+                      favorite={lesson.favorite}
+                      isParticipant={lesson.participant}
+                      comments={lesson.comments_count}
+                      rate={lesson.rate}
+                      votes={lesson.votes_count}
+                      schedule={lesson.schedule}
+                      duration={lesson.duration}
+                    />
+                  ))) : (
+                    <Box sx={{
+                      width: '100%',
+                      height: { xs: 'calc(100vh - 162px)', md: 'calc(100vh - 125px)' },
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    >
+                      <StudentEpmty />
+                    </Box>
+                )
+            )}
+          </Box>
         </Box>
       </LayoutContainer>
     </>

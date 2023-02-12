@@ -63,20 +63,21 @@ const MyTeacherLesson = ({
     },
   };
   return (
-    <Box style={{
-      padding: '20px 24px 20px 30px',
+    <Box sx={{
+      width: { xs: '343px', md: '480px' },
+      height: { xs: '170px', md: '210px' },
+      padding: { xs: '27px 7px 20px 12px', md: '30px 5px 30px 20px' },
       borderRadius: '16px',
-      width: '480px',
-      marginRight: '24px',
-      marginBottom: '24px',
-      background: `center / cover no-repeat url(${ticket})`,
+      mr: { xs: '0', md: '24px' },
+      mb: { xs: '0px', md: '24px' },
+      background: `center / contain no-repeat url(${ticket})`,
       filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
       // outline: '1px solid red',
     }}
     >
       <MoreHorizOutlinedIcon
         color="disabled"
-        sx={{ position: 'absolute', top: '10px', right: '20px' }}
+        sx={{ position: 'absolute', top: { xs: '17px', md: '10px' }, right: { xs: '12px', md: '20px' } }}
         id="basic-button"
         aria-controls={openMenu ? 'basic-menu' : undefined}
         aria-haspopup="true"
@@ -134,17 +135,16 @@ const MyTeacherLesson = ({
       {((status === 'PUBLISHED' && isEnded() === false) || status === 'MODERATION') && (
       <Stack
         direction="row"
-        spacing={2}
       >
-        <Grid container direction="column" gap="16px" width="207%">
+        <Grid container direction="column" gap={{ xs: '10px', md: '16px' }} sx={{ width: { xs: '201%', md: '205%' } }}>
           <Box>
             <Typography
               variant="h6"
               paragraph
               sx={{
-                fontSize: '18px',
+                fontSize: { xs: '16px', md: '18px' },
                 maxWidth: '271px',
-                height: '43px',
+                height: { xs: '22px', md: '38px' },
                 mb: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -157,51 +157,59 @@ const MyTeacherLesson = ({
             </Typography>
           </Box>
           <Grid container direction="column">
-            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '13px', mb: '7px' }}>
+            <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '12px', md: '13px' }, mb: '4px' }}>
               Ближайшее занятие:
             </Typography>
             <Grid container>
               <DateRangeOutlinedIcon
                 color="primary"
-                size="small"
-                sx={{ transform: 'translateY(-2px)', mr: '6px' }}
+                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
               />
-              <Typography variant="body1" sx={{ mr: '13px' }}>
+              <Typography variant="body1" sx={{ mr: '13px', fontSize: { xs: '12px', md: '14px' } }}>
                 Пн, 26 дек
               </Typography>
               <AccessTimeIcon
                 color="primary"
-                sx={{ transform: 'translateY(-2px)', mr: '6px' }}
+                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
               />
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
                 14:00 - 15:30
               </Typography>
             </Grid>
           </Grid>
           <Grid container gap="6px" alignItems="center">
-            <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
-            <Typography variant="body1">
+            <Avatar alt="name" src="avatar" sx={{ width: { xs: '24px', md: '32px' }, height: { xs: '24px', md: '32px' } }} />
+            <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
               Виктор Васильев
             </Typography>
           </Grid>
         </Grid>
-        <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{
+            borderStyle: 'dashed', position: 'relative', height: { xs: '110px', md: '150px' }, top: { xs: '7px', md: 'auto' },
+          }}
+        />
 
-        <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
+        <Grid container direction="column" alignItems="center" justifyContent="space-between" sx={{ ml: { xs: '4px', md: '14px' } }}>
           {status === 'PUBLISHED' && (
             <>
               <Stack spacing={1} direction="column" alignItems="center">
-                <CheckCircleOutlineOutlinedIcon fontSize="large" sx={{ mt: '30px', color: '#4CAF50' }} />
+                <CheckCircleOutlineOutlinedIcon sx={{
+                  mt: '20px', color: '#4CAF50', width: '32px', height: '32px',
+                }}
+                />
 
-                <Typography variant="body1" sx={{ fontWeight: '500', fontSize: '16px', color: '#4CAF50' }}>
+                <Typography variant="body1" sx={{ fontWeight: '500', fontSize: { xs: '12px', md: '14px' }, color: '#4CAF50' }}>
                   Активно
                 </Typography>
               </Stack>
-              <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
-                <Typography variant="body1" color="text.secondary">
+              <Grid container direction="column" alignItems="center" sx={{ mt: '4px' }}>
+                <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
                   Дата окончания:
                 </Typography>
-                <Typography color="primary" variant="body1" sx={{ fontWeight: '500' }}>
+                <Typography color="primary" variant="body1" sx={{ fontWeight: '500', fontSize: { xs: '12px', md: '14px' } }}>
                   {prepareEndDate(endDate)}
                 </Typography>
               </Grid>
@@ -210,13 +218,13 @@ const MyTeacherLesson = ({
           {status === 'MODERATION' && (
           <>
             <Stack spacing={1} direction="column" alignItems="center">
-              <AccessTimeIcon color="warning" fontSize="large" sx={{ mt: '30px' }} />
-              <Typography variant="body1" sx={{ fontWeight: '500', color: '#ED6C02' }}>
+              <AccessTimeIcon color="warning" sx={{ mt: '20px', width: '32px', height: '32px' }} />
+              <Typography variant="body1" sx={{ fontWeight: '500', fontSize: { xs: '12px', md: '14px' }, color: '#ED6C02' }}>
                 На проверке
               </Typography>
             </Stack>
             <Grid item>
-              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
                 По окончании проверки придет уведомление
               </Typography>
             </Grid>
@@ -265,13 +273,13 @@ const MyTeacherLesson = ({
             {status === 'DRAFT' && (
             <>
               <Stack direction="column" alignItems="center">
-                <HistoryEduOutlinedIcon fontSize="large" sx={{ mt: '30px' }} />
-                <Typography variant="body1" sx={{ fontWeight: '500' }}>
+                <HistoryEduOutlinedIcon sx={{ mt: '20px', width: '32px', height: '32px' }} />
+                <Typography variant="body1" sx={{ fontWeight: '500', fontSize: { xs: '12px', md: '14px' } }}>
                   Черновик
                 </Typography>
               </Stack>
               <Grid item>
-                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
                   Нажмите для редактирования
                 </Typography>
               </Grid>
@@ -280,13 +288,13 @@ const MyTeacherLesson = ({
             {status === 'CANCELED' && (
             <>
               <Stack direction="column" alignItems="center">
-                <CancelOutlinedIcon color="error" fontSize="large" sx={{ mt: '30px' }} />
-                <Typography variant="body1" sx={{ fontWeight: '500' }} color="error">
+                <CancelOutlinedIcon color="error" sx={{ mt: '20px', width: '32px', height: '32px' }} />
+                <Typography variant="body1" sx={{ fontWeight: '500', fontSize: { xs: '12px', md: '14px' } }} color="error">
                   Отменено
                 </Typography>
               </Stack>
               <Grid item>
-                <Typography variant="body2" color="text.disabled" sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="text.disabled" sx={{ textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
                   Потраченные средства будут возмещены
                 </Typography>
               </Grid>
@@ -333,14 +341,15 @@ const MyTeacherLesson = ({
 
           <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
             <Stack direction="column" alignItems="center">
-              <EmojiFlagsOutlinedIcon fontSize="large" sx={{ mt: '30px', color: '#616161' }} />
-              <Typography variant="body1" sx={{ fontWeight: '500' }} color="text.secondary">
+              <EmojiFlagsOutlinedIcon sx={{ mt: '20px', width: '32px', height: '32px', color: '#616161' }} />
+              <Typography variant="body1" sx={{ fontWeight: '500', fontSize: { xs: '12px', md: '14px' } }} color="text.secondary">
                 Завершено
               </Typography>
             </Stack>
             <Grid item>
               <Button
                 variant="outlined"
+                sx={{ width: { xs: '95px', md: '110px' } }}
               >
                 продлить
               </Button>

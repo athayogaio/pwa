@@ -1,37 +1,25 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable linebreak-style */
 import React from 'react';
-import {useDispatch} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
-import {Box, Grid, Typography} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box, Grid, Typography } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import addFavoritesSlice from '../../core/slices/favorites/addFavorites';
-import removeFavoritesSlice from '../../core/slices/favorites/removeFavorites';
-import {scheduleChipContent} from '../../utils/scheduleServices';
+import FavoriteIconComponent from '../favorite-icon';
+import { scheduleChipContent } from '../../utils/scheduleServices';
 
 const LessonCard = ({
   title, description, price, level, id, favorite,
   comments, rate, votes, duration, schedule,
 }) => {
   const navigate = useNavigate();
+
   const levels = {
     STARTING: 'Начинающий',
     CONTINUER: 'Средний',
     ADVANCED: 'Продвинутый',
-  };
-
-  const dispatch = useDispatch();
-  const setFavorite = e => {
-    e.stopPropagation();
-    if (favorite) {
-      dispatch(removeFavoritesSlice(id));
-    } else {
-      dispatch(addFavoritesSlice(id));
-    }
   };
 
   return (
@@ -47,13 +35,7 @@ const LessonCard = ({
             <Typography variant="h6">
               {title}
             </Typography>
-            <FavoriteIcon
-              onClick={setFavorite}
-              fontSize="medium"
-              sx={favorite
-                ? { color: '#E91E63', '&:hover': { cursor: 'pointer' } }
-                : { color: '#9E9E9E', '&:hover': { cursor: 'pointer' } }}
-            />
+            <FavoriteIconComponent favorite={favorite} id={id} />
           </Grid>
           <Grid item sx={{ flex: '1 0 auto' }}>
             <Typography

@@ -29,7 +29,7 @@ const favoritesSlice = createSlice({
       state.errorMessage = action.payload;
     },
     [addFavoriteSlice.fulfilled]: (state, action) => {
-      state.favoritesLessons = [action.payload, ...state.favoritesLessons];
+      state.favoritesLessons = [action.payload.data, ...state.favoritesLessons];
       state.isLoading = false;
       state.errorMessage = null;
     },
@@ -39,7 +39,7 @@ const favoritesSlice = createSlice({
     },
     [removeFavoritesSlice.fulfilled]: (state, action) => {
       state.favoritesLessons = state.favoritesLessons
-        .filter(el => el.id !== action.payload.id);
+        .filter(el => el.id !== action.payload.data.id);
       state.isLoading = false;
       state.errorMessage = null;
     },

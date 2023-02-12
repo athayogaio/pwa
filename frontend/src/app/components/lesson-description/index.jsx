@@ -16,6 +16,7 @@ import avatar from '../../../assets/public/profile_avatar.jpg';
 import {
   courseDuration, oneTimeLessonChipContent, scheduleChipContent, weekdays,
 } from '../../utils/scheduleServices';
+import FavoriteIconComponent from '../favorite-icon';
 
 const LessonDescription = ({
   title, description, price, level, favorite, comments,
@@ -33,7 +34,7 @@ const LessonDescription = ({
         {title}
       </Typography>
       <Stack spacing={2} direction="row">
-        {favorite ? <FavoriteIcon fontSize="medium" color="primary" /> : <FavoriteBorderOutlinedIcon fontSize="medium" color="disabled" />}
+        <FavoriteIconComponent favorite={favorite} id={id} />
         <ShareOutlinedIcon color="disabled" />
         <MoreHorizOutlinedIcon color="disabled" />
       </Stack>
