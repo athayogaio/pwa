@@ -7,7 +7,7 @@ import PinInput from '../pin-input/index';
 import FooterSupport from '../footer-support';
 import { AuthContext } from '../../utils/providers/auth';
 import instructionConfirm from '../../../assets/public/instruction_confirm.png';
-import { clearErrorMessage } from '../../core/slices/auth/verify-email';
+import { clearErrorMessage } from '../../core/slices/auth';
 
 const SignUpConfirm = () => {
   const dispatch = useDispatch();

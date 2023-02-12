@@ -14,7 +14,7 @@ const InfoChange = ({
   });
 
   const [isIndividual, setIsIndividual] = useState(isIndividualValue);
-  console.log(isIndividual);
+  // console.log(isIndividual);
 
   const handleChange = inputName => e => {
     const regex = /^[0-9\b]+$/;

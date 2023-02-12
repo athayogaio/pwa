@@ -35,7 +35,6 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './theme/style.scss';
-import './'
 import PaymentSuccessPage from './pages/payment-success';
 import PaymentFailedPage from './pages/payment-failed';
 

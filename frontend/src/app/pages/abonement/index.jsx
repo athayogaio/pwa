@@ -31,7 +31,7 @@ const AbonementPage = () => {
         window.open(response.payload.data);
         navigate(-1); // ?
       })
-      .catch(console.log());
+      .catch(console.log);
   };
 
   useEffect(() => {

@@ -11,7 +11,6 @@ import LayoutContainer from '../../components/layout-container';
 import getTicketsSlice from '../../core/slices/tickets/getTickets';
 import MyLesson from '../../components/my_lesson';
 import MyLessonSearch from '../../components/my_lesson_search';
-import MyLessonsEmpty from '../../components/my_lessons_empty';
 import MyTeacherLesson from '../../components/my-teacher-lesson';
 import TeacherEmpty from '../../components/my_lessons_empty/teacher';
 import StudentEpmty from '../../components/my_lessons_empty/student';
@@ -63,7 +62,7 @@ const MyLessonsPage = () => {
       <Header title="Мои занятия" />
       <LayoutContainer>
         <Box sx={{
-          height: 'calc(100% - 64px - 251px);', display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '2%',
+          height: 'calc(100% - 64px);', display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '2%',
         }}
         >
           <Box sx={{
