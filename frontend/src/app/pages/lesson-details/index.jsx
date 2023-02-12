@@ -20,7 +20,7 @@ const LessonDetailsPage = () => {
 
   const dispatch = useDispatch();
   const { lesson, errorMessage, isLoading } = useSelector(state => state.lesson);
-  console.log(lesson);
+
   useEffect(() => {
     dispatch(getLessonSlice(id));
   }, []);

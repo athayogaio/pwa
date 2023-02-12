@@ -55,20 +55,21 @@ const MyLesson = ({
     },
   };
   return (
-    <Box style={{
-      padding: '20px 24px 20px 30px',
+    <Box sx={{
+      width: { xs: '343px', md: '480px' },
+      height: { xs: '170px', md: '210px' },
+      padding: { xs: '27px 7px 20px 12px', md: '30px 5px 30px 20px' },
       borderRadius: '16px',
-      width: '480px',
-      marginRight: '24px',
-      marginBottom: '24px',
-      background: `center / cover no-repeat url(${ticket})`,
+      mr: { xs: '0', md: '24px' },
+      mb: { xs: '0px', md: '24px' },
+      background: `center / contain no-repeat url(${ticket})`,
       filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
       // outline: '1px solid red',
     }}
     >
       <MoreHorizOutlinedIcon
         color="disabled"
-        sx={{ position: 'absolute', top: '10px', right: '20px' }}
+        sx={{ position: 'absolute', top: { xs: '17px', md: '10px' }, right: { xs: '12px', md: '20px' } }}
         id="basic-button"
         aria-controls={openMenu ? 'basic-menu' : undefined}
         aria-haspopup="true"
@@ -125,17 +126,16 @@ const MyLesson = ({
       </Modal>
       <Stack
         direction="row"
-        spacing={2}
       >
-        <Grid container direction="column" gap="16px" width="207%">
+        <Grid container direction="column" gap={{ xs: '10px', md: '16px' }} width="205%">
           <Box>
             <Typography
               variant="h6"
               paragraph
               sx={{
-                fontSize: '18px',
+                fontSize: { xs: '16px', md: '18px' },
                 maxWidth: '271px',
-                height: '43px',
+                height: { xs: '22px', md: '38px' },
                 mb: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -148,44 +148,49 @@ const MyLesson = ({
             </Typography>
           </Box>
           <Grid container direction="column">
-            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '13px', mb: '7px' }}>
+            <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '12px', md: '13px' }, mb: '4px' }}>
               Ближайшее занятие:
             </Typography>
             <Grid container>
               <DateRangeOutlinedIcon
                 color="primary"
-                size="small"
-                sx={{ transform: 'translateY(-2px)', mr: '6px' }}
+                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
               />
-              <Typography variant="body1" sx={{ mr: '13px' }}>
+              <Typography variant="body1" sx={{ mr: '13px', fontSize: { xs: '12px', md: '14px' } }}>
                 Пн, 26 дек
               </Typography>
               <AccessTimeIcon
                 color="primary"
-                sx={{ transform: 'translateY(-2px)', mr: '6px' }}
+                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
               />
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
                 14:00 - 15:30
               </Typography>
             </Grid>
           </Grid>
           <Grid container gap="6px" alignItems="center">
-            <Avatar alt="name" src="avatar" sx={{ width: 32, height: 32 }} />
-            <Typography variant="body1">
+            <Avatar alt="name" src="avatar" sx={{ width: { xs: '24px', md: '32px' }, height: { xs: '24px', md: '32px' } }} />
+            <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
               Виктор Васильев
             </Typography>
           </Grid>
         </Grid>
-        <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{
+            borderStyle: 'dashed', position: 'relative', height: { xs: '110px', md: '150px' }, top: { xs: '7px', md: 'auto' },
+          }}
+        />
 
-        <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center">
+        <Grid container direction="column" gap="6px" alignItems="center" justifyContent="center" sx={{ ml: { xs: '4px', md: '14px' } }}>
           {isOneTime && (
             <>
               <Grid item>
                 <LocalLibraryOutlinedIcon color="primary" fontSize="large" />
               </Grid>
               <Grid item>
-                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
                   Разовое занятие
                 </Typography>
               </Grid>
@@ -197,13 +202,21 @@ const MyLesson = ({
             {ticketsAmount > 0 && (
             <>
               <Grid item>
-                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
                   Осталось посещений:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4" color="primary">
+                <Typography variant="h4" color="primary" sx={{ fontSize: { xs: '25px', md: '29px' } }}>
                   {ticketsAmount}
+                </Typography>
+              </Grid>
+              <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
+                <Typography variant="body2" sx={{ textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
+                  Дата окончания:
+                </Typography>
+                <Typography color="primary" variant="body2" sx={{ fontWeight: '500', textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
+                  {prepareEndDate(endDate)}
                 </Typography>
               </Grid>
             </>
@@ -211,7 +224,7 @@ const MyLesson = ({
             {!ticketsAmount && (
             <>
               <Grid item>
-                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center' }}>
+                <Typography variant="body1" sx={{ fontWeight: '500', textAlign: 'center', fontSize: { xs: '12px', md: '14px' } }}>
                   Посещения закончились
                 </Typography>
               </Grid>
@@ -220,21 +233,13 @@ const MyLesson = ({
                   variant="outlined"
                   component={Link}
                   to={`/abonement/${id}`}
+                  sx={{ width: { xs: '95px', md: '110px' } }}
                 >
                   приобрести
                 </Button>
               </Grid>
             </>
             )}
-
-            <Grid container direction="column" spacing={1} alignItems="center" sx={{ mt: '4px' }}>
-              <Typography variant="body2">
-                Дата окончания:
-              </Typography>
-              <Typography color="primary" variant="body2" sx={{ fontWeight: '500' }}>
-                {prepareEndDate(endDate)}
-              </Typography>
-            </Grid>
           </>
 
           )}

@@ -3,10 +3,10 @@ import authHeader from '../auth/header';
 import { FILTER_URL, LESSON_URL } from './utils';
 
 const filter = ({ query }) => axios
-  .post(FILTER_URL, { query });
+  .post(FILTER_URL, { query }, { headers: authHeader() });
 
 const getLesson = id => axios
-  .get(`${LESSON_URL + id}/`);
+  .get(`${LESSON_URL + id}/`, { headers: authHeader() });
 
 const postLesson = lessonState => axios
   .post(LESSON_URL, {
