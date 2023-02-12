@@ -1,8 +1,11 @@
+import datetime
 import random
 import time
 from datetime import timedelta
+from typing import Optional
 
 import pytz
+from django.conf import settings
 from django.utils.timezone import now
 from faker import Faker
 
@@ -17,6 +20,7 @@ from courses.models import (
     Ticket,
     Lesson,
     BaseCourse,
+    CourseCycle,
 )
 from courses.models import CourseComplexities
 
@@ -62,6 +66,27 @@ class CourseSeeder:
             link_info=self.faker.sentence()[:100],
             payment=random.choice([i[0] for i in CoursePaymentTypes.choices]),
             status="PUBLISHED",
+        )
+
+
+class CourseCycleSeeder:
+    def __init__(
+        self,
+        course: Course,
+        start_at: Optional[datetime.datetime] = None,
+        end_at: Optional[datetime.datetime] = None,
+    ):
+        self._course = course
+        self._start_at = start_at
+        self._end_at = end_at
+
+    def seed(self) -> CourseCycle:
+        return CourseCycle(
+            course=self._course,
+            start_at=self._start_at or now(),
+            end_at=(self._start_at or now()) + settings.COURSE_LESSONS_CYCLE,
+            canceled_lessons_amount=0,
+            transferred_lessons_amount=0,
         )
 
 
