@@ -24,7 +24,11 @@ const AuthProvider = ({ children }) => {
     setIsLoading(true);
     dispatch(registerSlice({ email, password }))
       .unwrap()
-      .then(callback)
+      .then(res => {
+        if (res === 'Success') {
+          callback();
+        }
+      })
       .catch(() => {
         setIsLoading(false);
       })
@@ -33,9 +37,9 @@ const AuthProvider = ({ children }) => {
       });
   };
 
-  const registerConfirm = ({ email, register_confirm_code }, callback) => {
+  const registerConfirm = ({ email, confirmCode }, callback) => {
     setIsLoading(true);
-    dispatch(registerConfirmSlice({ email, register_confirm_code }))
+    dispatch(registerConfirmSlice({ email, confirmCode }))
       .unwrap()
       .then(callback)
       .catch(() => {

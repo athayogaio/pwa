@@ -30,7 +30,7 @@ const TabPanel = props => {
       style={{ width: '100%', maxHeight: '560px' }}
     >
       {value === index && (
-        <Box>
+        <Box display="flex" justifyContent="center">
           {children}
         </Box>
       )}
@@ -76,7 +76,7 @@ const MyLessonsPage = () => {
             </Tabs>
           </Box>
           <Box sx={{
-            height: '100%', width: '100%', display: 'flex', alignItems: 'center', flexWrap: 'wrap',
+            height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap',
           }}
           >
             <TabPanel value={value} index={0}>
@@ -87,8 +87,9 @@ const MyLessonsPage = () => {
                       <Stack
                         direction="row"
                         sx={{
-                          padding: '0 29px',
-                          maxWidth: '100%',
+                          pl: { xs: '0', md: '24px' },
+                          maxWidth: '1035px',
+                          width: '100%',
                           maxHeight: '100%',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -141,8 +142,8 @@ const MyLessonsPage = () => {
                     <Stack
                       direction="row"
                       sx={{
-                        padding: '0 29px',
-                        maxWidth: '100%',
+                        pl: { xs: '0', md: '24px' },
+                        maxWidth: '1035px',
                         maxHeight: '100%',
                         alignItems: 'center',
                         justifyContent: 'center',

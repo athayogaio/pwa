@@ -10,6 +10,7 @@ import resetpass from '../slices/pass-recovery';
 import resetpassconfirm from '../slices/reset-pass-confirm';
 import verifyEmail from '../slices/auth/verify-email';
 import personalData from '../slices/personal-data';
+import alertNotification from '../slices/alert-notification';
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     resetpassconfirm,
     verifyEmail,
     personalData,
+    alertNotification,
   },
 });
 

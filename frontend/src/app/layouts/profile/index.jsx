@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
   Box, BottomNavigation, BottomNavigationAction, Paper,
@@ -11,7 +12,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+
 import Menu from '../../components/menu';
+import AlertNotification from '../../components/alert-notification';
 
 const menuItems = [
   {
@@ -78,6 +81,13 @@ const ProfileLayout = ({ auth }) => {
     });
   }, [currentUrl]);
 
+  const [isAlert, setIsAlert] = useState(false);
+  const { alertProps } = useSelector(state => state.alertNotification);
+
+  useEffect(() => {
+    setIsAlert(alertProps.display);
+  }, [alertProps]);
+
   return (
     <Box sx={{ display: 'flex', maxWidth: '100vw', maxHeight: '100vh' }}>
 
@@ -128,6 +138,25 @@ const ProfileLayout = ({ auth }) => {
             ))}
           </BottomNavigation>
         </Paper>
+      )}
+
+      {isAlert && (
+      <Box sx={{
+        position: { xs: 'absolute' },
+        top: { xs: '72px', md: 'auto' },
+        right: { xs: '20px', md: '24px' },
+        left: { xs: '20px', sm: '276px', md: 'auto' },
+        bottom: { xs: 'auto', md: '40px' },
+        zIndex: '1',
+      }}
+      >
+        <AlertNotification
+          status={alertProps.status}
+          title={alertProps.title}
+          text={alertProps.text}
+          setIsActive={setIsAlert}
+        />
+      </Box>
       )}
 
     </Box>

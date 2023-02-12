@@ -20,7 +20,6 @@ const BillingInfo = () => {
     setIsFilledInfo(value);
     setBillingInfo({ ...obj, isIndividual, status: 'accept' });
   };
-  console.log(isFilledInfo);
 
   return (
     <Box sx={{
@@ -39,7 +38,7 @@ const BillingInfo = () => {
         {isFilledInfo
           ? (
             <InfoDisplay
-              individual={billingInfo.isIndividual}
+              isIndividual={billingInfo.isIndividual}
               recipient={billingInfo.recipient}
               acc={billingInfo.acc}
               inn={billingInfo.inn}
@@ -51,7 +50,7 @@ const BillingInfo = () => {
           : (
             <InfoChange
               fillInfo={fillInfo}
-              isIndividual={billingInfo.isIndividual}
+              isIndividualValue={billingInfo.isIndividual}
               recipient={billingInfo.recipient}
               acc={billingInfo.acc}
               inn={billingInfo.inn}

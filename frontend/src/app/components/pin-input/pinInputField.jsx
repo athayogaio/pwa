@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-plusplus */
-import { OutlinedInput, TextField, useMediaQuery } from '@mui/material';
+import { OutlinedInput, useMediaQuery } from '@mui/material';
 import React, { useEffect, useMemo, useRef } from 'react';
 
 export const validateToPattern = validate => {
@@ -40,13 +41,9 @@ const PinInputField = ({
   index,
   value,
   values,
-  completed,
   type,
-  mask,
   validate,
   format,
-  autoFocus,
-  autoTab,
   autoComplete,
   disabled,
   inputMode,
@@ -100,6 +97,7 @@ const PinInputField = ({
       inputEl.firstChild.focus();
     }
   };
+
   const handleKeyDown = e => {
     if (e.key === 'Backspace' && values[index] === '' && index > 0) {
       const prevInput = inputRef.current.previousElementSibling.firstChild;
@@ -118,6 +116,7 @@ const PinInputField = ({
       onFocus(e);
     }
   };
+
   const handleInputBlur = e => {
     e.target.placeholder = '';
     if (onBlur) {

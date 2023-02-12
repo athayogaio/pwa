@@ -168,7 +168,6 @@ class QuestionnaireTeacher(TimeStampedModel):
 
 class BillingInfoRegexes(Enum):
     INN_RU = r"^\d{10}$"
-    PRC_RU = r"^\d{10}$"
     BIC_RU = r"^[A-Z0-9]{9}$"
     ACCOUNT_NUMBER_RU = r"^\d{20}$"
     CORRESPONDENT_ACCOUNT_RU = r"^\d{20}$"
@@ -176,8 +175,7 @@ class BillingInfoRegexes(Enum):
 
 class LegalUserBillingInfo(PolymorphicModel):
     organization = models.CharField(max_length=255)
-    bank = models.CharField(max_length=255)
-    organization_address = models.CharField(max_length=255)
+    prc = models.CharField("КПП", max_length=10)
 
 
 class LegalUserBillingInfoRU(LegalUserBillingInfo):
@@ -185,18 +183,6 @@ class LegalUserBillingInfoRU(LegalUserBillingInfo):
         "ИНН",
         max_length=10,
         validators=[RegexValidator(regex=BillingInfoRegexes.INN_RU.value)],
-    )
-    correspondent_account = models.CharField(
-        "Корреспондентский счет",
-        max_length=20,
-        validators=[
-            RegexValidator(regex=BillingInfoRegexes.CORRESPONDENT_ACCOUNT_RU.value)
-        ],
-    )
-    prc = models.CharField(
-        "КПП",
-        max_length=10,
-        validators=[RegexValidator(regex=BillingInfoRegexes.PRC_RU.value)],
     )
     bic = models.CharField(
         "БИК",
@@ -208,8 +194,6 @@ class LegalUserBillingInfoRU(LegalUserBillingInfo):
 
 class LegalUserBillingInfoEU(LegalUserBillingInfo):
     inn = models.CharField("ИНН", max_length=50)
-    correspondent_account = models.CharField("Корреспондентский счет", max_length=50)
-    prc = models.CharField("КПП", max_length=50)
     bic = models.CharField(max_length=50)
     account_number = models.CharField("Номер счета", max_length=50)
 

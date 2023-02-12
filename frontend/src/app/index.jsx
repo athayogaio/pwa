@@ -28,6 +28,7 @@ import VerifyEmail from './components/verify-email';
 import PersonalDataPage from './pages/personal-data';
 import TeacherStatusPage from './pages/teacher-status';
 import BillingInfoPage from './pages/billing-info';
+import SupportPage from './pages/support';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -119,6 +120,7 @@ const App = () => {
             <Route path="payment-failed/:id" element={<PaymentFailedPage />} />
             <Route path="personal-data" element={<PersonalDataPage />} />
             <Route path="billing-info" element={<BillingInfoPage />} />
+            <Route path="support" element={<SupportPage />} />
           </Route>
         </Route>
       </Routes>

@@ -5,9 +5,9 @@ import { setMessage } from '../../message';
 
 const registerConfirmSlice = createAsyncThunk(
   'auth/register/confirm',
-  async ({ email, register_confirm_code: token }, thunkAPI) => {
+  async ({ email, confirmCode }, thunkAPI) => {
     try {
-      const result = await AuthService.registerConfirm({ email, token });
+      const result = await AuthService.registerConfirm({ email, confirmCode });
       thunkAPI.dispatch(setMessage('Success'));
 
       return result.data;
@@ -15,7 +15,7 @@ const registerConfirmSlice = createAsyncThunk(
       const message = error.response.data.errors;
       thunkAPI.dispatch(setMessage(message));
 
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error.response.data.errors.authentication_failed[0]);
     }
   },
 );

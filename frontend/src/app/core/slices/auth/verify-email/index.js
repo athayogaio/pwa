@@ -27,6 +27,12 @@ const verifyEmailSlice = createSlice({
       state.errorMessage = action.payload;
     },
   },
+  reducers: {
+    clearErrorMessage: state => {
+      state.errorMessage = null;
+    },
+  },
 });
 
+export const { clearErrorMessage } = verifyEmailSlice.actions;
 export default verifyEmailSlice.reducer;

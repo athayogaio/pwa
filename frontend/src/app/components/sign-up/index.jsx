@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -23,7 +22,7 @@ const SignUp = () => {
   });
   const [captchaKey, setCaptchaKey] = useState('');
   const { errorCode } = useSelector(state => state.auth);
-  console.log(3333, errorCode);
+
   const ATHA_YOGA_RECAPTCHA_SITE_KEY = '6LfG0WYkAAAAABW_coUyWSIcf_TcJ1IcwrfhLyxJ';
 
   const onChange = value => setCaptchaKey(value);
@@ -58,7 +57,6 @@ const SignUp = () => {
     <Container
       sx={{
         height: '100%',
-        overflow: 'auto',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -68,7 +66,7 @@ const SignUp = () => {
       <div
         style={{
           height: '100%',
-          minHeight: 'fit-content',
+          minHeight: '360px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',

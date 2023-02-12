@@ -1,26 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Card, Divider, Grid, Typography,
+  Box, Divider, Grid, Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
 import ticketSearch from '../../../assets/public/ticketSearch.svg';
 
 const MyLessonSearch = () => (
-  <div style={{
-    padding: '20px 24px 20px 20px',
+  <Box sx={{
+    padding: '30px 20px',
     borderRadius: '16px',
-    width: '480px',
-    height: '205px',
-    marginRight: '24px',
-    marginBottom: '24px',
+    width: { xs: '343px', md: '480px' },
+    height: { xs: '170px', md: '210px' },
+    mr: { xs: '0', md: '24px' },
+    mb: { xs: '0px', md: '24px' },
     background: `center / contain no-repeat url(${ticketSearch})`,
   }}
   >
     <Stack
       direction="row"
-      spacing={2}
       sx={{ height: '100%' }}
     >
       <Stack direction="column" spacing={2} alignItems="center" justifyContent="center" sx={{ width: '218%', height: '100%' }}>
@@ -32,9 +31,18 @@ const MyLessonSearch = () => (
         </Typography>
       </Stack>
       <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed', position: 'relative' }} />
-      <Grid container direction="column" gap="12px" alignItems="center" justifyContent="space-between" />
+      <Grid
+        container
+        direction="column"
+        gap="12px"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{
+          ml: { xs: '3px', md: '8px' },
+        }}
+      />
     </Stack>
-  </div>
+  </Box>
 );
 
 export default MyLessonSearch;

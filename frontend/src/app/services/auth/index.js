@@ -6,6 +6,10 @@ import { USER_STORAGE_KEY } from '../user/utils';
 const register = ({ email, password }) => axios
   .post(REGISTER_URL, { email, password, password_confirmation: password })
   .then(response => {
+    if (response.data === 'Success') {
+      return 'Success';
+    }
+
     if (response.data.data.tokens.access) {
       storage.set(USER_STORAGE_KEY, response.data.data);
     }
@@ -13,8 +17,8 @@ const register = ({ email, password }) => axios
     return response.data;
   });
 
-const registerConfirm = ({ email, token }) => axios
-  .post(REGISTER_CONFIRM_URL, { email, register_confirm_token: token });
+const registerConfirm = ({ email, confirmCode }) => axios
+  .post(REGISTER_CONFIRM_URL, { email, register_confirm_code: confirmCode });
 
 const login = ({ email, password }) => axios
   .post(LOGIN_URL, { email, password })

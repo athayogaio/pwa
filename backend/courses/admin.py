@@ -2,8 +2,10 @@
 from django import forms
 from django.contrib import admin
 from django.db import models
+from django.db.models import QuerySet
 from django_json_widget.widgets import JSONEditorWidget
 
+from .app.repositories.complaint_repository import LessonComplaintRepository
 from .models import (
     BaseCourse,
     Course,
@@ -14,7 +16,7 @@ from .models import (
     CourseComment,
     Ticket,
     TicketTransaction,
-    LessonRatingStar,
+    LessonRatingStar, LessonComplaint, ComplaintDecision,
 )
 
 
@@ -203,4 +205,53 @@ class TicketTransactionAdmin(admin.ModelAdmin):
         "ticket_amount",
     )
     list_filter = ("created_at", "updated_at", "ticket")
+    date_hierarchy = "created_at"
+
+
+@admin.register(LessonComplaint)
+class LessonComplaintAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "created_at",
+        "updated_at",
+        "reviewed",
+        "decision",
+        "category",
+        "title",
+        "content",
+        "lesson",
+        "author",
+    )
+    list_filter = ("created_at", "updated_at")
+    date_hierarchy = "created_at"
+    actions = ["mark_reviewed", "mark_decision"]
+
+    @admin.action(description="Пометить жалобу как прочитанную")
+    def mark_reviewed(self, request, queryset: QuerySet[LessonComplaint]):
+        repository = LessonComplaintRepository()
+        for complaint in queryset:
+            complaint.reviewed = True
+        repository.bulk_update(objs=queryset, fields=["reviewed"])
+
+    @admin.action(description="Решение написано")
+    def mark_decision(self, request, queryset: QuerySet[LessonComplaint]):
+        repository = LessonComplaintRepository()
+        for complaint in queryset:
+            complaint.decision = True
+        repository.bulk_update(objs=queryset, fields=["decision"])
+
+
+@admin.register(ComplaintDecision)
+class ComplaintDecisionAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "created_at",
+        "updated_at",
+        "decision",
+        "feedback",
+        "decision_rate",
+        "complaint_id",
+    )
+
+    list_filter = ("created_at", "updated_at")
     date_hierarchy = "created_at"
