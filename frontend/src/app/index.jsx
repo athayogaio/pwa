@@ -38,6 +38,7 @@ import './theme/style.scss';
 import './'
 import PaymentSuccessPage from './pages/payment-success';
 import PaymentFailedPage from './pages/payment-failed';
+import Achievement from './components/achievement';
 
 const theme = createTheme({
   palette: {
@@ -121,6 +122,7 @@ const App = () => {
             <Route path="personal-data" element={<PersonalDataPage />} />
             <Route path="billing-info" element={<BillingInfoPage />} />
             <Route path="support" element={<SupportPage />} />
+            <Route path="achievement" element={<Achievement />} />
           </Route>
         </Route>
       </Routes>

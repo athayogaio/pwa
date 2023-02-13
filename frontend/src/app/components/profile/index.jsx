@@ -172,7 +172,11 @@ const ProfileCard = () => {
                 >
                   (1/30)
                 </Typography>
-                <Achievement open={openAchieve} handleOpen={handleOpenAchieve} handleClose={handleCloseAchieve}/>
+                <Achievement
+                  open={openAchieve}
+                  handleOpen={handleOpenAchieve}
+                  handleClose={handleCloseAchieve}
+                />
               </CardContent>
               <CardActions>
                 <Button
