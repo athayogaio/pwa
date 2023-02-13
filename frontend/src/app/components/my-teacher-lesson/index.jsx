@@ -144,7 +144,7 @@ const MyTeacherLesson = ({
               sx={{
                 fontSize: { xs: '16px', md: '18px' },
                 maxWidth: '271px',
-                height: { xs: '22px', md: '38px' },
+                height: { xs: '38px', md: '47px' },
                 mb: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -341,7 +341,10 @@ const MyTeacherLesson = ({
 
           <Grid container direction="column" gap="6px" alignItems="center" justifyContent="space-between">
             <Stack direction="column" alignItems="center">
-              <EmojiFlagsOutlinedIcon sx={{ mt: '20px', width: '32px', height: '32px', color: '#616161' }} />
+              <EmojiFlagsOutlinedIcon sx={{
+                mt: '20px', width: '32px', height: '32px', color: '#616161',
+              }}
+              />
               <Typography variant="body1" sx={{ fontWeight: '500', fontSize: { xs: '12px', md: '14px' } }} color="text.secondary">
                 Завершено
               </Typography>

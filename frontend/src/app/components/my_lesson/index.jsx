@@ -135,7 +135,7 @@ const MyLesson = ({
               sx={{
                 fontSize: { xs: '16px', md: '18px' },
                 maxWidth: '271px',
-                height: { xs: '22px', md: '38px' },
+                height: { xs: '38px', md: '47px' },
                 mb: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
