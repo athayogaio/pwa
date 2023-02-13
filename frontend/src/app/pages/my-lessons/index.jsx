@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import Header from '../../components/header';
 import LayoutContainer from '../../components/layout-container';
-import getTicketsSlice from '../../core/slices/tickets/getTickets';
+import { getStudentTicketsSlice, getTeacherTicketsSlice } from '../../core/slices/tickets/getTickets';
 import MyLesson from '../../components/my_lesson';
 import MyLessonSearch from '../../components/my_lesson_search';
 import MyTeacherLesson from '../../components/my-teacher-lesson';
@@ -43,7 +43,7 @@ const labelProps = index => ({
 });
 
 const MyLessonsPage = () => {
-  const { isLoading, errorMessage } = useSelector(state => state.tickets);
+  const { isLoading, errorMessage } = useSelector(state => state.studentTickets);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -51,10 +51,12 @@ const MyLessonsPage = () => {
   };
 
   const dispatch = useDispatch();
-  const tickets = useSelector(state => state.tickets.tickets?.data);
+  const studentTickets = useSelector(state => state.studentTickets.studentTickets?.data);
+  const teacherTickets = useSelector(state => state.teacherTickets.teacherTickets?.data);
 
   useEffect(() => {
-    dispatch(getTicketsSlice());
+    dispatch(getStudentTicketsSlice());
+    dispatch(getTeacherTicketsSlice());
   }, [dispatch]);
 
   return (
@@ -81,7 +83,7 @@ const MyLessonsPage = () => {
             <TabPanel value={value} index={0}>
               {!isLoading && (
                 <>
-                  {tickets?.length ? (
+                  {teacherTickets?.length ? (
                     <>
                       <Stack
                         direction="row"
@@ -96,13 +98,13 @@ const MyLessonsPage = () => {
                         // outline: '1px solid blue',
                         }}
                       >
-                        {tickets.map(ticket => (
+                        {teacherTickets.map(ticket => (
                           <MyTeacherLesson
-                            key={ticket.course.id}
-                            id={ticket.course.id}
-                            title={ticket.course.base_course.name}
-                            endDate={ticket.course.deadline_datetime}
-                            status={ticket.course.status}
+                            key={ticket.id}
+                            id={ticket.id}
+                            title={ticket.base_course.name}
+                            endDate={ticket.deadline_datetime}
+                            status={ticket.status}
                           />
                         ))}
                       </Stack>
@@ -136,7 +138,7 @@ const MyLessonsPage = () => {
             <TabPanel value={value} index={1}>
               {!isLoading && (
               <>
-                {tickets?.length ? (
+                {studentTickets?.length ? (
                   <>
                     <Stack
                       direction="row"
@@ -150,7 +152,7 @@ const MyLessonsPage = () => {
                       // outline: '1px solid blue',
                       }}
                     >
-                      {tickets.map(ticket => (
+                      {studentTickets.map(ticket => (
                         <MyLesson
                           key={ticket.course.id}
                           id={ticket.course.id}

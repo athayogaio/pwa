@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import TicketService from '../../../services/tickets';
 
-const getTicketsSlice = createAsyncThunk(
+export const getStudentTicketsSlice = createAsyncThunk(
   'courses/tickets',
   async thunkAPI => {
     try {
-      const result = await TicketService.getTickets();
+      const result = await TicketService.getStudentTickets();
 
       return result.data;
     } catch (error) {
@@ -16,4 +16,17 @@ const getTicketsSlice = createAsyncThunk(
   },
 );
 
-export default getTicketsSlice;
+export const getTeacherTicketsSlice = createAsyncThunk(
+  'courses/im/courses',
+  async thunkAPI => {
+    try {
+      const result = await TicketService.getTeacherTickets();
+
+      return result.data;
+    } catch (error) {
+      const message = error.response.data;
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
