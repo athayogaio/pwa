@@ -43,7 +43,8 @@ const labelProps = index => ({
 });
 
 const MyLessonsPage = () => {
-  const { isLoading, errorMessage } = useSelector(state => state.studentTickets);
+  const { isLoading: isStudentLoading, errorMessage: errorStudentMessage } = useSelector(state => state.studentTickets);
+  const { isLoading: isTeacherLoading, errorMessage: errorTeacherMessage } = useSelector(state => state.teacherTickets);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -68,7 +69,7 @@ const MyLessonsPage = () => {
         }}
         >
           <Box sx={{
-            display: 'flex', justifyContent: 'center', ml: '34px', mb: '11vh',
+            display: 'flex', justifyContent: 'center', ml: '34px',
           }}
           >
             <Tabs value={value} onChange={handleChange} centered>
@@ -81,7 +82,20 @@ const MyLessonsPage = () => {
           }}
           >
             <TabPanel value={value} index={0}>
-              {!isLoading && (
+              {errorTeacherMessage && (
+              <Typography color="error.main">
+                {`Error: ${errorTeacherMessage.errors.not_found[0]}`}
+              </Typography>
+              )}
+              {isTeacherLoading && (
+              <Backdrop
+                sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
+                open={isTeacherLoading}
+              >
+                <CircularProgress />
+              </Backdrop>
+              )}
+              {!isTeacherLoading && (
                 <>
                   {teacherTickets?.length ? (
                     <>
@@ -92,6 +106,7 @@ const MyLessonsPage = () => {
                           maxWidth: '1035px',
                           width: '100%',
                           maxHeight: '100%',
+                          mt: '24px',
                           alignItems: 'center',
                           justifyContent: 'center',
                           flexWrap: 'wrap',
@@ -127,7 +142,7 @@ const MyLessonsPage = () => {
                       </Button>
                     </>
                   ) : (
-                    <Box sx={{ maxWidth: '440px', margin: '0 auto' }}>
+                    <Box sx={{ maxWidth: '440px', margin: '11vh auto 0 auto' }}>
                       <TeacherEmpty />
                     </Box>
                   )}
@@ -136,7 +151,20 @@ const MyLessonsPage = () => {
               )}
             </TabPanel>
             <TabPanel value={value} index={1}>
-              {!isLoading && (
+              {errorStudentMessage && (
+              <Typography color="error.main">
+                {`Error: ${errorStudentMessage.errors.not_found[0]}`}
+              </Typography>
+              )}
+              {isStudentLoading && (
+              <Backdrop
+                sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
+                open={isStudentLoading}
+              >
+                <CircularProgress />
+              </Backdrop>
+              )}
+              {!isStudentLoading && (
               <>
                 {studentTickets?.length ? (
                   <>
@@ -146,6 +174,7 @@ const MyLessonsPage = () => {
                         pl: { xs: '0', md: '24px' },
                         maxWidth: '1035px',
                         maxHeight: '100%',
+                        mt: '24px',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexWrap: 'wrap',
@@ -184,7 +213,7 @@ const MyLessonsPage = () => {
                     </Button>
                   </>
                 ) : (
-                  <Box sx={{ maxWidth: '440px', margin: '0 auto' }}>
+                  <Box sx={{ maxWidth: '440px', margin: '11vh auto 0 auto' }}>
                     <StudentEpmty />
                   </Box>
                 )}
@@ -194,19 +223,19 @@ const MyLessonsPage = () => {
             </TabPanel>
           </Box>
         </Box>
-        {isLoading && (
+        {/* {(isTeacherLoading || isStudentLoading) && (
         <Backdrop
           sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={isLoading}
+          open={isTeacherLoading || isStudentLoading}
         >
           <CircularProgress />
         </Backdrop>
-        )}
-        {errorMessage && (
+        )} */}
+        {/* {errorMessage && (
         <Typography color="error.main">
           {`Error: ${errorMessage.errors.not_found[0]}`}
         </Typography>
-        )}
+        )} */}
       </LayoutContainer>
     </>
   );
