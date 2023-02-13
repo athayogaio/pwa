@@ -128,3 +128,6 @@ class LessonRepository(BaseRepository):
         return self.find_lessons_in_range(
             course_id=course_id, start_at=start_at, end_at=end_at
         ).count()
+
+    def delete(self, lesson: Lesson) -> Lesson:
+        return lesson.delete()

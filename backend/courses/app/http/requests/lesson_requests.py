@@ -33,3 +33,7 @@ class LessonFilterRequest(UnimplementedSerializer):
             raise ValidationError("start datetime must be greater than end_datetime")
 
         return attrs
+
+
+class LessonsDeleteRequest(UnimplementedSerializer):
+    lessons_list_id = serializers.ListSerializer(child=serializers.IntegerField(min_value=1))

@@ -3,6 +3,8 @@ from abc import ABC
 from functools import cached_property
 
 import math
+from typing import List
+
 from django.conf import settings
 from django.utils.timezone import now
 from rest_framework.exceptions import NotFound, ValidationError
@@ -226,3 +228,15 @@ class LessonRate:
     def rate(self) -> LessonRatingStar:
         self.repository.rate_lesson(rating_star=self.rating_star)
         return self.rating_star
+
+
+class LessonsDelete:
+    def __init__(self, lessons: List[int], user: User):
+        self._lessons = lessons
+        self._user = user
+        self.repository = LessonRepository()
+
+    def delete_lessons(self) -> None:
+        for item in self._lessons:
+            lesson = self.repository.find_by_id(id_=item)
+            self.repository.delete(lesson=lesson)

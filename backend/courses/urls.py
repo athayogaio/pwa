@@ -37,7 +37,7 @@ from courses.app.handlers.lesson_handlers import (
     LessonListHandler,
     LessonParticipateHandler,
     LessonRateHandler,
-    UserLessonsFilterHandler,
+    UserLessonsFilterHandler, LessonsDeleteHandler,
 )
 from courses.app.handlers.question_handlers import (
     CourseQuestionListHandler,
@@ -99,4 +99,5 @@ urlpatterns = [
     path("complaint/retrive/", ComplaintRetriveHandler.as_view()),
     path("complaint/retrive/decision/", ComplaintDecisionHandler.as_view()),
     path("complaint/feedback/", DecisionRateFeedbackHandler.as_view()),
+    path("lesson/delete/", LessonsDeleteHandler.as_view()),
 ]

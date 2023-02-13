@@ -14,7 +14,7 @@ from courses.app.http.requests.course_requests import CourseTicketUseRequest
 from courses.app.http.requests.lesson_requests import (
     LessonRescheduleRequest,
     LessonRateRequest,
-    LessonFilterRequest,
+    LessonFilterRequest, LessonsDeleteRequest,
 )
 from courses.app.http.resources.course_resources import (
     LessonResource,
@@ -26,7 +26,7 @@ from courses.app.services.lessons_service import (
     LessonReschedule,
     LessonCancel,
     LessonParticipation,
-    LessonRate,
+    LessonRate, LessonsDelete,
 )
 
 
@@ -57,6 +57,20 @@ class LessonCancelHandler(Handler):
         LessonCancel(lesson_id=lesson_id, user=self.request.user).cancel()
 
         return Response({"data": "Success canceled"})
+
+
+@permission_classes([IsAuthenticated])
+class LessonsDeleteHandler(Handler):
+    serializer_class = LessonsDeleteRequest
+
+    def patch(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        data = self.serializer_class(data=self.request.data)
+        data.is_valid(raise_exception=True)
+        LessonsDelete(
+            lessons=data.validated_data["lessons_list_id"],
+            user=self.request.user,
+        ).delete_lessons()
+        return Response({"data": "Success deleted"})
 
 
 class LessonRetrieveHandler(Handler):
