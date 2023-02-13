@@ -14,13 +14,15 @@ from core.app.http.requests.teachers_requests import (
     TeacherProfileCreateReqContext,
     IndividualBillingInfoCreateRequest,
     LegalBillingInfoCreateRequest,
+    TeacherProfileCreateRequest,
 )
 from core.models import UserBillingType
 
 
 @permission_classes([IsAuthenticated])
-class TeacherProfileCreateHandler(GenericHandler, ABC):
+class TeacherProfileCreateHandler(GenericHandler):
     parser_classes = [MultiPartParser]
+    serializer_class = TeacherProfileCreateRequest
 
     def post(self, *args: Any, **kwargs: Any) -> Response:
         data = self.serializer_class(
