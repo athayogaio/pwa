@@ -2,8 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
-  Button,
-  Card, Divider, Grid, Menu, MenuItem, Modal, Typography,
+  Button, Divider, Grid, Menu, MenuItem, Modal, Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -14,9 +13,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ticket from '../../../assets/public/ticket.svg';
+import { formatNearestLesson } from '../../utils/scheduleServices';
 
 const MyLesson = ({
-  title, ticketsAmount, endDate, isOneTime, id,
+  title, ticketsAmount, endDate, isOneTime, id, nearestLesson, duration,
 }) => {
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -58,7 +58,7 @@ const MyLesson = ({
     <Box sx={{
       width: { xs: '343px', md: '480px' },
       height: { xs: '170px', md: '210px' },
-      padding: { xs: '27px 7px 20px 12px', md: '30px 5px 30px 20px' },
+      padding: { xs: '27px 7px 27px 12px', md: '30px 5px 30px 20px' },
       borderRadius: '16px',
       mr: { xs: '0', md: '24px' },
       mb: { xs: '0px', md: '24px' },
@@ -127,7 +127,7 @@ const MyLesson = ({
       <Stack
         direction="row"
       >
-        <Grid container direction="column" gap={{ xs: '10px', md: '16px' }} width="205%">
+        <Grid container direction="column" justifyContent="space-between" width="205%">
           <Box>
             <Typography
               variant="h6"
@@ -135,7 +135,7 @@ const MyLesson = ({
               sx={{
                 fontSize: { xs: '16px', md: '18px' },
                 maxWidth: '271px',
-                height: { xs: '22px', md: '38px' },
+                height: { xs: '38px', md: '47px' },
                 mb: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -147,27 +147,38 @@ const MyLesson = ({
               {title}
             </Typography>
           </Box>
-          <Grid container direction="column">
-            <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '12px', md: '13px' }, mb: '4px' }}>
-              Ближайшее занятие:
-            </Typography>
-            <Grid container>
-              <DateRangeOutlinedIcon
-                color="primary"
-                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
-              />
-              <Typography variant="body1" sx={{ mr: '13px', fontSize: { xs: '12px', md: '14px' } }}>
-                Пн, 26 дек
+          {isOneTime && (
+            <Grid container direction="column">
+              <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '12px', md: '13px' }, mb: '4px' }}>
+                Ближайшее занятие:
               </Typography>
-              <AccessTimeIcon
-                color="primary"
-                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
-              />
-              <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
-                14:00 - 15:30
-              </Typography>
+              <Grid container>
+                <DateRangeOutlinedIcon
+                  color="primary"
+                  sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
+                />
+                <Typography variant="body1" sx={{ mr: '13px', fontSize: { xs: '12px', md: '14px' } }}>
+                  {formatNearestLesson(nearestLesson, duration).weekDay}
+                  ,
+                  {' '}
+                  {formatNearestLesson(nearestLesson, duration).monthDay}
+                  {' '}
+                  {formatNearestLesson(nearestLesson, duration).monthRu}
+                </Typography>
+                <AccessTimeIcon
+                  color="primary"
+                  sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
+                />
+                <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
+                  {formatNearestLesson(nearestLesson, duration).startTime}
+                  {' '}
+                  -
+                  {' '}
+                  {formatNearestLesson(nearestLesson, duration).endTime}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          )}
           <Grid container gap="6px" alignItems="center">
             <Avatar alt="name" src="avatar" sx={{ width: { xs: '24px', md: '32px' }, height: { xs: '24px', md: '32px' } }} />
             <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>

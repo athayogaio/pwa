@@ -2,7 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import auth from '../slices/auth';
 import message from '../slices/message';
 import lessons from '../slices/lessons';
-import tickets from '../slices/tickets';
+import studentTickets from '../slices/tickets/studentTicketsSlice';
+import teacherTickets from '../slices/tickets/getTeacherTicketsSlice';
 import lesson from '../slices/lesson';
 import questionnaire from '../slices/questionnaire';
 import favorites from '../slices/favorites';
@@ -16,7 +17,8 @@ const store = configureStore({
     auth,
     message,
     lessons,
-    tickets,
+    studentTickets,
+    teacherTickets,
     lesson,
     questionnaire,
     favorites,

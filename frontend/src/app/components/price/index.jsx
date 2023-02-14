@@ -42,7 +42,9 @@ const Price = ({
 
   const calculateAmountWithDiscount = (num, quantity, price) => {
     const sum = num || quantity;
+
     if (sum < 4) return sum * price;
+
     const { discount } = DISCOUNT_TABLE.find(item => sum >= item.minAmount && sum < item.maxAmount);
     const sumWithDiscount = Math.ceil(sum * price * ((100 - discount) / 100));
     return sumWithDiscount;
