@@ -280,22 +280,22 @@ class AppealSupportStatus(models.TextChoices):
     CLOSED = "ЗАКРЫТА"
 
 
-class AppealSupportCategories(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    category = models.CharField("Категория", max_length=30)
-
-    class Meta:
-        verbose_name = "категорию"
-        verbose_name_plural = "Категории обращения в поддержку"
-
-
 class AppealSupport(TimeStampedModel):
-    category = models.ForeignKey(AppealSupportCategories, related_name="support_category", on_delete=models.CASCADE)
+    category = models.CharField("Категория", max_length=30)
     title = models.CharField("Тема", max_length=50)
     content = models.TextField("Содержание")
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     status = models.CharField("Статус", max_length=30, choices=AppealSupportStatus.choices)
 
     class Meta:
-        verbose_name = "обращение"
+        verbose_name = "Обращение"
         verbose_name_plural = "Обращения в поддержку"
+
+
+class AppealSupportCategories(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    category = models.CharField("Категория", max_length=30)
+
+    class Meta:
+        verbose_name = "Категорию"
+        verbose_name_plural = "Категории обращения в поддержку"

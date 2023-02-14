@@ -40,5 +40,5 @@ urlpatterns = [
     path("profile/<int:pk>/", UserProfileHandler.as_view(), name="im"),
     path("support/create/", AppealSupportHandler.as_view()),
     path("support/im/", AppealRetriveHandler.as_view()),
-    path("support/categories/", AppealSupportCategoriesRetriveHandler.as_view()),
+    path("support/im/categories/", AppealSupportCategoriesRetriveHandler.as_view()),
 ]
