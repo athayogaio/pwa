@@ -17,7 +17,7 @@ const AbonementPage = () => {
   const dispatch = useDispatch();
   const { lesson, errorMessage, isLoading } = useSelector(state => state.lesson);
   const { price } = lesson?.data || 0;
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(12);
 
   const array = [{ num: 1, str: ' посещениe', id: 'id0' },
     { num: 4, str: ' посещения', id: 'id1' },
