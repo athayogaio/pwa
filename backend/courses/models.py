@@ -254,7 +254,7 @@ class Ticket(TimeStampedModel):
     course = models.ForeignKey(
         Course, verbose_name="Курс", on_delete=models.DO_NOTHING, related_name="tickets"
     )
-    user = models.ForeignKey(User, verbose_name="Владелец", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, verbose_name="Владелец", on_delete=models.CASCADE)
     amount = models.IntegerField("Количество посещений")
 
     class Meta:

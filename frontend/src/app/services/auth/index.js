@@ -18,7 +18,15 @@ const register = ({ email, password }) => axios
   });
 
 const registerConfirm = ({ email, confirmCode }) => axios
-  .post(REGISTER_CONFIRM_URL, { email, register_confirm_code: confirmCode });
+  .post(REGISTER_CONFIRM_URL, { email, register_confirm_code: confirmCode })
+  .then(response => {
+    console.log(response);
+    if (response.data.data.tokens.access) {
+      storage.set(USER_STORAGE_KEY, response.data.data);
+    }
+
+    return response.data;
+  });
 
 const login = ({ email, password }) => axios
   .post(LOGIN_URL, { email, password })

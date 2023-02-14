@@ -10,9 +10,9 @@ const LayoutContainer = ({ children }) => {
   return (
     <Container
       sx={matches ? {
-        overflow: 'auto', maxHeight: 'calc(100% - 64px)', minWidth: '100%', padding: '20px',
+        overflow: 'auto', maxHeight: 'calc(100% - 64px)', height: '100%', minWidth: '100%', padding: '20px',
       } : {
-        overflow: 'auto', maxHeight: 'calc(100% - 56px)', minWidth: '100%', padding: '20px',
+        overflow: 'auto', maxHeight: 'calc(100% - 56px)', height: '100%', minWidth: '100%', padding: '20px',
       }}
     >
       {children}

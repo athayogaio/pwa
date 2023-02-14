@@ -6,13 +6,7 @@ const registerSlice = createAsyncThunk(
   'auth/register',
   async ({ email, password }, thunkAPI) => {
     try {
-      const data = await AuthService.register({ email, password });
-
-      // if (data.tokens.access) {
-      //   thunkAPI.dispatch(setMessage('User successfully registered!'));
-      // }
-
-      return data;
+      return await AuthService.register({ email, password });
     } catch (error) {
       const message = error.response.data.errors;
       thunkAPI.dispatch(setMessage(message));
