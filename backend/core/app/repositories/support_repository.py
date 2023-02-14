@@ -3,7 +3,7 @@ from typing import List
 from django.db.models import QuerySet
 
 from core.app.repositories.base_repository import BaseRepository
-from core.models import AppealSupport, User, AppealSupportCategories
+from core.models import AppealSupport, User
 
 
 class AppealSupportRepository(BaseRepository):
@@ -17,10 +17,3 @@ class AppealSupportRepository(BaseRepository):
 
     def bulk_update(self, objs: QuerySet[AppealSupport], fields: List[str]) -> None:
         self.model.objects.bulk_update(objs=objs, fields=fields)
-
-
-class AppealSupportCategoriesRepository(BaseRepository):
-    model = AppealSupportCategories
-
-    def find(self) -> QuerySet[AppealSupportCategories]:
-        return self.model.objects.all()

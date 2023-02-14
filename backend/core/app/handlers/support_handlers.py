@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from core.app.framework.handlers import GenericHandler, Handler
 from core.app.framework.pagination import Pagination
 from core.app.http.requests.support_request import AppealSupportRequest
-from core.app.http.resources.support_resourse import AppealSupportResource, AppealSupportCategoriesResource
-from core.app.repositories.support_repository import AppealSupportRepository, AppealSupportCategoriesRepository
+from core.app.http.resources.support_resourse import AppealSupportResource
+from core.app.repositories.support_repository import AppealSupportRepository
 from core.app.services.support_services import AppealSupportCreate
 
 
@@ -37,17 +37,4 @@ class AppealRetriveHandler(Handler):
             return Response({"data": "You dont have appeal"})
         return Response(Pagination(
             data=appeal, request=request, resource=AppealSupportResource
-        ).paginate())
-
-
-class AppealSupportCategoriesRetriveHandler(Handler):
-    repository = AppealSupportCategoriesRepository()
-
-    def get(
-            self, request: Request, *args: Any, **kwargs: Any
-    ) -> Response:
-        category = self.repository.find()
-
-        return Response(Pagination(
-            data=category, request=request, resource=AppealSupportCategoriesResource
         ).paginate())

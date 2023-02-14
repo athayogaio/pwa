@@ -8,8 +8,7 @@ from django_json_widget.widgets import JSONEditorWidget
 from .app.repositories.support_repository import AppealSupportRepository
 from .app.services.email_services import SimpleEmailTextService
 from .app.services.types import TextMailData
-from .models import Attachment, User, Transaction, QuestionnaireTeacher, Comment, AppealSupport, AppealSupportStatus, \
-    AppealSupportCategories
+from .models import Attachment, User, Transaction, QuestionnaireTeacher, Comment, AppealSupport, AppealSupportStatus
 
 
 @admin.register(Attachment)
@@ -107,6 +106,7 @@ class CommentAdmin(admin.ModelAdmin):
     date_hierarchy = "created_at"
 
 
+
 @admin.register(AppealSupport)
 class AppealSupportAdmin(admin.ModelAdmin):
     list_display = (
@@ -150,10 +150,3 @@ class AppealSupportAdmin(admin.ModelAdmin):
         for item in queryset:
             item.status = AppealSupportStatus.CLOSED
         repository.bulk_update(objs=queryset, fields=["status"])
-
-
-@admin.register(AppealSupportCategories)
-class AppealSupportCategoriesAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "category")

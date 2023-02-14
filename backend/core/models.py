@@ -273,6 +273,12 @@ class Comment(PolymorphicModel):
         verbose_name_plural = "Комментарии"
 
 
+class AppealSupportCategories(models.TextChoices):
+    PAIMENT = "PAIMENT"
+    LESSON = "LESSON"
+    OTHER = "OTHER"
+
+
 class AppealSupportStatus(models.TextChoices):
     OPEN = "ОТКРЫТА"
     IN_PROCESS = "В РАССМОТРЕНИИ"
@@ -281,8 +287,8 @@ class AppealSupportStatus(models.TextChoices):
 
 
 class AppealSupport(TimeStampedModel):
-    category = models.CharField("Категория", max_length=30)
-    title = models.CharField("Тема", max_length=50)
+    category = models.CharField("Категория", max_length=30, choices=AppealSupportCategories.choices)
+    title = models.CharField("Тема", max_length=100)
     content = models.TextField("Содержание")
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     status = models.CharField("Статус", max_length=30, choices=AppealSupportStatus.choices)
@@ -290,11 +296,3 @@ class AppealSupport(TimeStampedModel):
     class Meta:
         verbose_name = "Обращение"
         verbose_name_plural = "Обращения в поддержку"
-
-
-class AppealSupportCategories(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    category = models.CharField("Категория", max_length=30)
-
-    class Meta:
-        verbose_name_plural = "Категории обращения в поддержку"
