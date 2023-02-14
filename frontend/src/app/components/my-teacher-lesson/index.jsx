@@ -17,6 +17,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import EmojiFlagsOutlinedIcon from '@mui/icons-material/EmojiFlagsOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
+import { formatNearestLesson, month, weekdaysForGetDay } from '../../utils/scheduleServices';
 
 const MyTeacherLesson = ({
   title, endDate, id, status,
@@ -66,7 +67,7 @@ const MyTeacherLesson = ({
     <Box sx={{
       width: { xs: '343px', md: '480px' },
       height: { xs: '170px', md: '210px' },
-      padding: { xs: '27px 7px 20px 12px', md: '30px 5px 30px 20px' },
+      padding: { xs: '27px 7px 27px 12px', md: '30px 5px 30px 20px' },
       borderRadius: '16px',
       mr: { xs: '0', md: '24px' },
       mb: { xs: '0px', md: '24px' },
@@ -136,7 +137,12 @@ const MyTeacherLesson = ({
       <Stack
         direction="row"
       >
-        <Grid container direction="column" gap={{ xs: '10px', md: '16px' }} sx={{ width: { xs: '201%', md: '205%' } }}>
+        <Grid
+          container
+          direction="column"
+          sx={{ width: { xs: '201%', md: '205%' } }}
+          justifyContent="space-between"
+        >
           <Box>
             <Typography
               variant="h6"
@@ -156,27 +162,6 @@ const MyTeacherLesson = ({
               {title}
             </Typography>
           </Box>
-          <Grid container direction="column">
-            <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '12px', md: '13px' }, mb: '4px' }}>
-              Ближайшее занятие:
-            </Typography>
-            <Grid container>
-              <DateRangeOutlinedIcon
-                color="primary"
-                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
-              />
-              <Typography variant="body1" sx={{ mr: '13px', fontSize: { xs: '12px', md: '14px' } }}>
-                Пн, 26 дек
-              </Typography>
-              <AccessTimeIcon
-                color="primary"
-                sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
-              />
-              <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
-                14:00 - 15:30
-              </Typography>
-            </Grid>
-          </Grid>
           <Grid container gap="6px" alignItems="center">
             <Avatar alt="name" src="avatar" sx={{ width: { xs: '24px', md: '32px' }, height: { xs: '24px', md: '32px' } }} />
             <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>

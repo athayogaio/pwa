@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-no-useless-fragment */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,7 +27,7 @@ const TabPanel = props => {
       hidden={value !== index}
       id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
-      style={{ width: '100%', maxHeight: '560px' }}
+      style={{ width: '100%' }}
     >
       {value === index && (
         <Box display="flex" justifyContent="center">
@@ -189,6 +190,8 @@ const MyLessonsPage = () => {
                           ticketsAmount={ticket.amount}
                           endDate={ticket.course.deadline_datetime}
                           isOneTime={ticket.course.schedule.length === 0}
+                          nearestLesson={ticket.course.start_datetime}
+                          duration={ticket.course.duration}
                         />
                       ))}
                       <MyLessonSearch />
