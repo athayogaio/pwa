@@ -274,9 +274,9 @@ class Comment(PolymorphicModel):
 
 
 class AppealSupportCategories(models.TextChoices):
-    PAIMENT = "PAIMENT"
-    LESSON = "LESSON"
-    OTHER = "OTHER"
+    COMPLAINT = "ЖАЛОБА"
+    OFFER = "ПРЕДЛОЖЕНИЕ"
+    STATEMENT = "ЗАЯВЛЕНИЕ"
 
 
 class AppealSupportStatus(models.TextChoices):

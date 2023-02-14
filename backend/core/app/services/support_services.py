@@ -1,6 +1,6 @@
 from core.app.repositories.support_repository import AppealSupportRepository
 from core.app.services.types import AppealSupportData
-from core.models import User, AppealSupport, AppealSupportStatus
+from core.models import User, AppealSupport
 
 
 class AppealSupportCreate:
@@ -16,7 +16,6 @@ class AppealSupportCreate:
         appeal.title = self._data["title"]
         appeal.content = self._data["content"]
         appeal.user = self._user
-        appeal.status = AppealSupportStatus.OPEN
 
         return appeal
 
