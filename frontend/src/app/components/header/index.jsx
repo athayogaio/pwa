@@ -14,7 +14,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import useAuth from '../../utils/hooks/useAuth';
 import menuAvatar from '../../../assets/public/menu-avatar.png';
-import ProfileService from '../../services/auth/profile';
+import ProfileService from '../../services/profile';
 
 const menuItems = [
   {

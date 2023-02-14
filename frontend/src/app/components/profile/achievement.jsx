@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Grid } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -13,7 +13,14 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import achievement from '../../../assets/public/achievement.svg';
 
-const Achievement = ({ open, handleOpen, handleClose, title, description }) => {
+const Achievement = ({
+  title, description,
+}) => {
+  const [openAchieve, setOpenAchieve] = useState(false);
+
+  const handleOpen = () => setOpenAchieve(true);
+  const handleClose = () => setOpenAchieve(false);
+
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
 
   return (
@@ -28,12 +35,11 @@ const Achievement = ({ open, handleOpen, handleClose, title, description }) => {
         onClick={handleOpen}
       />
       <Dialog
-        open={open}
+        open={openAchieve}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="customized-dialog-title"
       >
-        <DialogTitle sx={{ m: 0, p: 2 }}>
+        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -41,7 +47,7 @@ const Achievement = ({ open, handleOpen, handleClose, title, description }) => {
               position: 'absolute',
               right: 8,
               top: 8,
-              color: theme => theme.palette.grey[500],
+              color: 'grey[500]',
             }}
           >
             <CloseIcon />
