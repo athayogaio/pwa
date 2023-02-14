@@ -3,6 +3,7 @@ import getUrl from '../api';
 import authHeader from '../auth/header';
 
 export const STUDENT_TICKETS_URL = getUrl('/courses/tickets/');
+export const STUDENT_TICKETS_ARCHIEVE_URL = courseId => getUrl(`/courses/${courseId}/archiving/`);
 export const TEACHER_TICKETS_URL = getUrl('/courses/im/courses/');
 export const BUY_TICKETS_URL = getUrl('/courses/ticket/buy/');
 
