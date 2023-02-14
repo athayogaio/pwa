@@ -16,8 +16,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import getProfileDataSlice from '../../core/slices/profile/getProfileData';
 import defaultBackground from '../../../assets/public/defaultBackground.png';
 import defaultAvatar from '../../../assets/public/menu-avatar.png';
-import Achievement from './achievement';
-import achievements from './data';
+import AchievementModal from './achievementModal';
+import mockData from '../achievement/mockData';
 import EmptyDescription from './emptyDescription';
 import './index.scoped.scss';
 
@@ -29,6 +29,7 @@ const ProfileCard = () => {
   const handleCloseAllDesctiption = () => setOpenAllDesctiption(false);
 
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
+  const mockDataForSM = mockData.slice(0, 4);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -174,27 +175,21 @@ const ProfileCard = () => {
                   (8/30)
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                  {achievements.map((achiev, index) => {
-                    if (pointForAdaptiveToSM) {
-                      if (index < 4) {
-                        return (
-                          <Achievement
-                            key={achiev.id}
-                            title={achiev.title}
-                            description={achiev.description}
-                          />
-                        );
-                      }
-                    } else {
-                      return (
-                        <Achievement
-                          key={achiev.id}
-                          title={achiev.title}
-                          description={achiev.description}
-                        />
-                      );
-                    }
-                  })}
+                  {pointForAdaptiveToSM
+                    ? mockDataForSM.map(achiev => (
+                      <AchievementModal
+                        key={achiev.id}
+                        title={achiev.title}
+                        description={achiev.description}
+                      />
+                    ))
+                    : mockData.map(achiev => (
+                      <AchievementModal
+                        key={achiev.id}
+                        title={achiev.title}
+                        description={achiev.description}
+                      />
+                    ))}
                 </Box>
               </CardContent>
               <CardActions>
@@ -202,7 +197,7 @@ const ProfileCard = () => {
                   variant="text"
                   size="small"
                   sx={{ textTransform: 'none', left: 'calc(100% - 113px)' }}
-                  onClick={() => navigate('/achievement')}
+                  onClick={() => navigate('/achievements')}
                 >
                   Показать больше
                 </Button>

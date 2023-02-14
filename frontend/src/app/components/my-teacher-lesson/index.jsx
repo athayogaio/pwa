@@ -17,7 +17,6 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import EmojiFlagsOutlinedIcon from '@mui/icons-material/EmojiFlagsOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
-import './style.scss';
 
 const MyTeacherLesson = ({
   title, endDate, id, status,
@@ -76,8 +75,6 @@ const MyTeacherLesson = ({
       // outline: '1px solid red',
     }}
     >
-      <div className='top_element'></div>
-      <div className='bottom_element'></div>
       <MoreHorizOutlinedIcon
         color="disabled"
         sx={{ position: 'absolute', top: { xs: '17px', md: '10px' }, right: { xs: '12px', md: '20px' } }}

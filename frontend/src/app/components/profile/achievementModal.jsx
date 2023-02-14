@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import achievement from '../../../assets/public/achievement.svg';
 
-const Achievement = ({
+const AchievementModal = ({
   title, description,
 }) => {
   const [openAchieve, setOpenAchieve] = useState(false);
@@ -86,4 +86,4 @@ const Achievement = ({
   );
 };
 
-export default Achievement;
+export default AchievementModal;
