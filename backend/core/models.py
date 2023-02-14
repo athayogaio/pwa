@@ -297,5 +297,4 @@ class AppealSupportCategories(models.Model):
     category = models.CharField("Категория", max_length=30)
 
     class Meta:
-        verbose_name = "Категорию"
         verbose_name_plural = "Категории обращения в поддержку"
