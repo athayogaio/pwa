@@ -1,5 +1,6 @@
 from django.urls import path
 
+from core.app.handlers.support_handlers import AppealSupportHandler, AppealRetriveHandler
 from core.app.handlers.teachers_handlers import (
     TeacherProfileAddLegalBillingHandler,
     TeacherProfileAddIndividualBillingHandler,
@@ -36,4 +37,6 @@ urlpatterns = [
     path("im/", LoggedUserProfileHandler.as_view(), name="im"),
     path("im/update/", UserProfileUpdateHandler.as_view(), name="im_update"),
     path("profile/<int:pk>/", UserProfileHandler.as_view(), name="im"),
+    path("support/create/", AppealSupportHandler.as_view()),
+    path("support/im/", AppealRetriveHandler.as_view()),
 ]
