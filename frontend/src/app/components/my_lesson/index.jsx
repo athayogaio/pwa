@@ -2,8 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
-  Button,
-  Card, Divider, Grid, Menu, MenuItem, Modal, Typography,
+  Button, Divider, Grid, Menu, MenuItem, Modal, Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -171,15 +170,11 @@ const MyLesson = ({
                   sx={{ transform: 'translateY(-2px)', mr: '6px', width: '16px' }}
                 />
                 <Typography variant="body1" sx={{ fontSize: { xs: '12px', md: '14px' } }}>
-                  {formatNearestLesson(nearestLesson, duration).hoursStart}
-                  :
-                  {formatNearestLesson(nearestLesson, duration).minutesStart}
+                  {formatNearestLesson(nearestLesson, duration).startTime}
                   {' '}
                   -
                   {' '}
-                  {formatNearestLesson(nearestLesson, duration).hoursEnd}
-                  :
-                  {formatNearestLesson(nearestLesson, duration).minutesEnd}
+                  {formatNearestLesson(nearestLesson, duration).endTime}
                 </Typography>
               </Grid>
             </Grid>

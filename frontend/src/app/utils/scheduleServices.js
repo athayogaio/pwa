@@ -1,5 +1,6 @@
-export const weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-export const weekdaysForGetDay = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+import * as dayjs from 'dayjs';
+
+export const weekdays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 export const month = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 const calculateEndTime = (startTime, duration) => {
   const anyDate = new Date(2000, 0, 1, 0, 0, 0, 0);
@@ -34,18 +35,19 @@ export const courseDuration = (startDate, endDate) => {
 };
 
 export const formatNearestLesson = (nearestLesson, duration) => {
-  const preparedDate = new Date(Date.parse(nearestLesson));
-  const weekDay = weekdaysForGetDay[preparedDate.getDay()];
-  const monthDay = preparedDate.getDate();
-  const monthRu = month[preparedDate.getMonth()];
-  const hoursStart = preparedDate.getHours();
-  const minutesStart = preparedDate.getMinutes();
-  const hoursEnd = preparedDate
-    .getHours(preparedDate.setHours(preparedDate.getHours() + +duration.slice(0, 2)));
-  let minutesEnd = preparedDate
-    .getMinutes(preparedDate.setMinutes(preparedDate.getMinutes() + +duration.slice(3, 5)));
-  if (minutesEnd < 10) { minutesEnd = `0${minutesEnd}`; }
+  const preparedDate = dayjs(nearestLesson);
+  const weekDay = weekdays[preparedDate.day()];
+  const monthDay = preparedDate.date();
+  const monthRu = month[preparedDate.month()];
+  const startTime = preparedDate.format('HH:mm');
+  let endTime = preparedDate.add(+duration.slice(0, 2), 'hour').add(+duration.slice(3, 5), 'minute');
+  endTime = endTime.format('HH:mm');
+  // const hoursEnd = preparedDate
+  //   .getHours(preparedDate.setHours(preparedDate.getHours() + +duration.slice(0, 2)));
+  // let minutesEnd = preparedDate
+  //   .getMinutes(preparedDate.setMinutes(preparedDate.getMinutes() + +duration.slice(3, 5)));
+  // if (minutesEnd < 10) { minutesEnd = `0${minutesEnd}`; }
   return {
-    weekDay, monthDay, monthRu, hoursStart, minutesStart, hoursEnd, minutesEnd,
+    weekDay, monthDay, monthRu, startTime, endTime,
   };
 };

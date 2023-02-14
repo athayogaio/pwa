@@ -1,13 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
-  Button,
-  Card, Divider, Grid, Menu, MenuItem, Modal, Typography,
+  Button, Divider, Grid, Menu, MenuItem, Modal, Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -17,7 +14,6 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import EmojiFlagsOutlinedIcon from '@mui/icons-material/EmojiFlagsOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ticket from '../../../assets/public/ticket.svg';
-import { formatNearestLesson, month, weekdaysForGetDay } from '../../utils/scheduleServices';
 
 const MyTeacherLesson = ({
   title, endDate, id, status,
@@ -140,7 +136,7 @@ const MyTeacherLesson = ({
         <Grid
           container
           direction="column"
-          sx={{ width: { xs: '201%', md: '205%' } }}
+          sx={{ width: { xs: '201%', md: '205%' } }} // todo - change this %
           justifyContent="space-between"
         >
           <Box>

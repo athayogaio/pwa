@@ -108,6 +108,7 @@ const MyLessonsPage = () => {
                           width: '100%',
                           maxHeight: '100%',
                           mt: '24px',
+                          mb: '24px',
                           alignItems: 'center',
                           justifyContent: 'center',
                           flexWrap: 'wrap',
@@ -176,6 +177,7 @@ const MyLessonsPage = () => {
                         maxWidth: '1035px',
                         maxHeight: '100%',
                         mt: '24px',
+                        mb: '24px',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexWrap: 'wrap',
@@ -226,19 +228,6 @@ const MyLessonsPage = () => {
             </TabPanel>
           </Box>
         </Box>
-        {/* {(isTeacherLoading || isStudentLoading) && (
-        <Backdrop
-          sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={isTeacherLoading || isStudentLoading}
-        >
-          <CircularProgress />
-        </Backdrop>
-        )} */}
-        {/* {errorMessage && (
-        <Typography color="error.main">
-          {`Error: ${errorMessage.errors.not_found[0]}`}
-        </Typography>
-        )} */}
       </LayoutContainer>
     </>
   );
