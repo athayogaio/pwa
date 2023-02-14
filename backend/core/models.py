@@ -274,13 +274,13 @@ class Comment(PolymorphicModel):
 
 
 class AppealSupportStatus(models.TextChoices):
-    OPEN = "OPEN"
-    IN_PROCESS = "IN_PROCESS"
-    REJECTED = "REJECTED"
-    CLOSED = "CLOSED"
+    OPEN = "ОТКРЫТА"
+    IN_PROCESS = "В РАССМОТРЕНИИ"
+    REJECTED = "ОТКЛОНЕНА"
+    CLOSED = "ЗАКРЫТА"
 
 
-class AppealSupportCategory(models.Model):
+class AppealSupportCategories(models.Model):
     category = models.CharField("Категория", max_length=30)
 
     class Meta:
@@ -289,7 +289,7 @@ class AppealSupportCategory(models.Model):
 
 
 class AppealSupport(TimeStampedModel):
-    category = models.ForeignKey(AppealSupportCategory, related_name="+", on_delete=models.CASCADE)
+    category = models.ForeignKey(AppealSupportCategories, related_name="support_category", on_delete=models.CASCADE)
     title = models.CharField("Тема", max_length=50)
     content = models.TextField("Содержание")
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

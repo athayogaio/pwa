@@ -3,7 +3,7 @@ from typing import List
 from django.db.models import QuerySet
 
 from core.app.repositories.base_repository import BaseRepository
-from core.models import AppealSupport, User, AppealSupportCategory
+from core.models import AppealSupport, User, AppealSupportCategories
 
 
 class AppealSupportRepository(BaseRepository):
@@ -20,10 +20,7 @@ class AppealSupportRepository(BaseRepository):
 
 
 class AppealSupportCategoriesRepository(BaseRepository):
-    model = AppealSupportCategory
+    model = AppealSupportCategories
 
-    def find_all(self) -> QuerySet[AppealSupportCategory]:
+    def find(self) -> QuerySet[AppealSupportCategories]:
         return self.model.objects.all()
-
-    def find_by_id(self, id_: int) -> AppealSupportCategory:
-        return self.model.objects.filter(id=id_).first()

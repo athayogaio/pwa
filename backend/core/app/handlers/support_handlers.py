@@ -46,7 +46,7 @@ class AppealSupportCategoriesRetriveHandler(Handler):
     def get(
             self, request: Request, *args: Any, **kwargs: Any
     ) -> Response:
-        category = self.repository.find_all()
+        category = self.repository.find()
 
         return Response(Pagination(
             data=category, request=request, resource=AppealSupportCategoriesResource
