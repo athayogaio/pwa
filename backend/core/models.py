@@ -281,6 +281,7 @@ class AppealSupportStatus(models.TextChoices):
 
 
 class AppealSupportCategories(models.Model):
+    id = models.BigAutoField(primary_key=True)
     category = models.CharField("Категория", max_length=30)
 
     class Meta:
