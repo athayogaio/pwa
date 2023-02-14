@@ -24,23 +24,16 @@ const AchievementCard = ({
         alignItems: 'center',
       }}
       >
-        <Grid
-          container
-          flexDirection="row"
-          alignItems="center"
-        >
-
-          <Grid container item flexWrap="nowrap" sx={{ width: '90%' }}>
-            <img src={image} alt={title} style={{ paddingRight: '10px', width: pointForAdaptiveToSM ? '48px' : '72px', height: pointForAdaptiveToSM ? '48px' : '72px' }} />
-            <Grid container item sx={{ flexDirection: 'column' }}>
-              <Typography fontWeight="500" fontSize="18px" sx={{ pb: '5px ' }}>
-                {title}
-              </Typography>
-              <Divider variant="horizontal" sx={{ borderRight: '1px solid #0D6EFD', width: '100%' }} flexItem />
-              <Typography fontWeight="400" fontSize="16px" sx={{ pt: '5px', color: 'text.secondary' }}>
-                {description}
-              </Typography>
-            </Grid>
+        <Grid container item alignItems="center" flexDirection="row" flexWrap="nowrap" sx={{ width: '90%' }}>
+          <img src={image} alt={title} style={{ paddingRight: '10px', width: pointForAdaptiveToSM ? '48px' : '72px', height: pointForAdaptiveToSM ? '48px' : '72px' }} />
+          <Grid container item sx={{ flexDirection: 'column' }}>
+            <Typography fontWeight="500" fontSize="18px" sx={{ pb: '5px ' }}>
+              {title}
+            </Typography>
+            <Divider variant="horizontal" sx={{ borderRight: '1px solid #0D6EFD', width: '100%' }} flexItem />
+            <Typography fontWeight="400" fontSize="16px" sx={{ pt: '5px', color: 'text.secondary' }}>
+              {description}
+            </Typography>
           </Grid>
 
           <Grid item sx={{ pl: '10px', width: '10%' }}>
