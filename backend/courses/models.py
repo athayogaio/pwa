@@ -39,13 +39,13 @@ class CourseComplexities(models.TextChoices):
 
 
 class RepetitionWeekdays(models.IntegerChoices):
-    MONDAY = 0
-    TUESDAY = 1
-    WEDNESDAY = 2
-    THURSDAY = 3
-    FRIDAY = 4
-    SATURDAY = 5
-    SUNDAY = 6
+    SUNDAY = 0
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 3
+    THURSDAY = 4
+    FRIDAY = 5
+    SATURDAY = 6
 
 
 @dataclass
@@ -109,7 +109,9 @@ class Course(TimeStampedModel):
     payment = models.CharField(
         "Тип платежа", max_length=30, choices=CoursePaymentTypes.choices
     )
-    price = models.FloatField("Цена", validators=(MinValueValidator(limit_value=0),))
+    price = models.FloatField(
+        "Цена", validators=(MinValueValidator(limit_value=0),), null=True
+    )
     schedule = JSONParsedField(
         default=list, parse_to=CourseSchedule, verbose_name="Расписание", blank=True
     )
@@ -223,7 +225,7 @@ class Lesson(TimeStampedModel):
     class Meta:
         verbose_name = "Занятие"
         verbose_name_plural = "Занятия"
-        ordering = ("id",)
+        ordering = ("start_at",)
 
 
 class LessonEnrolledUser(TimeStampedModel):
@@ -338,7 +340,9 @@ class ComplaintsCategories(models.TextChoices):
 class LessonComplaint(TimeStampedModel):
     reviewed = models.BooleanField(default=False)
     decision = models.BooleanField(default=False)
-    category = models.CharField("Категория жалобы", max_length=30, choices=ComplaintsCategories.choices)
+    category = models.CharField(
+        "Категория жалобы", max_length=30, choices=ComplaintsCategories.choices
+    )
     title = models.CharField("Заголовок", max_length=100)
     content = models.TextField("Содержание")
     lesson = models.ForeignKey(Lesson, null=True, on_delete=models.SET_NULL)
@@ -350,12 +354,16 @@ class LessonComplaint(TimeStampedModel):
 
 
 class ComplaintDecision(TimeStampedModel):
-    complaint = models.ForeignKey(LessonComplaint, verbose_name="жалоба", on_delete=models.SET_NULL, null=True)
+    complaint = models.ForeignKey(
+        LessonComplaint, verbose_name="жалоба", on_delete=models.SET_NULL, null=True
+    )
     decision = models.TextField("Содержание")
     feedback = models.BooleanField(default=False)
-    decision_rate = models.IntegerField("Оценка решения", default=5,
-                                        validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5))
-                                        )
+    decision_rate = models.IntegerField(
+        "Оценка решения",
+        default=5,
+        validators=(MinValueValidator(limit_value=1), MaxValueValidator(limit_value=5)),
+    )
 
     class Meta:
         verbose_name = "Решение на жалобу"

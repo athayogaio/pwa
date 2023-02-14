@@ -98,6 +98,8 @@ class LessonRepository(BaseRepository):
         filter_query = Q()
         if data.get("enrolled"):
             filter_query &= Q(enrolled_users__id=user.id)
+        if data.get("creator"):
+            filter_query &= Q(course__base_course__teacher_id=user.id)
         else:
             filter_query &= Q(participants__id=user.id)
 

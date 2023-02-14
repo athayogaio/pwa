@@ -23,21 +23,22 @@ from courses.app.http.requests.course_requests import (
 from courses.app.http.resources.context import BaseCourseResourceContext
 from courses.app.http.resources.course_resources import (
     CourseResource,
-    CourseCardResource, ShortImCourseResourse,
+    CourseCardResource,
+    ShortImCourseResource,
 )
 from courses.app.repositories.course_repository import CourseRepository
 from courses.app.repositories.transaction_repository import TicketTransactionRepository
 from courses.app.services.course_service import (
-    BaseCourseUpdator,
+    CourseCreator,
+    UserFavoriteCourses,
+    TicketBuy,
+)
+from courses.app.services.course_service import (
+    CourseUpdator,
     CourseEnroll,
     CourseDelete,
     TeacherCourseStatus,
     CourseArchiving,
-)
-from courses.app.services.course_service import (
-    CourseCreator,
-    UserFavoriteCourses,
-    TicketBuy,
 )
 
 
@@ -88,34 +89,22 @@ class CourseCreateHandler(GenericHandler):
             data=data.validated_data, user=self.request.user
         ).create()
 
-        return Response(
-            {
-                "data": CourseResource(
-                    course, context=BaseCourseResourceContext(user=self.request.user)
-                ).data
-            }
-        )
+        return Response({"data": CourseResource(course).data})
 
 
 @permission_classes([IsTeacher])
-class BaseCourseUpdateHandler(GenericHandler):
+class CourseUpdateHandler(GenericHandler):
     serializer_class = BaseCourseUpdateRequest
 
     def patch(self, request: Request, pk: int, *args: Any, **kwargs: Any) -> Response:
         data = self.serializer_class(data=request.data, partial=True)
         data.is_valid(raise_exception=True)
 
-        course = BaseCourseUpdator(
+        course = CourseUpdator(
             user=request.user, data=data.validated_data, pk=pk
         ).update()
 
-        return Response(
-            {
-                "data": CourseResource(
-                    course, context=BaseCourseResourceContext(user=self.request.user)
-                ).data
-            }
-        )
+        return Response({"data": CourseResource(course).data})
 
 
 @permission_classes([IsAuthenticated])
@@ -130,13 +119,7 @@ class FavoriteCourseAddHandler(GenericHandler):
             user=request.user, course_id=data.validated_data["course_id"]
         ).add()
 
-        return Response(
-            {
-                "data": CourseResource(
-                    course, context=BaseCourseResourceContext(user=self.request.user)
-                ).data
-            }
-        )
+        return Response({"data": CourseResource(course).data})
 
 
 @permission_classes([IsAuthenticated])
@@ -151,13 +134,7 @@ class FavoriteCourseRemoveHandler(GenericHandler):
             user=self.request.user, course_id=data.validated_data["course_id"]
         ).remove()
 
-        return Response(
-            {
-                "data": CourseResource(
-                    course, context=BaseCourseResourceContext(user=self.request.user)
-                ).data
-            }
-        )
+        return Response({"data": CourseResource(course).data})
 
 
 @permission_classes([IsAuthenticated])
@@ -227,7 +204,7 @@ class CourseStatusChangeHandler(GenericHandler):
     serializer_class = ChangeCourseStateRequest
 
     def put(
-            self, request: Request, course_pk: int, *args: Any, **kwargs: Any
+        self, request: Request, course_pk: int, *args: Any, **kwargs: Any
     ) -> Response:
         data = self.serializer_class(data=self.request.data)
         data.is_valid(raise_exception=True)
@@ -268,6 +245,6 @@ class ImCoursesRetrieveHandler(Handler):
 
         return Response(
             Pagination(
-                data=courses, request=request, resource=ShortImCourseResourse
+                data=courses, request=request, resource=ShortImCourseResource
             ).paginate()
         )

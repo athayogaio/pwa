@@ -10,6 +10,7 @@ from django.db.models import (
     OuterRef,
     Avg,
     Subquery,
+    Min,
 )
 from django.utils.timezone import now
 from elasticsearch_dsl import Q as EQ
@@ -126,6 +127,9 @@ class CourseRepository(BaseRepository):
             )
             .annotate(
                 reviews_count=Count("base_course__reviews"),
+                next_lesson=Min(
+                    "lessons_set__start_at", filter=Q(lessons_set__start_at__gte=now())
+                ),
                 comments_count=Count("base_course__comments"),
                 rate_mean=Avg("lessons_set__stars__star_rating"),
             )
