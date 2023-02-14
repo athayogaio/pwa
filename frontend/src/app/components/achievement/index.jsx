@@ -50,14 +50,23 @@ const Achievement = () => {
       </AppBar>
 
       <LayoutContainer>
-        <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', width: '50%', paddingBottom: '24px' }}>
-        <Typography fontWeight="500" fontSize="18px" sx={{ display: 'inline', paddingRight: '3px' }}>
-            Достижения
-          </Typography>
-          <Typography sx={{ fontWeight: '500', fontSize: '18px', color: '#0D6EFD', display: 'inline' }}>
-            (8/30)
-          </Typography>
+        <Box sx={{
+          display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center',
+        }}
+        >
+          <Box sx={{
+            display: 'flex', alignItems: 'center', width: '50%', paddingBottom: '24px',
+          }}
+          >
+            <Typography fontWeight="500" fontSize="18px" sx={{ display: 'inline', paddingRight: '3px' }}>
+              Достижения
+            </Typography>
+            <Typography sx={{
+              fontWeight: '500', fontSize: '18px', color: '#0D6EFD', display: 'inline',
+            }}
+            >
+              (8/30)
+            </Typography>
           </Box>
           <Grid
             container

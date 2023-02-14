@@ -1,26 +1,23 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar, Button, Grid, CardActions,
+  Dialog, Box, Card, CardContent, CardMedia,
+  Typography,
 } from '@mui/material';
-import Card, { cardClasses } from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ProfileService from '../../services/auth/profile';
-import achievement from '../../../assets/public/achievement.svg';
 import defaultBackground from '../../../assets/public/defaultBackground.png';
 import defaultAvatar from '../../../assets/public/menu-avatar.png';
-import './index.scoped.scss';
 import Achievement from './achievement';
+import achievements from './data';
+import './index.scoped.scss';
 
 const ProfileCard = () => {
   const [profileData, setProfileData] = useState({});
@@ -34,6 +31,8 @@ const ProfileCard = () => {
   const handleCloseAchieve = () => setOpenAchieve(false);
 
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     ProfileService.getProfileData()
@@ -49,7 +48,7 @@ const ProfileCard = () => {
   return (
     { errorMessage }
       && (
-        <Grid container sx={{ padding: pointForAdaptiveToSM ? '0' : '0px 15%', height: '100vh' }}>
+        <Grid container sx={{ padding: pointForAdaptiveToSM ? '0' : '0px 10%', height: '100vh' }}>
           <Grid item>
             <Card
               variant="outlined"
@@ -170,19 +169,30 @@ const ProfileCard = () => {
                   variant="iter_h2"
                   sx={{ color: '#6C757D', fontSize: '16px' }}
                 >
-                  (1/30)
+                  (8/30)
                 </Typography>
-                <Achievement
-                  open={openAchieve}
-                  handleOpen={handleOpenAchieve}
-                  handleClose={handleCloseAchieve}
-                />
+                <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                  {achievements.map((achiev, index) => (
+                    index <= 4
+                      ? (
+                        <Achievement
+                          open={openAchieve}
+                          handleOpen={handleOpenAchieve}
+                          handleClose={handleCloseAchieve}
+                          key={achiev.id}
+                          title={achiev.title}
+                          description={achiev.description}
+                        />
+                      ) : ''
+                  ))}
+                </Box>
               </CardContent>
               <CardActions>
                 <Button
                   variant="text"
                   size="small"
                   sx={{ textTransform: 'none', left: 'calc(100% - 113px)' }}
+                  onClick={() => navigate('/achievement')}
                 >
                   Показать больше
                 </Button>

@@ -31,11 +31,11 @@ const AchievementCard = ({
         }}
       >
 
-        <Grid item xs={1.5} sm={3} md={3} lg={2.5} sx={{ minWidth: pointForAdaptiveToSM ? '48px' : '72px' }}>
+        <Grid item xs={3} sm={3} md={3} lg={2.5} sx={{ minWidth: pointForAdaptiveToSM ? '48px' : '72px' }}>
           <img src={image} alt={title} style={{ width: pointForAdaptiveToSM ? '48px' : '72px', height: pointForAdaptiveToSM ? '48px' : '72px' }} />
         </Grid>
 
-        <Grid container item sx={{ flexDirection: 'column' }} xs={9.5} sm={5} md={7} lg={8.5}>
+        <Grid container item sx={{ flexDirection: 'column' }} xs={7} sm={5} md={7} lg={8.5}>
           <Typography fontWeight="500" fontSize="18px" sx={{ pb: '5px ' }}>
             {title}
           </Typography>

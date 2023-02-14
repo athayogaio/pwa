@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import achievement from '../../../assets/public/achievement.svg';
 
-const Achievement = ({ open, handleOpen, handleClose }) => {
+const Achievement = ({ open, handleOpen, handleClose, title, description }) => {
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
 
   return (
@@ -58,7 +58,7 @@ const Achievement = ({ open, handleOpen, handleClose }) => {
               }}
             />
             <Typography variant="iter_h1" sx={{ fontSize: pointForAdaptiveToSM ? '18px' : '24px' }}>
-              Описание
+              {title}
             </Typography>
             <Typography
               variant="iter_h2"
@@ -66,7 +66,7 @@ const Achievement = ({ open, handleOpen, handleClose }) => {
                 fontSize: pointForAdaptiveToSM ? '14px' : '16px', display: 'block', width: '300px', textAlign: 'center',
               }}
             >
-              Данная награда выдается за присоединение к сообществу Atha Yoga
+              {description}
             </Typography>
           </Grid>
         </DialogContent>
