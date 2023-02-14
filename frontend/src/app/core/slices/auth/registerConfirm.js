@@ -1,16 +1,13 @@
 /* eslint-disable camelcase */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import AuthService from '../../../../services/auth';
-import { setMessage } from '../../message';
+import AuthService from '../../../services/auth';
+import { setMessage } from '../message';
 
 const registerConfirmSlice = createAsyncThunk(
   'auth/register/confirm',
   async ({ email, confirmCode }, thunkAPI) => {
     try {
-      const result = await AuthService.registerConfirm({ email, confirmCode });
-      thunkAPI.dispatch(setMessage('Success'));
-
-      return result.data;
+      return await AuthService.registerConfirm({ email, confirmCode });
     } catch (error) {
       const message = error.response.data.errors;
       thunkAPI.dispatch(setMessage(message));

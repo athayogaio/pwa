@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.core.handlers.wsgi import WSGIRequest
 from django.db import models
+from django.db.models import QuerySet
 from django_json_widget.widgets import JSONEditorWidget
 
-from .models import Attachment, User, Transaction, QuestionnaireTeacher, Comment
+from .app.repositories.support_repository import AppealSupportRepository
+from .app.services.email_services import SimpleEmailTextService
+from .app.services.types import TextMailData
+from .models import Attachment, User, Transaction, QuestionnaireTeacher, Comment, AppealSupport, AppealSupportStatus
 
 
 @admin.register(Attachment)
@@ -99,3 +104,49 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ("id", "polymorphic_ctype", "text", "user", "created_at")
     list_filter = ("created_at",)
     date_hierarchy = "created_at"
+
+
+
+@admin.register(AppealSupport)
+class AppealSupportAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "status",
+        "user",
+        "created_at",
+        "category",
+        "title",
+        "content",
+
+    )
+    list_filter = ("created_at", "updated_at")
+    date_hierarchy = "created_at"
+    actions = ["mailing_reject_appeal", "mark_in_process", "mark_closed"]
+
+    @admin.action(description="Отказать")
+    def mailing_reject_appeal(self, request: WSGIRequest, queryset: QuerySet[AppealSupport]):
+        repository = AppealSupportRepository()
+        for item in queryset:
+            item.status = AppealSupportStatus.REJECTED
+            SimpleEmailTextService(
+                data=TextMailData(
+                    subject=f"Вашa {item.category} отклонена",
+                    message=f"Дорогой пользователь тыр тыр",
+                    receivers=[item.user.email],
+                )
+            ).send()
+        repository.bulk_update(objs=queryset, fields=["status"])
+
+    @admin.action(description="Отметить прочитанным")
+    def mark_in_process(self, request: WSGIRequest, queryset: QuerySet[AppealSupport]):
+        repository = AppealSupportRepository()
+        for item in queryset:
+            item.status = AppealSupportStatus.IN_PROCESS
+        repository.bulk_update(objs=queryset, fields=["status"])
+
+    @admin.action(description="Ответ написан")
+    def mark_closed(self, request: WSGIRequest, queryset: QuerySet[AppealSupport]):
+        repository = AppealSupportRepository()
+        for item in queryset:
+            item.status = AppealSupportStatus.CLOSED
+        repository.bulk_update(objs=queryset, fields=["status"])

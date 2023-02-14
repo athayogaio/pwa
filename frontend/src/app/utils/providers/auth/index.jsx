@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearMessage } from '../../../core/slices/message';
 import loginSlice from '../../../core/slices/auth/login';
 import registerSlice from '../../../core/slices/auth/register';
-import registerConfirmSlice from '../../../core/slices/auth/verify-email/registerConfirm';
+import registerConfirmSlice from '../../../core/slices/auth/registerConfirm';
 import logoutSlice from '../../../core/slices/auth/logout';
 
 export const AuthContext = createContext(null);

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import { clearMessage } from '../../core/slices/message';
 import { AuthContext } from '../../utils/providers/auth';
-import registerConfirmSlice from '../../core/slices/auth/verify-email/registerConfirm';
+import registerConfirmSlice from '../../core/slices/auth';
 
 const VerifyEmail = () => {
   const { token } = useParams();

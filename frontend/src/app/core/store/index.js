@@ -1,14 +1,14 @@
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import auth from '../slices/auth';
 import message from '../slices/message';
 import lessons from '../slices/lessons';
-import tickets from '../slices/tickets';
+import studentTickets from '../slices/tickets/studentTicketsSlice';
+import teacherTickets from '../slices/tickets/getTeacherTicketsSlice';
 import lesson from '../slices/lesson';
 import questionnaire from '../slices/questionnaire';
 import favorites from '../slices/favorites';
 import resetpass from '../slices/pass-recovery';
 import resetpassconfirm from '../slices/reset-pass-confirm';
-import verifyEmail from '../slices/auth/verify-email';
 import personalData from '../slices/personal-data';
 import alertNotification from '../slices/alert-notification';
 
@@ -17,13 +17,13 @@ const store = configureStore({
     auth,
     message,
     lessons,
-    tickets,
+    studentTickets,
+    teacherTickets,
     lesson,
     questionnaire,
     favorites,
     resetpass,
     resetpassconfirm,
-    verifyEmail,
     personalData,
     alertNotification,
   },

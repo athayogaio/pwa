@@ -131,3 +131,8 @@ TeacherBillingDataCreateType = Union[
 class TeacherProfileCreateData(NamedTuple):
     questionnaire: QuestionnaireTeacher
     billing_info: LegalUserBillingInfo
+
+class AppealSupportData(TypedDict):
+    category: str
+    title: str
+    content: str

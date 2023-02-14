@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-no-useless-fragment */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +9,9 @@ import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import Header from '../../components/header';
 import LayoutContainer from '../../components/layout-container';
-import getTicketsSlice from '../../core/slices/tickets/getTickets';
+import { getStudentTicketsSlice, getTeacherTicketsSlice } from '../../core/slices/tickets/getTickets';
 import MyLesson from '../../components/my_lesson';
 import MyLessonSearch from '../../components/my_lesson_search';
-import MyLessonsEmpty from '../../components/my_lessons_empty';
 import MyTeacherLesson from '../../components/my-teacher-lesson';
 import TeacherEmpty from '../../components/my_lessons_empty/teacher';
 import StudentEpmty from '../../components/my_lessons_empty/student';
@@ -27,7 +27,7 @@ const TabPanel = props => {
       hidden={value !== index}
       id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
-      style={{ width: '100%', maxHeight: '560px' }}
+      style={{ width: '100%' }}
     >
       {value === index && (
         <Box display="flex" justifyContent="center">
@@ -44,7 +44,8 @@ const labelProps = index => ({
 });
 
 const MyLessonsPage = () => {
-  const { isLoading, errorMessage } = useSelector(state => state.tickets);
+  const { isLoading: isStudentLoading, errorMessage: errorStudentMessage } = useSelector(state => state.studentTickets);
+  const { isLoading: isTeacherLoading, errorMessage: errorTeacherMessage } = useSelector(state => state.teacherTickets);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -52,10 +53,12 @@ const MyLessonsPage = () => {
   };
 
   const dispatch = useDispatch();
-  const tickets = useSelector(state => state.tickets.tickets?.data);
+  const studentTickets = useSelector(state => state.studentTickets.studentTickets?.data);
+  const teacherTickets = useSelector(state => state.teacherTickets.teacherTickets?.data);
 
   useEffect(() => {
-    dispatch(getTicketsSlice());
+    dispatch(getStudentTicketsSlice());
+    dispatch(getTeacherTicketsSlice());
   }, [dispatch]);
 
   return (
@@ -63,11 +66,11 @@ const MyLessonsPage = () => {
       <Header title="Мои занятия" />
       <LayoutContainer>
         <Box sx={{
-          height: 'calc(100% - 64px - 251px);', display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '2%',
+          height: 'calc(100% - 64px);', display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '2%',
         }}
         >
           <Box sx={{
-            display: 'flex', justifyContent: 'center', ml: '34px', mb: '11vh',
+            display: 'flex', justifyContent: 'center', ml: '34px',
           }}
           >
             <Tabs value={value} onChange={handleChange} centered>
@@ -80,9 +83,22 @@ const MyLessonsPage = () => {
           }}
           >
             <TabPanel value={value} index={0}>
-              {!isLoading && (
+              {errorTeacherMessage && (
+              <Typography color="error.main">
+                {`Error: ${errorTeacherMessage.errors.not_found[0]}`}
+              </Typography>
+              )}
+              {isTeacherLoading && (
+              <Backdrop
+                sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
+                open={isTeacherLoading}
+              >
+                <CircularProgress />
+              </Backdrop>
+              )}
+              {!isTeacherLoading && (
                 <>
-                  {tickets?.length ? (
+                  {teacherTickets?.length ? (
                     <>
                       <Stack
                         direction="row"
@@ -91,19 +107,21 @@ const MyLessonsPage = () => {
                           maxWidth: '1035px',
                           width: '100%',
                           maxHeight: '100%',
+                          mt: '24px',
+                          mb: '24px',
                           alignItems: 'center',
                           justifyContent: 'center',
                           flexWrap: 'wrap',
                         // outline: '1px solid blue',
                         }}
                       >
-                        {tickets.map(ticket => (
+                        {teacherTickets.map(ticket => (
                           <MyTeacherLesson
-                            key={ticket.course.id}
-                            id={ticket.course.id}
-                            title={ticket.course.base_course.name}
-                            endDate={ticket.course.deadline_datetime}
-                            status={ticket.course.status}
+                            key={ticket.id}
+                            id={ticket.id}
+                            title={ticket.base_course.name}
+                            endDate={ticket.deadline_datetime}
+                            status={ticket.status}
                           />
                         ))}
                       </Stack>
@@ -126,7 +144,7 @@ const MyLessonsPage = () => {
                       </Button>
                     </>
                   ) : (
-                    <Box sx={{ maxWidth: '440px', margin: '0 auto' }}>
+                    <Box sx={{ maxWidth: '440px', margin: '11vh auto 0 auto' }}>
                       <TeacherEmpty />
                     </Box>
                   )}
@@ -135,9 +153,22 @@ const MyLessonsPage = () => {
               )}
             </TabPanel>
             <TabPanel value={value} index={1}>
-              {!isLoading && (
+              {errorStudentMessage && (
+              <Typography color="error.main">
+                {`Error: ${errorStudentMessage.errors.not_found[0]}`}
+              </Typography>
+              )}
+              {isStudentLoading && (
+              <Backdrop
+                sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
+                open={isStudentLoading}
+              >
+                <CircularProgress />
+              </Backdrop>
+              )}
+              {!isStudentLoading && (
               <>
-                {tickets?.length ? (
+                {studentTickets?.length ? (
                   <>
                     <Stack
                       direction="row"
@@ -145,13 +176,15 @@ const MyLessonsPage = () => {
                         pl: { xs: '0', md: '24px' },
                         maxWidth: '1035px',
                         maxHeight: '100%',
+                        mt: '24px',
+                        mb: '24px',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexWrap: 'wrap',
                       // outline: '1px solid blue',
                       }}
                     >
-                      {tickets.map(ticket => (
+                      {studentTickets.map(ticket => (
                         <MyLesson
                           key={ticket.course.id}
                           id={ticket.course.id}
@@ -159,6 +192,8 @@ const MyLessonsPage = () => {
                           ticketsAmount={ticket.amount}
                           endDate={ticket.course.deadline_datetime}
                           isOneTime={ticket.course.schedule.length === 0}
+                          nearestLesson={ticket.course.start_datetime}
+                          duration={ticket.course.duration}
                         />
                       ))}
                       <MyLessonSearch />
@@ -183,7 +218,7 @@ const MyLessonsPage = () => {
                     </Button>
                   </>
                 ) : (
-                  <Box sx={{ maxWidth: '440px', margin: '0 auto' }}>
+                  <Box sx={{ maxWidth: '440px', margin: '11vh auto 0 auto' }}>
                     <StudentEpmty />
                   </Box>
                 )}
@@ -193,19 +228,6 @@ const MyLessonsPage = () => {
             </TabPanel>
           </Box>
         </Box>
-        {isLoading && (
-        <Backdrop
-          sx={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={isLoading}
-        >
-          <CircularProgress />
-        </Backdrop>
-        )}
-        {errorMessage && (
-        <Typography color="error.main">
-          {`Error: ${errorMessage.errors.not_found[0]}`}
-        </Typography>
-        )}
       </LayoutContainer>
     </>
   );

@@ -60,20 +60,20 @@ class LessonRescheduleCancel(ABC):
         return self.course_cycle_repos.current_course_cycle(course=self.lesson.course)
 
     def _can_process(self) -> bool:
-        lessons_in_cycle = len(
-            self.lesson.course.lessons_in_range(
-                date_start=self.current_course_cycle.start_at,
-                date_end=self.current_course_cycle.end_at,
-            )
+        lessons_in_cycle = self.lesson_repos.lessons_in_range_count(
+            course_id=self.course.id,
+            start_at=self.current_course_cycle.start_at,
+            end_at=self.current_course_cycle.end_at,
         )
         reschedule_cancel_lessons_count = (
             self.current_course_cycle.canceled_lessons_amount
             + self.current_course_cycle.transferred_lessons_amount
         )
-        return (
-            math.ceil(lessons_in_cycle * settings.RESCHEDULE_CANCEL_COUNT_PERCENT)
-            > reschedule_cancel_lessons_count
+        max_count = math.ceil(
+            lessons_in_cycle * settings.RESCHEDULE_CANCEL_COUNT_PERCENT
         )
+        print(lessons_in_cycle, reschedule_cancel_lessons_count)
+        return max_count > reschedule_cancel_lessons_count
 
     def _fine_coef(self) -> float:
         for fine_coef, time_delta in settings.RATE_FINES_MAPPING.items():
@@ -82,7 +82,7 @@ class LessonRescheduleCancel(ABC):
         return settings.MAX_FINE
 
     def _reduce_user_coef(self) -> None:
-        self.user.sys_rate = round(self.user.rate - self._fine_coef(), 4)
+        self.user.sys_rate = max(0.0, round(self.user.sys_rate - self._fine_coef(), 4))
         self.user_repos.store(user=self.user)
 
 
@@ -128,17 +128,28 @@ class LessonReschedule(LessonRescheduleCancel):
             )
         ).send()
 
+    def _accept_reschedule(self) -> None:
+        self.lesson.start_at = self.reschedule_to
+        self.lesson_repos.store(lesson=self.lesson)
+
+    def _inc_transferred_lessons_amount(self) -> None:
+        self.current_course_cycle.transferred_lessons_amount += 1
+        self.course_cycle_repos.store(cycle=self.current_course_cycle)
+
     def reschedule(self) -> None:
         if not self._can_process():
             raise ValidationError("Can not reschedule lesson")
         if overlap_lesson := self.lesson_repos.overlap_lesson(
             start_at=self.reschedule_to,
             end_at=self.reschedule_to + self.lesson.course.duration,
+            skip_lessons_ids=[self.lesson.id],
         ):
             raise ValidationError(f"User has lesson at {overlap_lesson.start_at}")
         with UnitOfWork():
             self._reduce_user_coef()
-            self._send_reschedule_message()
+            self._accept_reschedule()
+            self._inc_transferred_lessons_amount()
+        self._send_reschedule_message()
 
 
 class LessonParticipation:

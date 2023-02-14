@@ -80,7 +80,7 @@ const SplashScreens = () => {
                     width: '100%',
                   }}
                   src={step.image}
-                  alt="a man is doing yoga"
+                  alt="doing yoga"
                 />
               ) : null}
             </div>

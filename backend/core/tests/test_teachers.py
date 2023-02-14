@@ -11,7 +11,6 @@ from core.app.aggregates.teacher_profile_aggregate import TeacherProfileAggregat
 from core.app.aggregates.types import TeacherProfileCreateContext
 from core.app.services.types import (
     QuestionnaireTeacherData,
-    TeacherLegalBillingInfoData,
 )
 from core.models import GenderTypes, UserRoles
 from core.seeders.user_seeder import UserSeeder
@@ -47,20 +46,6 @@ def fake_questionnaire_teacher_data() -> QuestionnaireTeacherData:
         user_with_passport_photo=InMemoryUploadedFile(
             file, None, "test_image.jpeg", "image/jpeg", file.tell, None
         ),
-    )
-
-
-def generate_user_billing_info_ru_request() -> TeacherLegalBillingInfoData:
-    fake = Faker("ru-RU")
-    return TeacherLegalBillingInfoData(
-        organization=fake.company(),
-        bank=fake.company(),
-        organization_address=fake.address(),
-        bic=fake.bic(),
-        inn=fake.individuals_inn(),
-        correspondent_account=fake.correspondent_account(),
-        prc=fake.kpp(),
-        account_number=fake.iban(),
     )
 
 

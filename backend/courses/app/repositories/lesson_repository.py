@@ -46,7 +46,9 @@ class LessonRepository(BaseRepository):
         return self.model.objects.filter(course_id=course_id)
 
     def find_by_id_creator(self, id_: int, user_id: int) -> Optional[Lesson]:
-        return self.model.objects.filter(pk=id_, course__teacher_id=user_id).first()
+        return self.model.objects.filter(
+            pk=id_, course__base_course__teacher_id=user_id
+        ).first()
 
     def is_participant(self, lesson: Lesson, user: User) -> Optional[Lesson]:
         return lesson.participants.filter(id=user.id)
@@ -74,11 +76,15 @@ class LessonRepository(BaseRepository):
         lesson.save()
 
     def overlap_lesson(
-        self, start_at: datetime.datetime, end_at: datetime.datetime
+        self,
+        start_at: datetime.datetime,
+        end_at: datetime.datetime,
+        skip_lessons_ids: List[int],
     ) -> Optional[Lesson]:
         return (
             self.model.objects.annotate(end_time=self.end_at_query)
             .filter(start_at__lt=end_at, end_time__gte=start_at)
+            .exclude(pk__in=skip_lessons_ids)
             .first()
         )
 
@@ -102,3 +108,23 @@ class LessonRepository(BaseRepository):
             filter_query &= Q(end_at__lte=data["end_datetime"])
 
         return query.filter(filter_query)
+
+    def find_lessons_in_range(
+        self,
+        course_id: int,
+        start_at: datetime.datetime,
+        end_at: datetime.datetime,
+    ) -> QuerySet[Lesson]:
+        return self.model.objects.annotate(end_at=self.end_at_query).filter(
+            course_id=course_id, start_at__gte=start_at, end_at__lte=end_at
+        )
+
+    def lessons_in_range_count(
+        self,
+        course_id: int,
+        start_at: datetime.datetime,
+        end_at: datetime.datetime,
+    ) -> int:
+        return self.find_lessons_in_range(
+            course_id=course_id, start_at=start_at, end_at=end_at
+        ).count()

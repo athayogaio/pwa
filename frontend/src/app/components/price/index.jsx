@@ -6,7 +6,7 @@ import {
 const Price = ({
   el, price, setAmount, amount,
 }) => {
-  const [quantity, setQuantity] = useState(6);
+  const [quantity, setQuantity] = useState(12);
 
   const handleSelect = () => {
     el.num ? setAmount(el.num) : setAmount(quantity);
@@ -15,6 +15,39 @@ const Price = ({
   const handleChange = e => {
     setQuantity(e.target.value);
     setAmount(e.target.value);
+  };
+
+  const DISCOUNT_TABLE = [
+    {
+      minAmount: 4,
+      maxAmount: 8,
+      discount: 5,
+    },
+    {
+      minAmount: 8,
+      maxAmount: 12,
+      discount: 10,
+    },
+    {
+      minAmount: 12,
+      maxAmount: 16,
+      discount: 15,
+    },
+    {
+      minAmount: 16,
+      maxAmount: 100,
+      discount: 20,
+    },
+  ];
+
+  const calculateAmountWithDiscount = (num, quantity, price) => {
+    const sum = num || quantity;
+
+    if (sum < 4) return sum * price;
+
+    const { discount } = DISCOUNT_TABLE.find(item => sum >= item.minAmount && sum < item.maxAmount);
+    const sumWithDiscount = Math.ceil(sum * price * ((100 - discount) / 100));
+    return sumWithDiscount;
   };
 
   return (
@@ -60,7 +93,7 @@ const Price = ({
               {`${el.num * price || quantity * price} ₽`}
             </Typography>
             <Typography color="primary" fontSize="32px" fontWeight="700">
-              {`${Math.ceil(el.num * price * 0.85) || Math.ceil(quantity * price * 0.85)} ₽`}
+              {`${calculateAmountWithDiscount(el.num, quantity, price)} ₽`}
             </Typography>
           </Stack>
         ) : ( // без скидок

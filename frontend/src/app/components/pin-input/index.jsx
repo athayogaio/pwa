@@ -21,7 +21,7 @@ export const validateToPattern = validate => {
 };
 
 const PinInput = props => {
-  const { errorMessage } = useSelector(state => state.verifyEmail);
+  const { errorMessage } = useSelector(state => state.auth);
   const [seconds, setSeconds] = useState(60);
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
   const completed = useMemo(
