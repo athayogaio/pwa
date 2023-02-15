@@ -71,47 +71,40 @@ const SignUpConfirm = () => {
         >
           Подтвердите электронную почту
         </Typography>
-        {isTimeEnd ? (
-          <>
-            <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '8px' }} color="error">
-              Время ожидания ввода кода истекло
-            </Typography>
-            <Typography sx={{
-              fontSize: pointForAdaptiveToSM ? '14px' : '18px',
-              textAlign: 'center',
-              margin: '0 auto 20px',
-              maxWidth: '340px',
-            }}
-            >
-              Вы можете запросить повторную отправку проверочного кода
-              <br />
-              на указанную электронную почту
-            </Typography>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ paddingLeft: '126px', paddingRight: '126px', mb: '35px' }}
-              onClick={handleClick}
-            >
-              Отправить код
-            </Button>
-          </>
-        ) : (
-          <>
-            <Typography sx={{
+        {/* {isError && (
+          <Typography
+            sx={{
               fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', margin: '0 auto 20px', maxWidth: '390px',
             }}
-            >
-              Код для подтверждения регистрации отправлен на указанную электронную почту,
-              введите его в поле подтверждения
-            </Typography>
-            <PinInput
-              values={values}
-              onChange={(value, index, values) => setValues(values)}
-              onComplete={handleConfirm}
-              setIsTimeEnd={setIsTimeEnd}
-            />
-          </>
+            color="error"
+          >
+            Код введён неверно
+          </Typography>
+        )} */}
+        <Typography sx={{
+          fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', margin: '0 auto 20px', maxWidth: '390px',
+        }}
+        >
+          Код для подтверждения регистрации отправлен на указанную электронную почту,
+          введите его в поле подтверждения
+        </Typography>
+        {isTimeEnd ? (
+
+          <Button
+            variant="contained"
+            size="large"
+            sx={{ paddingLeft: '126px', paddingRight: '126px', mb: '35px' }}
+            onClick={handleClick}
+          >
+            Отправить код
+          </Button>
+        ) : (
+          <PinInput
+            values={values}
+            onChange={(value, index, values) => setValues(values)}
+            onComplete={handleConfirm}
+            setIsTimeEnd={setIsTimeEnd}
+          />
         )}
         <Typography color="text.secondary" variant="body1" sx={{ textAlign: 'center', maxWidth: '350px', margin: '0 auto' }}>
           Неверно внесли адрес электронной почты? Вернуться к

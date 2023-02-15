@@ -42,11 +42,6 @@ export const formatNearestLesson = (nearestLesson, duration) => {
   const startTime = preparedDate.format('HH:mm');
   let endTime = preparedDate.add(+duration.slice(0, 2), 'hour').add(+duration.slice(3, 5), 'minute');
   endTime = endTime.format('HH:mm');
-  // const hoursEnd = preparedDate
-  //   .getHours(preparedDate.setHours(preparedDate.getHours() + +duration.slice(0, 2)));
-  // let minutesEnd = preparedDate
-  //   .getMinutes(preparedDate.setMinutes(preparedDate.getMinutes() + +duration.slice(3, 5)));
-  // if (minutesEnd < 10) { minutesEnd = `0${minutesEnd}`; }
   return {
     weekDay, monthDay, monthRu, startTime, endTime,
   };
