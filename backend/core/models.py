@@ -273,26 +273,31 @@ class Comment(PolymorphicModel):
         verbose_name_plural = "Комментарии"
 
 
-class AppealSupportCategories(models.TextChoices):
-    COMPLAINT = "ЖАЛОБА"
-    OFFER = "ПРЕДЛОЖЕНИЕ"
-    STATEMENT = "ЗАЯВЛЕНИЕ"
-
-
 class AppealSupportStatus(models.TextChoices):
-    OPEN = "ОТКРЫТА"
-    IN_PROCESS = "В РАССМОТРЕНИИ"
-    REJECTED = "ОТКЛОНЕНА"
-    CLOSED = "ЗАКРЫТА"
+    OPEN = "OPEN"
+    IN_PROCESS = "IN_PROCESS"
+    REJECTED = "REJECTED"
+    CLOSED = "CLOSED"
+
+
+class AppealSupportCategory(models.Model):
+    category = models.CharField("Категория", max_length=30)
+
+    def __str__(self):
+        return self.category
+
+    class Meta:
+        verbose_name = "Категория обращения в поддержку"
+        verbose_name_plural = "Категории обращения в поддержку"
 
 
 class AppealSupport(TimeStampedModel):
-    category = models.CharField("Категория", max_length=30, choices=AppealSupportCategories.choices)
-    title = models.CharField("Тема", max_length=100)
+    category = models.ForeignKey(AppealSupportCategory, related_name="+", on_delete=models.CASCADE)
+    title = models.CharField("Тема", max_length=50)
     content = models.TextField("Содержание")
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     status = models.CharField("Статус", max_length=30, choices=AppealSupportStatus.choices)
 
     class Meta:
-        verbose_name = "Обращение"
+        verbose_name = "Обращение в поддержку"
         verbose_name_plural = "Обращения в поддержку"

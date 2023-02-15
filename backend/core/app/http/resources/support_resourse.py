@@ -1,9 +1,20 @@
 from rest_framework.serializers import ModelSerializer
 
-from core.models import AppealSupport
+from core.models import AppealSupport, AppealSupportCategory
+
+
+class AppealSupportCategoriesResource(ModelSerializer):
+    class Meta:
+        model = AppealSupportCategory
+        fields = [
+            "id",
+            "category"
+        ]
 
 
 class AppealSupportResource(ModelSerializer):
+    category = AppealSupportCategoriesResource()
+
     class Meta:
         model = AppealSupport
         fields = [

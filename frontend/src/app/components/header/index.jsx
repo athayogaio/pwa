@@ -38,11 +38,12 @@ const Header = ({ title, withBackBtn = false }) => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [profileData, setProfileData] = useState({});
+  const [profileData, setProfileData] = useState(JSON.parse(localStorage.user));
   const [errorMessage, setErrorMessage] = useState('');
+  const { id } = profileData.user;
 
   useEffect(() => {
-    ProfileService.getProfileData()
+    ProfileService.getProfileData(id)
       .then(response => response.data.data)
       .then(data => setProfileData({ ...profileData, ...data }))
       .catch(error => setErrorMessage(error));

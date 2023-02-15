@@ -133,6 +133,6 @@ class TeacherProfileCreateData(NamedTuple):
     billing_info: LegalUserBillingInfo
 
 class AppealSupportData(TypedDict):
-    category: str
+    category_id: int
     title: str
     content: str
