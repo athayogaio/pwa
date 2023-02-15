@@ -15,7 +15,7 @@ jobs:
       - name: Trigger Jenkins job
         uses: Gympass/jenkins-job-action@0.0.5
         with:
-          jenkins_url: ${{ vars.JENKINS_URL }}
-          job_name: ${{ vars.JOB_NAME }}
-          jenkins_user: ${{ vars.USERNAME }}
-          jenkins_token: ${{ vars.API_TOKEN }}
+          jenkins_url: "${{ vars.JENKINS_URL }}"
+          job_name: "${{ vars.JOB_NAME }}"
+          jenkins_user: "${{ vars.USERNAME }}"
+          jenkins_token: "${{ vars.API_TOKEN }}"
