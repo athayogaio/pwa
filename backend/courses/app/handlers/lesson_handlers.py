@@ -108,6 +108,9 @@ class UserLessonsFilterHandler(GenericHandler):
     serializer_class = LessonFilterRequest
 
     def post(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        """
+        The method returns the lessons the user is participating in by default
+        """
         data = self.serializer_class(data=request.data, partial=True)
         data.is_valid(raise_exception=True)
 

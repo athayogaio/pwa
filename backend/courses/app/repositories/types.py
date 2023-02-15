@@ -13,6 +13,7 @@ class CourseFilterData(TypedDict, total=False):
 
 
 class LessonFilterData(TypedDict, total=False):
+    creator: Optional[bool]
     enrolled: Optional[bool]
     start_datetime: Optional[datetime.datetime]
     end_datetime: Optional[datetime.datetime]

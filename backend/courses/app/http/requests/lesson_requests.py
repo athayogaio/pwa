@@ -23,6 +23,7 @@ class LessonRateRequest(UnimplementedSerializer):
 
 class LessonFilterRequest(UnimplementedSerializer):
     enrolled = serializers.BooleanField()
+    creator = serializers.BooleanField()
     start_datetime = serializers.DateTimeField()
     end_datetime = serializers.DateTimeField()
 

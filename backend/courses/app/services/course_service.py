@@ -142,7 +142,7 @@ class CourseCreator:
         return course
 
 
-class BaseCourseUpdator:
+class CourseUpdator:
     def __init__(self, user: User, pk: int, data: CourseUpdateData):
         self.repository = CourseRepository()
         self.base_course_repos = BaseCourseRepository()

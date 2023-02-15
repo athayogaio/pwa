@@ -14,7 +14,7 @@ from courses.app.handlers.complaint_handler import (
 from courses.app.handlers.course_handlers import (
     CourseFilterHandler,
     CourseCreateHandler,
-    BaseCourseUpdateHandler,
+    CourseUpdateHandler,
     FavoriteCourseAddHandler,
     FavoriteCourseRemoveHandler,
     FavoriteCourseListHandler,
@@ -58,7 +58,7 @@ urlpatterns = [
     path("", CourseCreateHandler.as_view()),
     path("<int:pk>/", CourseRetrieveHandler.as_view()),
     path("<int:course_pk>/change-status", CourseStatusChangeHandler.as_view()),
-    path("<int:pk>/update/", BaseCourseUpdateHandler.as_view()),
+    path("<int:pk>/update/", CourseUpdateHandler.as_view()),
     path("filter/", CourseFilterHandler.as_view()),
     path("lessons/<int:lesson_id>/rate/", LessonRateHandler.as_view()),
     path("<int:course_pk>/lessons/", LessonListHandler.as_view()),
@@ -70,7 +70,7 @@ urlpatterns = [
     path("favorites/add/", FavoriteCourseAddHandler.as_view()),
     path("favorites/remove/", FavoriteCourseRemoveHandler.as_view()),
     path("ticket/buy/", CourseTicketBuyHandler.as_view()),
-    path("destroy/", CourseDeleteHandler.as_view()),
+    path("<int:pk>/destroy/", CourseDeleteHandler.as_view()),
     path("<int:pk>/enroll/", CourseEnrollHandler.as_view()),
     path(
         "lesson-enrolled-user/activation/<int:lesson_id>/<int:active>/",

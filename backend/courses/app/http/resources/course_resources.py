@@ -142,7 +142,8 @@ class BaseCourseCardResource(ModelSerializer):
 
 class CourseCardResource(ModelSerializer):
     base_course = BaseCourseCardResource()
-    lessons = LessonResource(many=True, allow_null=True, source="lessons_set")
+    lessons = LessonResource(many=True, allow_null=True)
+    next_lesson = serializers.DateTimeField(allow_null=True)
     reviews_count = serializers.IntegerField(allow_null=True, default=0)
     comments_count = serializers.IntegerField(allow_null=True, default=0)
     tickets_amount = serializers.IntegerField(allow_null=True, default=0)
@@ -185,6 +186,7 @@ class CourseCardResource(ModelSerializer):
             "votes_count",
             "rate_mean",
             "schedule",
+            "next_lesson",
         ]
 
 
@@ -198,9 +200,10 @@ class ShortBaseCourseResource(ModelSerializer):
         ]
 
 
-class ShortImCourseResourse(ModelSerializer):
+class ShortImCourseResource(ModelSerializer):
     base_course = ShortBaseCourseResource()
-    lessons = LessonResource(many=True, allow_null=True, source="lessons_set")
+    next_lesson = serializers.DateTimeField(allow_null=True)
+    lessons = LessonResource(many=True, allow_null=True)
 
     class Meta:
         model = Course
@@ -209,5 +212,6 @@ class ShortImCourseResourse(ModelSerializer):
             "deadline_datetime",
             "status",
             "base_course",
+            "next_lesson",
             "lessons",
         ]
