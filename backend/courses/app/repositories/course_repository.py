@@ -130,6 +130,14 @@ class CourseRepository(BaseRepository):
                 rate_mean=Avg("lessons_set__stars__star_rating"),
             )
         )
+        if _limit := queryset.first().base_course.lesson_participants_limit:
+            queryset = queryset.annotate(
+                tickets_available=(_limit * Count("lessons_set"))
+                - Subquery(
+                    Ticket.objects.filter(course_id=OuterRef("id")).values("amount")[:1]
+                )
+            )
+
         if self.user and self.user.id:
             queryset = queryset.annotate(
                 participant=Exists(

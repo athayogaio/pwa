@@ -251,9 +251,13 @@ class TicketBuy:
         return ticket_transaction
 
     def buy(self, course_id: int, user: User, amount: int) -> str:
-        course = self.course_repository.find_by_id(id_=course_id, raise_exception=True)
+        course = self.course_repository.find_by_id(
+            id_=course_id, fetch_rels=True, raise_exception=True
+        )
         if course.payment != CoursePaymentTypes.PAYMENT:
             raise ValidationError("The course does not require tickets")
+        if amount > course.tickets_available:
+            raise PermissionDenied("Not enough course tickets available to buy")
         ticket = self.ticket(course=course, user=user)
         ticket_transaction = self._init_ticket_transaction(ticket=ticket, amount=amount)
         self.transaction_repository.store(transaction=ticket_transaction)
