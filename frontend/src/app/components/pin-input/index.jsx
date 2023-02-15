@@ -48,6 +48,11 @@ const PinInput = props => {
 
   return (
     <>
+      {errorMessage && (
+      <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '20px' }} color="error">
+        Код введён неверно
+      </Typography>
+      )}
       <Box
         display="flex"
         alignItems="center"
@@ -64,11 +69,6 @@ const PinInput = props => {
           />
         ))}
       </Box>
-      {errorMessage && (
-      <Typography sx={{ fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', mb: '8px' }} color="error">
-        Код не совпадает с отправленным.
-      </Typography>
-      )}
       <Typography
         color="text.secondary"
         variant="body1"

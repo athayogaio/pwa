@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PinInput from '../pin-input/index';
 import FooterSupport from '../footer-support';
@@ -71,16 +71,6 @@ const SignUpConfirm = () => {
         >
           Подтвердите электронную почту
         </Typography>
-        {/* {isError && (
-          <Typography
-            sx={{
-              fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', margin: '0 auto 20px', maxWidth: '390px',
-            }}
-            color="error"
-          >
-            Код введён неверно
-          </Typography>
-        )} */}
         <Typography sx={{
           fontSize: pointForAdaptiveToSM ? '14px' : '18px', textAlign: 'center', margin: '0 auto 20px', maxWidth: '390px',
         }}
