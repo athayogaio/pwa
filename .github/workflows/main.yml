@@ -19,4 +19,3 @@ jobs:
           job_name: ${{ vars.JOB_NAME }}
           jenkins_user: ${{ vars.USERNAME }}
           jenkins_token: ${{ vars.API_TOKEN }}
-          job_timeout: 150
