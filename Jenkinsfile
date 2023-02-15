@@ -31,7 +31,7 @@ pipeline {
     }
     stages {
         stage('Build') {
-            steps {
+            // steps {
                 step([$class: 'GitHubCommitStatusSetter', statusResultSource : [$class: 'DefaultStatusResultSource']])
                 sh '''
                     wget -O backend/.env.master $MASTER_ENV_LINK
