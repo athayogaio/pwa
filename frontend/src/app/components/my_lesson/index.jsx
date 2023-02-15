@@ -21,6 +21,7 @@ const MyLesson = ({
   const prepareEndDate = date => `${date.split('T')[0].split('-').reverse().join('.')} ${date.split('T')[1].slice(0, 5)}`;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleCloseModal = () => setOpenModal(false);
   const openMenu = Boolean(anchorEl);
@@ -55,17 +56,20 @@ const MyLesson = ({
     },
   };
   return (
-    <Box sx={{
-      width: { xs: '343px', md: '480px' },
-      height: { xs: '170px', md: '210px' },
-      padding: { xs: '27px 7px 27px 12px', md: '30px 5px 30px 20px' },
-      borderRadius: '16px',
-      mr: { xs: '0', md: '24px' },
-      mb: { xs: '0px', md: '24px' },
-      background: `center / contain no-repeat url(${ticket})`,
-      filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
+    <Box
+      onClick={() => navigate(`/lesson-details/${id}`)}
+      sx={{
+        width: { xs: '343px', md: '480px' },
+        height: { xs: '170px', md: '210px' },
+        padding: { xs: '27px 7px 27px 12px', md: '30px 5px 30px 20px' },
+        borderRadius: '16px',
+        mr: { xs: '0', md: '24px' },
+        mb: { xs: '0px', md: '24px' },
+        background: `center / contain no-repeat url(${ticket})`,
+        filter: 'drop-shadow(0px 8px 16px rgba(46, 60, 80, .08))',
+        cursor: 'pointer',
       // outline: '1px solid red',
-    }}
+      }}
     >
       <MoreHorizOutlinedIcon
         color="disabled"
