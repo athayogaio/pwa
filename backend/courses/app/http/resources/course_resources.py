@@ -153,6 +153,7 @@ class CourseCardResource(ModelSerializer):
     rate_mean = serializers.DecimalField(
         default=0, max_digits=None, decimal_places=3, coerce_to_string=False
     )
+    tickets_available = serializers.IntegerField(allow_null=True, default=None)
     schedule = serializers.SerializerMethodField()
 
     def get_schedule(self, obj: Course) -> List[Dict]:
@@ -185,6 +186,7 @@ class CourseCardResource(ModelSerializer):
             "favorite",
             "votes_count",
             "rate_mean",
+            "tickets_available",
             "schedule",
             "next_lesson",
         ]
