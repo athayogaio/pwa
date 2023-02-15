@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Trigger Jenkins job
-        uses: joshlk/jenkins-githubaction@master
+        uses: Gympass/jenkins-job-action@0.0.5
         with:
-          url: ${{ vars.JENKINS_URL }}
+          jenkins_url: ${{ vars.JENKINS_URL }}
           job_name: ${{ vars.JOB_NAME }}
-          username: ${{ vars.USERNAME }}
-          api_token: ${{ vars.API_TOKEN }}
-          timeout: "1000"
+          jenkins_user: ${{ vars.USERNAME }}
+          jenkins_token: ${{ vars.API_TOKEN }}
+          job_timeout: 150
