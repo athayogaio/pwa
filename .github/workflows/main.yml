@@ -11,12 +11,17 @@ jobs:
   build:
     name: Build project
     runs-on: ubuntu-latest
+    env:
+      JENKINS_URL: ${{ secrets.JENKINS_URL }}
+      JOB_NAME: ${{ secrets.JOB_NAME }}
+      USERNAME: ${{ secrets.USERNAME }}
+      API_TOKEN: ${{ secrets.API_TOKEN }}
     steps: 
       - name: Trigger Jenkins job
         uses: joshlk/jenkins-githubaction@master
         with:
-          url: ${{ secrets.JENKINS_URL }}
-          job_name: ${{ secrets.JOB_NAME }}
-          username: ${{ secrets.USERNAME }}
-          api_token: ${{ secrets.API_TOKEN }}
+          url: $JENKINS_URL
+          job_name: $JOB_NAME
+          username: $USERNAME
+          api_token: $API_TOKEN
           timeout: "1000"
