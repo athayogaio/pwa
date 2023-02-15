@@ -2,14 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-/* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  Avatar, Button, Grid, CardActions,
-  Dialog, Box, Card, CardContent, CardMedia,
-  Typography,
   Avatar, Button, Grid, CardActions,
   Dialog, Box, Card, CardContent, CardMedia,
   Typography,
@@ -26,42 +19,9 @@ import defaultAvatar from '../../../assets/public/menu-avatar.png';
 import AchievementModal from './achievementModal';
 import mockData from '../achievement/mockData';
 import EmptyDescription from './emptyDescription';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import getProfileDataSlice from '../../core/slices/profile/getProfileData';
-import defaultBackground from '../../../assets/public/defaultBackground.png';
-import defaultAvatar from '../../../assets/public/menu-avatar.png';
-import AchievementModal from './achievementModal';
-import mockData from '../achievement/mockData';
-import EmptyDescription from './emptyDescription';
 import './index.scoped.scss';
 
 const ProfileCard = () => {
-  const [profileData, setProfileData] = useState({});
-  const [openAllDesctiption, setOpenAllDesctiption] = useState(false);
-
-  const handleOpenAllDesctiption = () => setOpenAllDesctiption(true);
-  const handleCloseAllDesctiption = () => setOpenAllDesctiption(false);
-
-  const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
-  const mockDataForSM = mockData.slice(0, 4);
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  //  const data = useSelector(state => state.profileData.profileData);
-
-  useEffect(() => {
-    dispatch(getProfileDataSlice())
-      .then(content => setProfileData(content.payload.data));
-  }, []);
-
-  const {
-    about, avatar, first_name, last_name, username, background,
-  } = profileData;
   const [profileData, setProfileData] = useState({});
   const [openAllDesctiption, setOpenAllDesctiption] = useState(false);
 
