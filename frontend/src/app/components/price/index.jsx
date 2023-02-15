@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import {
-  Typography, Stack, Card, Input,
+  Typography, Stack, Card, Input, useMediaQuery,
 } from '@mui/material';
 
 const Price = ({
   el, price, setAmount, amount,
 }) => {
   const [quantity, setQuantity] = useState(12);
+  const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
 
   const handleSelect = () => {
     el.num ? setAmount(el.num) : setAmount(quantity);
@@ -58,9 +59,9 @@ const Price = ({
         p: '27px 50px',
         borderRadius: '8px',
         boxShadow: '0px 8px 16px rgba(46, 60, 80, 0.1)',
-        width: '479px',
+        width: pointForAdaptiveToSM ? '343px' : '479px',
         height: '130px',
-        marginBottom: '32px',
+        marginBottom: pointForAdaptiveToSM ? '16px' : '32px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -75,29 +76,29 @@ const Price = ({
             autoFocus
             onChange={handleChange}
             sx={{
-              fontSize: '32px',
+              fontSize: pointForAdaptiveToSM ? '24px' : '32px',
               fontWeight: '500',
               maxWidth: '37px',
             }}
           />
         )
           : (
-            <Typography fontSize="24px" fontWeight="500">
+            <Typography fontSize={pointForAdaptiveToSM ? '18px' : '24px'} fontWeight="500">
               {`${el.num} ${el.str}`}
             </Typography>
           )}
 
         {el.num > 3 || !el.num && quantity > 3 ? ( // скидка - двойное поле
           <Stack direction="column" alignItems="center" justifyContent="center">
-            <Typography color="text.secondary" fontSize="24px" fontWeight="400" sx={{ textDecoration: 'line-through' }}>
+            <Typography color="text.secondary" fontSize={pointForAdaptiveToSM ? '18px' : '24px'} fontWeight="400" sx={{ textDecoration: 'line-through' }}>
               {`${el.num * price || quantity * price} ₽`}
             </Typography>
-            <Typography color="primary" fontSize="32px" fontWeight="700">
+            <Typography color="primary" fontSize={pointForAdaptiveToSM ? '24px' : '32px'} fontWeight="700">
               {`${calculateAmountWithDiscount(el.num, quantity, price)} ₽`}
             </Typography>
           </Stack>
         ) : ( // без скидок
-          <Typography color="primary" fontSize="32px" fontWeight="700">
+          <Typography color="primary" fontSize={pointForAdaptiveToSM ? '24px' : '32px'} fontWeight="700">
             {`${el.num * price || quantity * price} ₽`}
           </Typography>
         )}
