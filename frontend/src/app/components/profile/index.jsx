@@ -46,7 +46,7 @@ const ProfileCard = () => {
 
   return (
     <Grid container sx={{ padding: pointForAdaptiveToSM ? '0' : '0px 10%', height: '100vh' }}>
-      <Grid item>
+      <Grid item sx={{ width: '100%' }}>
         <Card
           variant="outlined"
         >
@@ -74,20 +74,20 @@ const ProfileCard = () => {
                 }}
               />
               <Typography variant="iter_h1" sx={{ paddingBottom: '3px', display: 'block' }}>
-                {'Имя' && first_name}
+                {first_name || 'Имя'}
                 {' '}
-                {'Фамилия' && last_name}
+                {last_name || 'Фамилия'}
               </Typography>
               <Typography
                 variant="iter_h2"
                 sx={{ paddingBottom: '20px', color: '#6C757D', display: 'block' }}
               >
                 @
-                {'username' && username}
+                {username || 'username'}
               </Typography>
             </Grid>
             <Grid item>
-              {!about ? <EmptyDescription />
+              {!about ? <Box sx={{ display: 'flex', justifyContent: 'center' }}><EmptyDescription /></Box>
                 : (
                   <>
                     <Typography

@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import 'dayjs/locale/ru';
@@ -30,8 +32,8 @@ import LayoutContainer from '../layout-container';
 import PaymentMethod from '../lesson_payment/index';
 import RepeatLessons from '../lesson_repeat/index';
 import LessonsService from '../../services/lessons';
-import AlertDialog from '../lesson_alert';
 import { setAlertProps } from '../../core/slices/alert-notification';
+import DraftAlert from '../lesson_alert/index';
 
 const LessonCreate = () => {
   const [lessonLevels, setLessonLevels] = useState([]);
@@ -61,7 +63,6 @@ const LessonCreate = () => {
   const [isFormSend, setIsFormSend] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
-  const location = useLocation();
   const dispatch = useDispatch();
 
   const pointForAdaptiveToSM = useMediaQuery('(max-width:600px)');
@@ -137,11 +138,16 @@ const LessonCreate = () => {
     return startDateValue.format();
   };
 
+  const getDuration = () => {
+    const today = new Date();
+    today.setHours(0, lessonData.duration_number, 0, 0);
+    const durationTime = today.toLocaleTimeString('ru-RU');
+    return durationTime;
+  };
+
   const getFinishDate = () => {
     const start_datetime = getStartDate();
-    const duration = lessonData.duration.split(':');
-    const minute = Number(duration[0] * 60) + Number(duration[1]);
-    const deadline_datetime = dayjs(start_datetime).add(minute, 'minute');
+    const deadline_datetime = dayjs(start_datetime).add(lessonData.duration_number, 'minute');
     return deadline_datetime.format();
   };
 
@@ -152,16 +158,9 @@ const LessonCreate = () => {
     } else {
       setLessonData(lessonData.start_datetime = lessonData?.startDateForRegularLesson?.format());
       setLessonData(
-        lessonData.deadline_datetime = lessonData?.finishDateForRegularLesson?.format()
+        lessonData.deadline_datetime = lessonData?.finishDateForRegularLesson?.format(),
       );
     }
-  };
-
-  const getDuration = duration => {
-    const today = new Date();
-    today.setHours(0, duration, 0, 0);
-    const now = today.toLocaleTimeString('ru-RU');
-    return now;
   };
 
   const getCorrectOtherData = () => {
@@ -172,7 +171,7 @@ const LessonCreate = () => {
       return el;
     }));
     lessonData.payment === 'FREE' ? setLessonData(lessonData.price = 0) : '';
-    setLessonData(lessonData.duration = getDuration(lessonData.duration_number));
+    setLessonData(lessonData.duration = getDuration());
   };
 
   const update = e => {
@@ -327,8 +326,8 @@ const LessonCreate = () => {
                 <TextField
                   id="lesson_link"
                   label="Данные для доступа"
-                  name="conferenceId"
-                  value={lessonData.conferenceId}
+                  name="link_info"
+                  value={lessonData.link_info}
                   onChange={update}
                   fullWidth={pointForAdaptiveToSM}
                   placeholder="Идентификатор конференции"
@@ -423,27 +422,12 @@ const LessonCreate = () => {
                     >
                       Опубликовать
                     </Button>
-
-                    <Button
-                      fullWidth
-                      variant="text"
-                      onClick={saveFormUsDraft}
-                    >
-                      Сохранить черновик
-                    </Button>
-
+                    <DraftAlert saveFormUsDraft={saveFormUsDraft} />
                   </Grid>
                 )
                 : (
                   <Grid item container sx={{ justifyContent: 'end', columnGap: '5%' }}>
-                    <Button
-                      size="large"
-                      variant="text"
-                      onClick={saveFormUsDraft}
-                    >
-                      Сохранить черновик
-                    </Button>
-
+                    <DraftAlert saveFormUsDraft={saveFormUsDraft} />
                     <Button
                       size="large"
                       variant="contained"
@@ -459,7 +443,6 @@ const LessonCreate = () => {
         </form>
       </LayoutContainer>
       {isFormSend ? <Navigate to="/my-lessons" /> : ''}
-      {location.pathname !== '/create-lesson' ? <AlertDialog /> : ''}
     </LocalizationProvider>
   );
 };

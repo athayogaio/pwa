@@ -5,7 +5,7 @@ import emptyDesc from '../../../assets/public/emptyDescription.svg';
 
 const EmptyDescription = () => (
   <Box sx={{
-    mx: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center',
+    mx: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%',
   }}
   >
     <Box
