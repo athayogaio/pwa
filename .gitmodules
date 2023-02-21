@@ -1,6 +1,6 @@
 [submodule "back"]
 	path = back
-	url = https://github.com/athayogaio/back
+	url = git@github.com:athayogaio/back.git
 [submodule "front"]
 	path = front
-	url = https://github.com/athayogaio/front.git
+	url = git@github.com:athayogaio/front.git
