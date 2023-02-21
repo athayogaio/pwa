@@ -93,9 +93,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'COMPOSE_PROJECT_NAME=${BRANCH_NAME}.test docker-compose --env-file back/.env -p ${BRANCH_NAME} build'
                 sh "COMPOSE_PROJECT_NAME=${BRANCH_NAME} docker-compose --env-file back/.env -p ${BRANCH_NAME} \
-                    up -d --force-recreate"
+                    up -d --build --force-recreate"
             }
         }
     }
