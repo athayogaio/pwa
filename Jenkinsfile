@@ -34,6 +34,7 @@ pipeline {
             steps {
                 step([$class: 'GitHubCommitStatusSetter', statusResultSource : [$class: 'DefaultStatusResultSource']])
                 sh '''
+                    git submodule sync --recursive
                     git submodule update --remote
                     wget -O back/.env.master $MASTER_ENV_LINK
                     wget -O back/.env.develop $DEVELOP_ENV_LINK
